@@ -36,5 +36,6 @@
   "add_update": "Add / Update",
   "favorite_removed": "Favorite removed",
   "favorite_added": "Favorite added",
-  "favoriteEmpty": "No favorites yet"
+  "favoriteEmpty": "No favorites yet",
+  "your_product_manager": "Your Product Manager"
 }

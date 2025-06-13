@@ -1,35 +1,41 @@
-import 'package:crud_app/features/common_widgets/bottom_navigation_bar.dart';
+import 'package:crud_app/features/splash_screen/splash_screen.dart';
+import 'package:crud_app/transations/codegen_loader.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:provider/provider.dart';
 
+import 'core/routes/routs.dart';
+import 'core/static_texts/language.dart';
+import 'features/common_widgets/add_update_product.dart';
 import 'features/favorite/provider/favorite_provider.dart';
-import 'features/home/provider/product_database_operations.dart';
-import 'features/home/view/home_screen.dart';
+import 'features/home/provider/product_provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   runApp(
     EasyLocalization(
-        child: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => ProductProvider()),
-            ChangeNotifierProvider(create: (_) => FavoriteProvider()),
-          ],
-          child: const MyApp(),
-        ),
+
         supportedLocales: [
-          Locale("en"),
-          Locale("ar"),
-          Locale("fa"),
+          Locale(Language.englishLocale),
+          Locale(Language.arabicLocale),
+          Locale(Language.kurdishLocale),
         ],
         path: "assets/languages",
       //Default locale(Language)
-      fallbackLocale: Locale("en"),
-    )
+      fallbackLocale: Locale(Language.defaultLanguage),
+      assetLoader: CodegenLoader(),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => ProductProvider()),
+          ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        ],
+        child: const MyApp(),
+      ),
+    ),
+
   );
 }
 
@@ -44,16 +50,19 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+          initialRoute: Routes.initialRoute,
+          routes: {
+            Routes.add_update_Product: (context) => const AddUpdateProductScreen(),
+          },
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
           theme: ThemeData(primarySwatch: Colors.blue),
           home: child,
         );
       },
-      child:  BottomNavigationBarScreens(),
+      child:  SplashScreen(),
     );
   }
 }

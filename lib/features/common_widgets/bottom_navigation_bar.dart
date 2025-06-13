@@ -1,13 +1,13 @@
-
 import 'package:crud_app/features/favorite/view/favorite_screen.dart';
+import 'package:crud_app/transations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
-import '../add_update/add_product_screen.dart';
-
+import 'add_update_product.dart';
 import '../home/view/home_screen.dart';
-import 'drawer.dart';
+import 'drawer_widget.dart';
 
 class BottomNavigationBarScreens extends StatefulWidget {
   const BottomNavigationBarScreens({super.key});
@@ -17,64 +17,73 @@ class BottomNavigationBarScreens extends StatefulWidget {
 }
 
 class _BottomNavigationBarScreensState extends State<BottomNavigationBarScreens> {
+  late PersistentTabController _controller;
 
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _controller = PersistentTabController(initialIndex: 0);
   }
-  List<Widget> _pages = [
-    MyHomePage(),
-    FavoriteScreen(),
-    AddUpdateProductScreen(),
-  ];
+
+  List<Widget> _buildScreens() {
+    return [
+      const HomeScreen(),
+      const FavoriteScreen(),
+    ];
+  }
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        inactiveIcon: Icon(Icons.home_outlined),
+        icon: const Icon(Icons.home),
+        activeColorPrimary: Colors.white,
+        inactiveColorPrimary: Colors.black54,
+      ),
+      PersistentBottomNavBarItem(
+        inactiveIcon: const Icon(Icons.favorite_border),
+        icon: const Icon(Icons.favorite),
+        activeColorPrimary: Colors.white,
+        inactiveColorPrimary: Colors.black54,
+        textStyle: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    final _ = context.locale;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal.shade300,
         centerTitle: true,
-        title: Text(
-          "appName".tr(),
+        title: Text(LocaleKeys.appName.tr(),
           style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const AddUpdateProductScreen(),
+              ),
+            );
+            },
+          ),
+        ],
       ),
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: Builder(
-        builder: (context) {
-          // this will trigger rebuild when locale changes
-          final _ = context.locale;
+      drawer: const DrawerWidget(),
+      body: PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        navBarStyle: NavBarStyle.style6, // choose the animation style you like
 
-          return BottomNavigationBar(
-            selectedItemColor: Colors.white,
-            selectedLabelStyle: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-            backgroundColor: Colors.teal.shade300,
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: "home".tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: "favorite".tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add_photo_alternate_outlined),
-                label: "add_update".tr(),
-              ),
-            ],
-          );
-        },
+        backgroundColor: Colors.teal.shade300,
       ),
-
-      drawer: DrawerWidget(),
     );
   }
 }

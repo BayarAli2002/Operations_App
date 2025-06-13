@@ -1,24 +1,26 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:crud_app/features/common_widgets/drawer.dart';
+import 'package:crud_app/features/home/view/product_details_screen.dart';
+import 'package:crud_app/transations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../../common_widgets/add_update_product.dart';
 import '../../favorite/provider/favorite_provider.dart';
-import '../provider/product_database_operations.dart';
+import '../provider/product_provider.dart';
 import '../../../core/static_texts/static_app_texts.dart';
 
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _MyHomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-
+class _MyHomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
@@ -26,23 +28,41 @@ class _MyHomePageState extends State<MyHomePage> {
     Provider.of<FavoriteProvider>(context, listen: false).fetchFavorites();
   }
 
+  void showFlushbar(BuildContext context, String message) {
+    Flushbar(
+      message: message,
+      duration: const Duration(seconds: 3),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor: Colors.black87,
+      margin: const EdgeInsets.all(8),
+      borderRadius: BorderRadius.circular(8),
+    ).show(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: Consumer<ProductProvider>(
-        builder: (context, provider, _) {
-          if (provider.products.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
+    return Consumer<ProductProvider>(
+      builder: (context, provider, _) {
+        if (provider.products.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          return ListView.builder(
-            padding: EdgeInsets.all(12.w),
-            itemCount: provider.products.length,
-            itemBuilder: (context, index) {
-              final productModel = provider.products[index];
-              return Container(
-                margin: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
+        return ListView.builder(
+          padding: EdgeInsets.all(12.w),
+          itemCount: provider.products.length,
+          itemBuilder: (context, index) {
+            final productModel = provider.products[index];
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) =>
+                            ProductDetailsScreen(productId: productModel.id!)));
+              },
+              child: Container(
+                margin:
+                EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16.r),
@@ -57,11 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Image with favorite and delete icons overlay
                     Stack(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+                          borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(16.r)),
                           child: CachedNetworkImage(
                             imageUrl: productModel.image ?? '',
                             width: double.infinity,
@@ -83,11 +103,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               width: double.infinity,
                               height: 180.h,
                               color: Colors.grey.shade300,
-                              child: const Icon(Icons.error, color: Colors.red),
+                              child:
+                              const Icon(Icons.error, color: Colors.red),
                             ),
                           ),
                         ),
-                        // Delete button top-left
                         Positioned(
                           top: 12.h,
                           left: 12.w,
@@ -100,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     borderRadius: BorderRadius.circular(16.r),
                                   ),
                                   title: Text(
-                                    'confirm_delete_title'.tr(),
+                                    LocaleKeys.confirm_delete_title.tr(),
                                     style: TextStyle(
                                       fontSize: 20.sp,
                                       fontWeight: FontWeight.bold,
@@ -108,40 +128,51 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                   content: Text(
-                                    'confirm_delete_message'.tr(),
+                                    LocaleKeys.confirm_delete_message.tr(),
                                     style: TextStyle(
                                       fontSize: 16.sp,
                                       color: Colors.black87,
                                     ),
                                   ),
-                                  actionsPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                                  actionsPadding: EdgeInsets.symmetric(
+                                      horizontal: 12.w, vertical: 8.h),
                                   actions: [
                                     TextButton(
-                                      onPressed: () => Navigator.of(context).pop(false),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(false),
                                       style: TextButton.styleFrom(
                                         backgroundColor: Colors.grey.shade300,
-                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.w, vertical: 10.h),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12.r),
+                                          borderRadius:
+                                          BorderRadius.circular(12.r),
                                         ),
                                       ),
                                       child: Text(
-                                        'no'.tr(),
-                                        style: TextStyle(fontSize: 16.sp, color: Colors.black87),
+                                        LocaleKeys.no.tr(),
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: Colors.black87),
                                       ),
                                     ),
                                     TextButton(
-                                      onPressed: () => Navigator.of(context).pop(true),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(true),
                                       style: TextButton.styleFrom(
                                         backgroundColor: Colors.redAccent,
-                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.w, vertical: 10.h),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12.r),
+                                          borderRadius:
+                                          BorderRadius.circular(12.r),
                                         ),
                                       ),
                                       child: Text(
-                                        'yes'.tr(),
-                                        style: TextStyle(fontSize: 16.sp, color: Colors.white),
+                                        LocaleKeys.yes.tr(),
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: Colors.white),
                                       ),
                                     ),
                                   ],
@@ -149,16 +180,17 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
 
                               if (confirmed == true) {
-                                final provider = Provider.of<ProductProvider>(context, listen: false);
+                                final provider = Provider.of<ProductProvider>(
+                                    context,
+                                    listen: false);
                                 await provider.deleteProduct(productModel.id!);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text(StaticAppTexts.productDeleted)),
-                                );
+                                showFlushbar(
+                                    context, StaticAppTexts.productDeleted);
                               }
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withAlpha((0.7*255).round()),
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
@@ -177,33 +209,28 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                         ),
-
-                        // Favorite icon top-right
-                        // Favorite button top-right with restored design
                         Positioned(
                           top: 12.h,
                           right: 12.w,
                           child: Consumer<FavoriteProvider>(
                             builder: (context, favoriteProvider, _) {
-                              final isFav = favoriteProvider.isFavorite(productModel.id ?? '');
-
+                              final isFav =
+                              favoriteProvider.isFavorite(productModel.id ?? '');
                               return GestureDetector(
                                 onTap: () async {
                                   if (isFav) {
-                                    await favoriteProvider.removeFavorite(productModel.id ?? '');
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text("favorite_removed".tr())),
-                                    );
+                                    await favoriteProvider
+                                        .removeFavorite(productModel.id ?? '');
+                                    showFlushbar(context, LocaleKeys.favorite_removed.tr());
                                   } else {
                                     await favoriteProvider.addFavorite(productModel);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text("favorite_added".tr())),
-                                    );
+                                    showFlushbar(context, LocaleKeys.favorite_added.tr());
                                   }
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.7),
+                                    color:
+                                    Colors.white.withAlpha((0.7*255).round()),
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
@@ -224,13 +251,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                           ),
                         ),
-
                       ],
                     ),
-
-                    // Text details below image
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -273,20 +298,42 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                           SizedBox(height: 12.h),
+
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        AddUpdateProductScreen(product: productModel),
+                                  ),
+                                );
+                              },
+
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blueGrey,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 14.w, vertical: 10.h),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              icon: Icon(Icons.edit, color: Colors.white, size: 20.sp),
+
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
-              );
-
-
-
-            },
-          );
-        },
-      ),
-
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

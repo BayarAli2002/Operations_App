@@ -54,8 +54,8 @@ class FavoriteProvider extends ChangeNotifier {
     try {
       // Find favorite by product ID
       final favorite = _favoriteProducts.firstWhere((p) => p.id == productId);
-      if (favorite.favorite_id != null && favorite.favorite_id!.isNotEmpty) {
-        final response = await _dio.delete('${EndPoints.deleteFavoriteProduct}/${favorite.favorite_id}');
+      if (favorite.favoriteId != null && favorite.favoriteId!.isNotEmpty) {
+        final response = await _dio.delete('${EndPoints.deleteFavoriteProduct}/${favorite.favoriteId}');
         if (response.statusCode == 200 || response.statusCode == 204) {
           _favoriteProducts.removeWhere((p) => p.id == productId);
           notifyListeners();

@@ -1,12 +1,12 @@
 class ProductModel{
-   final String? favorite_id; // This is the original product ID from the API
+   final String? favoriteId; // This is the original product ID from the API
   final String? id;
   final String? title;
   final double? price;
   final String? image;
   final String? description;
   ProductModel({
-    this.favorite_id,
+    this.favoriteId,
     this.id,
     this.title,
     this.price,
@@ -18,9 +18,9 @@ class ProductModel{
   factory ProductModel.fromJson(Map<String,dynamic> json){
     return ProductModel(
       id: json['id'],
-      favorite_id: json['favorite_id'], // Use 'productId' for the original product ID
+      favoriteId: json['favorite_id'], // Use 'productId' for the original product ID
       title: json['title'],
-      price: (json['price'] ).toDouble(),
+      price: (json['price'] ).toDouble(), // Ensure price is a double
       image: json['image'],
       description: json['description'],
     );
@@ -30,7 +30,7 @@ class ProductModel{
   Map<String, dynamic> toJson() {
     return {
       "id": id,
-      "favorite_id": favorite_id, // Use 'productId' for the original product ID
+      "favorite_id": favoriteId, // Use 'productId' for the original product ID
       "title": title,
       "price": price,
       "image": image,

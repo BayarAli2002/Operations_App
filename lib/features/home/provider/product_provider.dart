@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import '../../../core/error_handling/dio_exception_erros.dart';
@@ -36,13 +38,13 @@ class ProductProvider extends ChangeNotifier {
   Future<void> fetchProducts() async {
     try {
       Response response = await _dio.get(EndPoints.getProducts);
-      print('API Response: ${response.data}'); //  Debugging - check if products exist
+      log('API Response: ${response.data}'); //  Debugging - check if products exist
       _products = (response.data as List)
           .map((item) => ProductModel.fromJson(item))
           .toList();
       notifyListeners();
     } on DioException catch (e) {
-      print('Error fetching products: $e'); // ✅ Log errors if any
+      log('Error fetching products: $e'); // ✅ Log errors if any
       _handleError(e);
     }
   }
@@ -54,7 +56,7 @@ class ProductProvider extends ChangeNotifier {
       _selectedProduct = ProductModel.fromJson(response.data);
       notifyListeners();
     } on DioException catch (e) {
-      print("Error: $e"); //for debugging
+      log("Error: $e"); //for debugging
       _handleError(e);
     }
   }
@@ -66,7 +68,7 @@ class ProductProvider extends ChangeNotifier {
       _products.add(ProductModel.fromJson(response.data));
       notifyListeners();
     } on DioException catch (e) {
-      print("Error:$e");
+      log("Error:$e");
       _handleError(e);
     }
   }
@@ -92,7 +94,7 @@ class ProductProvider extends ChangeNotifier {
       _products.removeWhere((p) => p.id == productId);
       notifyListeners();
     } on DioException catch (e) {
-      print("Error: $e");
+      log("Error: $e");
       _handleError(e);
     }
   }

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crud_app/transations/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +16,10 @@ class FavoriteScreen extends StatelessWidget {
     final favoriteProvider = Provider.of<FavoriteProvider>(context);
     final favoriteProducts = favoriteProvider.favoriteProducts;
 
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: favoriteProducts.isEmpty
+    return favoriteProducts.isEmpty
           ? Center(
         child: Text(
-          "favoriteEmpty".tr(),
+          LocaleKeys.favoriteEmpty.tr(),
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       )
@@ -80,7 +79,7 @@ class FavoriteScreen extends StatelessWidget {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.white.withAlpha((0.7*255).round()),
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
@@ -152,7 +151,7 @@ class FavoriteScreen extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
+      );
+
   }
 }
