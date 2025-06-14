@@ -2,7 +2,7 @@ class ProductModel{
    final String? favoriteId; // This is the original product ID from the API
   final String? id;
   final String? title;
-  final double? price;
+  final int? price;
   final String? image;
   final String? description;
   ProductModel({
@@ -20,7 +20,7 @@ class ProductModel{
       id: json['id'],
       favoriteId: json['favorite_id'], // Use 'productId' for the original product ID
       title: json['title'],
-      price: (json['price'] ).toDouble(), // Ensure price is a double
+      price: (json['price']).toInt(), // Ensure price is a double
       image: json['image'],
       description: json['description'],
     );

@@ -21,6 +21,7 @@ class ProductProvider extends ChangeNotifier {
   List<ProductModel> get products => _products;
   ProductModel? get selectedProduct => _selectedProduct;
 
+
   // Centralized error handling
   void _handleError(DioException e) {
     if (e.type == DioExceptionType.connectionTimeout) {
@@ -51,6 +52,8 @@ class ProductProvider extends ChangeNotifier {
 
   // GET: Fetch a single product by ID
   Future<void> fetchProductById(String productId) async {
+    // This comment is to ensure that the selectedProduct is reset before fetching a new one
+    _selectedProduct = null;
     try {
       Response response = await _dio.get(EndPoints.productById(productId));
       _selectedProduct = ProductModel.fromJson(response.data);
@@ -86,6 +89,9 @@ class ProductProvider extends ChangeNotifier {
       _handleError(e);
     }
   }
+
+
+
 
   // DELETE: Remove a product
   Future<void> deleteProduct(String productId) async {

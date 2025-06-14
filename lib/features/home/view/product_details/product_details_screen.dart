@@ -1,26 +1,27 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crud_app/translations/local_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../provider/product_provider.dart';
-import '../../favorite/provider/favorite_provider.dart';
-import '../../common_widgets/add_update_product.dart';
+import '../../provider/product_provider.dart';
+import '../../../favorite/provider/favorite_provider.dart';
+import '../../../common_widgets/add_update_product.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  final String productId;
+  final String? productId;
 
-  const ProductDetailsScreen({super.key, required this.productId});
+  const ProductDetailsScreen({super.key,  this.productId});
 
   @override
   Widget build(BuildContext context) {
     // Fetch product if not already fetched
     final productProvider = Provider.of<ProductProvider>(context, listen: false);
     if (productProvider.selectedProduct?.id != productId) {
-      productProvider.fetchProductById(productId);
+      productProvider.fetchProductById(productId ?? '');
     }
 
     return Scaffold(
@@ -30,9 +31,8 @@ class ProductDetailsScreen extends StatelessWidget {
 
           if (productDetailModel == null) {
             return Center(
-              child: Text(
-                'product_not_found'.tr(),
-                style: TextStyle(fontSize: 18.sp, color: Colors.redAccent),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
               ),
             );
           }
@@ -86,46 +86,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
 
                         // Delete button top-left
-                        Positioned(
-                          top: 12.h,
-                          left: 12.w,
-                          child: Material(
-                            color: Colors.black45,
-                            shape: const CircleBorder(),
-                            child: InkWell(
-                              customBorder: const CircleBorder(),
-                              onTap: () async {
-                                final confirmed = await showDialog<bool>(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                    title: Text('confirm_delete'.tr()),
-                                    content: Text('are_you_sure_delete'.tr()),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.of(ctx).pop(false),
-                                        child: Text('no'.tr()),
-                                      ),
-                                      TextButton(
-                                        onPressed: () => Navigator.of(ctx).pop(true),
-                                        child: Text('yes'.tr()),
-                                      ),
-                                    ],
-                                  ),
-                                );
 
-                                if (confirmed == true) {
-                                  await productProvider.deleteProduct(productDetailModel.id ?? '');
-                                  Navigator.of(context).pop();
-                                  showFlushbar('product_deleted'.tr());
-                                }
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(8.w),
-                                child: Icon(Icons.delete, color: Colors.white, size: 28.sp),
-                              ),
-                            ),
-                          ),
-                        ),
 
                         // Favorite button top-right
                         Positioned(
@@ -140,10 +101,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                 final isFav = favoriteProvider.isFavorite(productDetailModel.id ?? '');
                                 if (isFav) {
                                   await favoriteProvider.removeFavorite(productDetailModel.id ?? '');
-                                  showFlushbar('favorite_removed'.tr());
+                                  showFlushbar(LocaleKeys.favorite_removed.tr());
                                 } else {
                                   await favoriteProvider.addFavorite(productDetailModel);
-                                  showFlushbar('favorite_added'.tr());
+                                  showFlushbar(LocaleKeys.favorite_added.tr());
                                 }
                               },
                               child: Padding(
@@ -160,23 +121,6 @@ class ProductDetailsScreen extends StatelessWidget {
                           ),
                         ),
 
-                        Positioned(
-                          bottom: 12.h,  // small padding from bottom edge of image
-                          right: 12.w,   // small padding from right edge of image
-                          child: FloatingActionButton(
-                            mini: true,  // smaller FAB to fit nicely
-                            backgroundColor: Colors.blueGrey,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => AddUpdateProductScreen(product: productDetailModel),
-                                ),
-                              );
-                            },
-                            child: const Icon(Icons.edit, color: Colors.white),
-                          ),
-                        ),
                       ],
                     ),
                   ),

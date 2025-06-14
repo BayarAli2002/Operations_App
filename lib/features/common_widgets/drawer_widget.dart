@@ -1,7 +1,11 @@
-import 'package:crud_app/transations/locale_keys.g.dart';
+
+import 'package:crud_app/core/static_texts/language.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../translations/local_keys.g.dart';
+
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -36,19 +40,19 @@ class DrawerWidget extends StatelessWidget {
                 _buildLanguageButton(
                   context,
                   label: LocaleKeys.english.tr(),
-                  locale: const Locale("en"),
+                  locale: const Locale(Language.englishLocale),
                 ),
                 SizedBox(height: 12.h),
                 _buildLanguageButton(
                   context,
                   label: LocaleKeys.arabic.tr(),
-                  locale: const Locale("ar"),
+                  locale: const Locale(Language.arabicLocale),
                 ),
                 SizedBox(height: 12.h),
                 _buildLanguageButton(
                   context,
                   label: LocaleKeys.kurdish.tr(),
-                  locale: const Locale("fa"),
+                  locale: const Locale(Language.kurdishLocale),
                 ),
               ],
             ),

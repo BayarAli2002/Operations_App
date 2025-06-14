@@ -1,15 +1,15 @@
 import 'package:another_flushbar/flushbar.dart'; // <-- import flushbar
-import 'package:crud_app/transations/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // <-- import
 import 'package:provider/provider.dart';
 
+import '../../translations/local_keys.g.dart';
 import '../home/provider/product_provider.dart';
 import '../home/model/product_model.dart';
 
 class AddUpdateProductScreen extends StatefulWidget {
-  final ProductModel? product;  // Nullable product for edit mode
+  final ProductModel? product; // Nullable product for edit mode
 
   const AddUpdateProductScreen({super.key, this.product});
 
@@ -45,7 +45,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
       backgroundColor: isError ? Colors.redAccent : Colors.teal,
       margin: EdgeInsets.all(8.w),
       borderRadius: BorderRadius.circular(12.r),
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 1),
       flushbarPosition: FlushbarPosition.BOTTOM,
       animationDuration: const Duration(milliseconds: 500),
       icon: Icon(
@@ -59,17 +59,24 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
     if (_formKey.currentState!.validate()) {
       final product = ProductModel(
         title: _titleController.text,
-        price: double.tryParse(_priceController.text),
+        price: int.tryParse(_priceController.text),
         description: _descriptionController.text,
         image: _imageUrlController.text,
       );
 
       try {
-        await Provider.of<ProductProvider>(context, listen: false).addProduct(product);
+        await Provider.of<ProductProvider>(
+          context,
+          listen: false,
+        ).addProduct(product);
+        Navigator.of(context).pop();
         await _showFlushbar(LocaleKeys.product_added.tr());
         _clearFields();
       } catch (e) {
-        await _showFlushbar('${LocaleKeys.add_failed.tr()} $e'.tr(), isError: true);
+        await _showFlushbar(
+          '${LocaleKeys.add_failed.tr()} $e'.tr(),
+          isError: true,
+        );
       }
     }
   }
@@ -78,25 +85,35 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
     if (_formKey.currentState!.validate()) {
       final id = _idController.text.trim();
       if (id.isEmpty) {
-        await _showFlushbar(LocaleKeys.enter_product_id_to_update.tr(), isError: true);
+        _showFlushbar(
+          LocaleKeys.enter_product_id_to_update.tr(),
+          isError: true,
+        );
         return;
       }
 
       final product = ProductModel(
         id: id,
         title: _titleController.text,
-        price: double.tryParse(_priceController.text),
+        price: int.tryParse(_priceController.text),
         description: _descriptionController.text,
         image: _imageUrlController.text,
       );
 
       try {
-        await Provider.of<ProductProvider>(context, listen: false).updateProduct(id, product);
-        await _showFlushbar(LocaleKeys.product_updated.tr());
+        await Provider.of<ProductProvider>(
+          context,
+          listen: false,
+        ).updateProduct(id, product);
+        Navigator.of(context).pop();
+        _showFlushbar(LocaleKeys.product_updated.tr());
         _clearFields();
-        Navigator.of(context).pop();  // Optional: go back after update
+        // Optional: go back after update
       } catch (e) {
-        await _showFlushbar('${LocaleKeys.product_failed.tr()} $e'.tr(), isError: true);
+        await _showFlushbar(
+          '${LocaleKeys.product_failed.tr()} $e'.tr(),
+          isError: true,
+        );
       }
     }
   }
@@ -116,7 +133,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
       floatingLabelBehavior: FloatingLabelBehavior.auto,
       fillColor: Colors.grey.shade100,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.r),  // responsive radius
+        borderRadius: BorderRadius.circular(12.r), // responsive radius
         borderSide: BorderSide(color: Colors.grey.shade300),
       ),
       focusedBorder: OutlineInputBorder(
@@ -150,47 +167,66 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
             child: Form(
               key: _formKey,
               child: Padding(
-                padding: EdgeInsets.all(10.w),  // responsive padding
+                padding: EdgeInsets.all(10.w), // responsive padding
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 18.h),
                     // Show ID field, disabled if editing
                     if (isEditMode)
                       TextFormField(
                         controller: _idController,
-                        decoration: _inputDecoration(LocaleKeys.enterProductId.tr()),
+                        decoration: _inputDecoration(
+                          LocaleKeys.enterProductId.tr(),
+                        ),
                         enabled: false,
                       ),
 
                     SizedBox(height: 25.h),
                     TextFormField(
                       controller: _titleController,
-                      decoration: _inputDecoration(LocaleKeys.textFormFieldTitle.tr()),
-                      validator: (val) => val == null || val.isEmpty ? LocaleKeys.enter_title.tr() : null,
+                      decoration: _inputDecoration(
+                        LocaleKeys.textFormFieldTitle.tr(),
+                      ),
+                      validator: (val) => val == null || val.isEmpty
+                          ? LocaleKeys.enter_title.tr()
+                          : null,
                       style: TextStyle(fontSize: 16.sp),
                     ),
                     SizedBox(height: 25.h),
                     TextFormField(
                       controller: _priceController,
-                      decoration: _inputDecoration(LocaleKeys.textFormFieldPrice.tr()),
+                      decoration: _inputDecoration(
+                        LocaleKeys.textFormFieldPrice.tr(),
+                      ),
                       keyboardType: TextInputType.number,
-                      validator: (val) => val == null || val.isEmpty ? LocaleKeys.enter_price.tr() : null,
+                      validator: (val) => val == null || val.isEmpty
+                          ? LocaleKeys.enter_price.tr()
+                          : null,
                       style: TextStyle(fontSize: 16.sp),
                     ),
                     SizedBox(height: 25.h),
                     TextFormField(
                       controller: _descriptionController,
-                      decoration: _inputDecoration(LocaleKeys.textFormFieldDescription.tr()),
+                      decoration: _inputDecoration(
+                        LocaleKeys.textFormFieldDescription.tr(),
+                      ),
                       maxLines: 1,
-                      validator: (val) => val == null || val.isEmpty ? LocaleKeys.enter_description.tr() : null,
+                      validator: (val) => val == null || val.isEmpty
+                          ? LocaleKeys.enter_description.tr()
+                          : null,
                       style: TextStyle(fontSize: 16.sp),
                     ),
                     SizedBox(height: 25.h),
                     TextFormField(
                       controller: _imageUrlController,
-                      decoration: _inputDecoration(LocaleKeys.textFormFieldImageUrl.tr()),
-                      validator: (val) => val == null || val.isEmpty ? LocaleKeys.enter_image_url.tr() : null,
+                      decoration: _inputDecoration(
+                        LocaleKeys.textFormFieldImageUrl.tr(),
+                      ),
+                      validator: (val) => val == null || val.isEmpty
+                          ? LocaleKeys.enter_image_url.tr()
+                          : null,
                       style: TextStyle(fontSize: 16.sp),
                     ),
                     SizedBox(height: 60.h),
@@ -200,14 +236,20 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(vertical: 14.h),
-                              backgroundColor: isEditMode ? Colors.blue : Colors.green.shade600,
+                              backgroundColor: isEditMode
+                                  ? Colors.blue
+                                  : Colors.green.shade600,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                             ),
-                            onPressed: isEditMode ? _updateProduct : _addProduct,
+                            onPressed: isEditMode
+                                ? _updateProduct
+                                : _addProduct,
                             child: Text(
-                              isEditMode ? LocaleKeys.updateProductButtonText.tr() : LocaleKeys.addProductButtonText.tr(),
+                              isEditMode
+                                  ? LocaleKeys.updateProductButtonText.tr()
+                                  : LocaleKeys.addProductButtonText.tr(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15.sp,

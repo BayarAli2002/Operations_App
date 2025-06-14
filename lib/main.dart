@@ -1,5 +1,5 @@
 import 'package:crud_app/features/splash_screen/splash_screen.dart';
-import 'package:crud_app/transations/codegen_loader.g.dart';
+import 'package:crud_app/translations/codegen_loader.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +11,7 @@ import 'core/static_texts/language.dart';
 import 'features/common_widgets/add_update_product.dart';
 import 'features/favorite/provider/favorite_provider.dart';
 import 'features/home/provider/product_provider.dart';
+import 'features/home/view/product_details/product_details_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
           initialRoute: Routes.initialRoute,
           routes: {
             Routes.add_update_Product: (context) => const AddUpdateProductScreen(),
+            Routes.productDetails : (context) => const ProductDetailsScreen(),
           },
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

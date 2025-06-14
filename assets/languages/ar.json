@@ -36,6 +36,7 @@
   "favorite_removed": "تم إزالة المفضلة",
   "favorite_added": "تمت الإضافة إلى المفضلة",
   "favoriteEmpty": "لا توجد مفضلات حتى الآن",
-  "your_product_manager": "مدير المنتجات الخاص بك"
+  "your_product_manager": "مدير المنتجات الخاص بك",
+  "description": "الوصف"
 
 }
