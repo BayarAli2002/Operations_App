@@ -10,12 +10,12 @@ import '../home/model/product_model.dart';
 
 class FavoriteButton extends StatelessWidget {
   final ProductModel productModel;
-  final Function(String message) showFlushbar;
+  final Function(String message) showFlushBar;
 
   const FavoriteButton({
     super.key,
     required this.productModel,
-    required this.showFlushbar,
+    required this.showFlushBar,
   });
 
   @override
@@ -27,10 +27,10 @@ class FavoriteButton extends StatelessWidget {
           onTap: () async {
             if (isFav) {
               await favoriteProvider.removeFavorite(productModel.id ?? '');
-              showFlushbar(LocaleKeys.favorite_removed.tr());
+              showFlushBar(LocaleKeys.favorite_removed.tr());
             } else {
               await favoriteProvider.addFavorite(productModel);
-              showFlushbar(LocaleKeys.favorite_added.tr());
+              showFlushBar(LocaleKeys.favorite_added.tr());
             }
           },
           child: Container(

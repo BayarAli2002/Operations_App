@@ -1,11 +1,8 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:crud_app/features/common_widgets/product_details.dart';
-import 'package:crud_app/features/home/view/widgets/update_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
-import '../../../translations/local_keys.g.dart';
 import '../../favorite/provider/favorite_provider.dart';
 import '../provider/product_provider.dart';
 

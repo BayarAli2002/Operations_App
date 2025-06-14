@@ -69,8 +69,8 @@ class DeleteButton extends StatelessWidget {
         ],
       ),
     );
-
     if (confirmed == true) {
+      if (!context.mounted) return;
       final provider = Provider.of<ProductProvider>(context, listen: false);
       await provider.deleteProduct(productId);
       showFlushbar(LocaleKeys.productDeleted.tr());

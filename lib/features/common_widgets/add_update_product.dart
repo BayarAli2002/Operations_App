@@ -69,6 +69,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
           context,
           listen: false,
         ).addProduct(product);
+        if(!mounted) return; // Check if widget is still mounted
         Navigator.of(context).pop();
         await _showFlushbar(LocaleKeys.product_added.tr());
         _clearFields();
@@ -105,6 +106,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
           context,
           listen: false,
         ).updateProduct(id, product);
+        if(!mounted) return; // Check if widget is still mounted
         Navigator.of(context).pop();
         _showFlushbar(LocaleKeys.product_updated.tr());
         _clearFields();

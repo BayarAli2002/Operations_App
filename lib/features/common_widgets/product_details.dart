@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 
 
@@ -89,7 +87,7 @@ class ProductDetails extends StatelessWidget {
                   right: 12.w,
                   child: FavoriteButton(
                     productModel: productModel,
-                    showFlushbar: showFlushbar,
+                    showFlushBar: showFlushbar,
                   ),
                 ),
               ],

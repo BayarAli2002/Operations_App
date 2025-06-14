@@ -9,7 +9,6 @@ import 'package:easy_localization/easy_localization.dart';
 
 import '../../provider/product_provider.dart';
 import '../../../favorite/provider/favorite_provider.dart';
-import '../../../common_widgets/add_update_product.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String? productId;

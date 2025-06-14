@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           initialRoute: Routes.initialRoute,
           routes: {
-            Routes.add_update_Product: (context) => const AddUpdateProductScreen(),
+            Routes.addUpdateProduct: (context) => const AddUpdateProductScreen(),
             Routes.productDetails : (context) => const ProductDetailsScreen(),
           },
           localizationsDelegates: context.localizationDelegates,
