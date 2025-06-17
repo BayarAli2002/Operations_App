@@ -1,13 +1,12 @@
 import 'package:another_flushbar/flushbar.dart'; // <-- import flushbar
+import 'package:crud_app/features/screens/home/data/model/product_model.dart';
+import 'package:crud_app/features/screens/home/provider/product_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // <-- import
 import 'package:provider/provider.dart';
 
 import '../../translations/local_keys.g.dart';
-import '../home/data/model/product_model.dart';
-import '../home/provider/product_provider.dart';
-
 
 class AddUpdateProductScreen extends StatefulWidget {
   final ProductModel? product; // Nullable product for edit mode
@@ -70,7 +69,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
           context,
           listen: false,
         ).addProduct(product);
-        if(!mounted) return; // Check if widget is still mounted
+        if (!mounted) return; // Check if widget is still mounted
         Navigator.of(context).pop();
         await _showFlushbar(LocaleKeys.product_added.tr());
         _clearFields();
@@ -107,7 +106,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
           context,
           listen: false,
         ).updateProduct(id, product);
-        if(!mounted) return; // Check if widget is still mounted
+        if (!mounted) return; // Check if widget is still mounted
         Navigator.of(context).pop();
         _showFlushbar(LocaleKeys.product_updated.tr());
         _clearFields();

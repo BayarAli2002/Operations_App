@@ -1,15 +1,13 @@
+import 'package:crud_app/features/screens/home/data/model/product_model.dart';
+import 'package:crud_app/features/screens/home/view/product_details/product_details_screen.dart';
+import 'package:crud_app/features/screens/home/view/widgets/delete_button.dart';
+import 'package:crud_app/features/screens/home/view/widgets/update_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 
-
-
-import '../home/data/model/product_model.dart';
-import '../home/view/product_details/product_details_screen.dart';
-import '../home/view/widgets/delete_button.dart';
 import 'favorite_button.dart';
-import '../home/view/widgets/update_button.dart';
 
 class ProductDetails extends StatelessWidget {
   final ProductModel productModel;
@@ -51,7 +49,9 @@ class ProductDetails extends StatelessWidget {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(16.r),
+                  ),
                   child: CachedNetworkImage(
                     imageUrl: productModel.image ?? '',
                     width: double.infinity,

@@ -1,0 +1,39 @@
+[33mcommit 0e7c1593191ba2f20eb81b8b64052b6c37dab49f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Bayar Ali <136832063+BayarAli2002@users.noreply.github.com>
+Date:   Tue Jun 17 16:11:38 2025 +0300
+
+    merge
+
+[33mcommit 5bba990da1615e087c9de06a374df1b0296cff05[m
+Author: Bayar Ali <136832063+BayarAli2002@users.noreply.github.com>
+Date:   Tue Jun 17 16:09:00 2025 +0300
+
+    addeed BaseApiClient and remote product rep and
+    solve dependency injection by using get_it package
+    Add favorite remote repo that takes the things from BaseApiClient
+
+[33mcommit 012c58fb6e33d94302d4fbb3c1e91edb26c5ec0c[m
+Author: Bayar Ali <136832063+BayarAli2002@users.noreply.github.com>
+Date:   Sat Jun 14 14:46:33 2025 +0300
+
+    fixed Warnings
+
+[33mcommit f5344ae3d953cdce17649b4d17fa500cc9fde787[m
+Author: Bayar Ali <136832063+BayarAli2002@users.noreply.github.com>
+Date:   Sat Jun 14 14:31:28 2025 +0300
+
+    - Added fallback image for invalid product image URLs.
+    - Refactored Home and Favorite screens into smaller reusable widgets.
+    - Cleared previously fetched product details before loading new ones.
+
+[33mcommit a9779b597de46577ce54b286948653a1369c946b[m
+Author: Bayar Ali <136832063+BayarAli2002@users.noreply.github.com>
+Date:   Fri Jun 13 17:43:37 2025 +0300
+
+    "product_detail"
+
+[33mcommit 7c721b5bd7e28be440e9aa8ad673f8d7b56db729[m
+Author: Bayar Ali <136832063+BayarAli2002@users.noreply.github.com>
+Date:   Wed Jun 11 17:46:14 2025 +0300
+
+    "favorite_language"

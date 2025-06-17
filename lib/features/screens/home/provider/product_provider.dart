@@ -1,10 +1,9 @@
 import 'dart:developer';
+import 'package:crud_app/core/error_handling/dio_exception_erros.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/error_handling/dio_exception_erros.dart';
 import '../data/model/product_model.dart';
 import '../data/repo/product_remote_repo.dart';
-
 
 class ProductProvider extends ChangeNotifier {
   final ProductRemoteRepo remoteDataSource;
@@ -64,7 +63,10 @@ class ProductProvider extends ChangeNotifier {
   // Update product
   Future<void> updateProduct(String productId, ProductModel product) async {
     try {
-      final updatedProduct = await remoteDataSource.updateProduct(productId, product);
+      final updatedProduct = await remoteDataSource.updateProduct(
+        productId,
+        product,
+      );
       int index = _products.indexWhere((p) => p.id == productId);
       if (index != -1) {
         _products[index] = updatedProduct;

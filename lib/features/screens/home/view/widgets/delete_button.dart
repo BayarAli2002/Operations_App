@@ -1,11 +1,10 @@
+import 'package:crud_app/translations/local_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../../../../translations/local_keys.g.dart';
 import '../../provider/product_provider.dart';
-
 
 class DeleteButton extends StatelessWidget {
   final String productId;
@@ -94,11 +93,7 @@ class DeleteButton extends StatelessWidget {
           ],
         ),
         padding: EdgeInsets.all(8.w),
-        child: Icon(
-          Icons.delete_outline,
-          color: Colors.black26,
-          size: 28.sp,
-        ),
+        child: Icon(Icons.delete_outline, color: Colors.black26, size: 28.sp),
       ),
     );
   }

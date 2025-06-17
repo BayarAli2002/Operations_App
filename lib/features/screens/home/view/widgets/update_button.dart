@@ -1,18 +1,12 @@
+import 'package:crud_app/features/common_widgets/add_update_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../common_widgets/add_update_product.dart';
 import '../../data/model/product_model.dart';
-
-
 
 class UpdateButton extends StatelessWidget {
   final ProductModel productModel;
 
-  const UpdateButton({
-    super.key,
-    required this.productModel,
-  });
+  const UpdateButton({super.key, required this.productModel});
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +35,7 @@ class UpdateButton extends StatelessWidget {
         SizedBox(height: 8.h),
         Text(
           productModel.description ?? '',
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: Colors.black54,
-          ),
+          style: TextStyle(fontSize: 14.sp, color: Colors.black54),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
