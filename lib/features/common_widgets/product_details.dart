@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 
 
 
-import '../home/model/product_model.dart';
+import '../home/data/model/product_model.dart';
 import '../home/view/product_details/product_details_screen.dart';
 import '../home/view/widgets/delete_button.dart';
 import 'favorite_button.dart';

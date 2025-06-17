@@ -5,8 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart'; // <-- import
 import 'package:provider/provider.dart';
 
 import '../../translations/local_keys.g.dart';
+import '../home/data/model/product_model.dart';
 import '../home/provider/product_provider.dart';
-import '../home/model/product_model.dart';
+
 
 class AddUpdateProductScreen extends StatefulWidget {
   final ProductModel? product; // Nullable product for edit mode

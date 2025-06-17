@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common_widgets/add_update_product.dart';
-import '../../model/product_model.dart';
+import '../../data/model/product_model.dart';
+
 
 
 class UpdateButton extends StatelessWidget {

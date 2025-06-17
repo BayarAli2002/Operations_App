@@ -1,19 +1,15 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
+
 import '../../../core/error_handling/dio_exception_erros.dart';
-import '../../../core/static_texts/request_texts.dart';
-import '../model/product_model.dart';
-import 'package:crud_app/core/end_points/end_points.dart';
+import '../data/model/product_model.dart';
+import '../data/repo/product_remote_repo.dart';
+
 
 class ProductProvider extends ChangeNotifier {
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: EndPoints.baseUrl,
-    connectTimeout: Duration(seconds: 10),
-    receiveTimeout: Duration(seconds: 10),
-    headers: { RequestTexts.contentType: RequestTexts.applicationJson},
-  ));
+  final ProductRemoteRepo remoteDataSource;
+
+  ProductProvider({required this.remoteDataSource});
 
   List<ProductModel> _products = [];
   ProductModel? _selectedProduct;
@@ -21,86 +17,73 @@ class ProductProvider extends ChangeNotifier {
   List<ProductModel> get products => _products;
   ProductModel? get selectedProduct => _selectedProduct;
 
-
-  // Centralized error handling
-  void _handleError(DioException e) {
-    if (e.type == DioExceptionType.connectionTimeout) {
+  // Error Handling
+  void _handleError(dynamic e) {
+    if (e.toString().contains('Timeout')) {
       throw Exception(DioExceptionErrors.connectionTimeout);
-    } else if (e.type == DioExceptionType.receiveTimeout) {
-      throw Exception(DioExceptionErrors.receiveTimeout);
-    } else if (e.type == DioExceptionType.badResponse) {
-      throw Exception('${DioExceptionErrors.badresponse}: ${e.response?.statusCode}');
     } else {
       throw Exception('${DioExceptionErrors.unknown}: $e');
     }
   }
 
-  // GET: Fetch all products
+  // Fetch all products
   Future<void> fetchProducts() async {
     try {
-      Response response = await _dio.get(EndPoints.getProducts);
-      log('API Response: ${response.data}'); //  Debugging - check if products exist
-      _products = (response.data as List)
-          .map((item) => ProductModel.fromJson(item))
-          .toList();
+      _products = await remoteDataSource.fetchProducts();
       notifyListeners();
-    } on DioException catch (e) {
-      log('Error fetching products: $e'); // ✅ Log errors if any
+    } catch (e) {
+      log('Error fetching products: $e');
       _handleError(e);
     }
   }
 
-  // GET: Fetch a single product by ID
+  // Fetch single product
   Future<void> fetchProductById(String productId) async {
-    // This comment is to ensure that the selectedProduct is reset before fetching a new one
     _selectedProduct = null;
     try {
-      Response response = await _dio.get(EndPoints.productById(productId));
-      _selectedProduct = ProductModel.fromJson(response.data);
+      _selectedProduct = await remoteDataSource.fetchProductById(productId);
       notifyListeners();
-    } on DioException catch (e) {
-      log("Error: $e"); //for debugging
+    } catch (e) {
+      log('Error fetching product by ID: $e');
       _handleError(e);
     }
   }
 
-  // POST: Add a new product
+  // Add product
   Future<void> addProduct(ProductModel product) async {
     try {
-      Response response = await _dio.post(EndPoints.addProduct, data: product.toJson());
-      _products.add(ProductModel.fromJson(response.data));
+      final newProduct = await remoteDataSource.addProduct(product);
+      _products.add(newProduct);
       notifyListeners();
-    } on DioException catch (e) {
-      log("Error:$e");
+    } catch (e) {
+      log('Error adding product: $e');
       _handleError(e);
     }
   }
 
-  // PUT: Update an existing product
+  // Update product
   Future<void> updateProduct(String productId, ProductModel product) async {
     try {
-      Response response = await _dio.put(EndPoints.updateProduct(productId), data: product.toJson());
+      final updatedProduct = await remoteDataSource.updateProduct(productId, product);
       int index = _products.indexWhere((p) => p.id == productId);
       if (index != -1) {
-        _products[index] = ProductModel.fromJson(response.data);
+        _products[index] = updatedProduct;
         notifyListeners();
       }
-    } on DioException catch (e) {
+    } catch (e) {
+      log('Error updating product: $e');
       _handleError(e);
     }
   }
 
-
-
-
-  // DELETE: Remove a product
+  // Delete product
   Future<void> deleteProduct(String productId) async {
     try {
-      await _dio.delete(EndPoints.deleteProduct(productId));
+      await remoteDataSource.deleteProduct(productId);
       _products.removeWhere((p) => p.id == productId);
       notifyListeners();
-    } on DioException catch (e) {
-      log("Error: $e");
+    } catch (e) {
+      log('Error deleting product: $e');
       _handleError(e);
     }
   }

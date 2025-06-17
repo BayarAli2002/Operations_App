@@ -1,3 +1,4 @@
+import 'package:crud_app/app/di/dependency_injections.dart';
 import 'package:crud_app/features/splash_screen/splash_screen.dart';
 import 'package:crud_app/translations/codegen_loader.g.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:provider/provider.dart';
+
 
 import 'core/routes/routs.dart';
 import 'core/static_texts/language.dart';
@@ -14,6 +16,7 @@ import 'features/home/provider/product_provider.dart';
 import 'features/home/view/product_details/product_details_screen.dart';
 
 void main() async{
+  DependencyInjection.init();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   runApp(
@@ -30,10 +33,11 @@ void main() async{
       assetLoader: CodegenLoader(),
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => ProductProvider()),
-          ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+          ChangeNotifierProvider(create: (_) => DependencyInjection.sl<ProductProvider>()),
+          ChangeNotifierProvider(create: (_) => DependencyInjection.sl<FavoriteProvider>()),
         ],
         child: const MyApp(),
+
       ),
     ),
 
