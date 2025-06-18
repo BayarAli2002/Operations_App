@@ -2,9 +2,6 @@
 
 // ignore_for_file: constant_identifier_names
 
-
-//this command generates the keys for localization
-// dart run easy_localization:generate -S "assets/languages" -O "lib/translations" -o "local_keys.g.dart" -f keys
 abstract class  LocaleKeys {
   static const appName = 'appName';
   static const addProductButtonText = 'addProductButtonText';
@@ -45,5 +42,8 @@ abstract class  LocaleKeys {
   static const favoriteEmpty = 'favoriteEmpty';
   static const your_product_manager = 'your_product_manager';
   static const description = 'description';
+  static const update_page = 'update_page';
+  static const add_page = 'add_page';
+  static const product_details_page = 'product_details_page';
 
 }

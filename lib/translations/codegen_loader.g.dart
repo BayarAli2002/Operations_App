@@ -5,8 +5,6 @@
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart' show AssetLoader;
-//this command is used to generate the code below
-// dart run easy_localization:generate -S "assets/languages" -O "lib/translations"
 
 class CodegenLoader extends AssetLoader{
   const CodegenLoader();
@@ -55,7 +53,10 @@ class CodegenLoader extends AssetLoader{
   "favorite_added": "تمت الإضافة إلى المفضلة",
   "favoriteEmpty": "لا توجد مفضلات حتى الآن",
   "your_product_manager": "مدير المنتجات الخاص بك",
-  "description": "الوصف"
+  "description": "الوصف",
+  "update_page": "تحديث الصفحة",
+  "add_page": "إضافة صفحة",
+  "product_details_page": "صفحة تفاصيل المنتج"
 };
 static const Map<String,dynamic> _en = {
   "appName": "CRUD App",
@@ -68,7 +69,7 @@ static const Map<String,dynamic> _en = {
   "productDeleted": "Product Deleted",
   "updateProductButtonText": "Update Product",
   "productAdded": "Product Added",
-  "addFalied": "Add failed:",
+  "addFailed": "Add failed:",
   "enterProductId": "Enter product ID to update",
   "productUpdated": "Product updated",
   "updateFailed": "Product Failed",
@@ -97,7 +98,10 @@ static const Map<String,dynamic> _en = {
   "favorite_added": "Favorite added",
   "favoriteEmpty": "No favorites yet",
   "your_product_manager": "Your Product Manager",
-  "description": "Description"
+  "description": "Description",
+  "update_page": "Update Page",
+  "add_page": "Add Page",
+  "product_details_page": "Product Details Page"
 };
 static const Map<String,dynamic> _fa = {
   "appName": "ئاپی CRUD",
@@ -138,7 +142,10 @@ static const Map<String,dynamic> _fa = {
   "favorite_added": "هاوڕێ زیادکرا",
   "favoriteEmpty": "هێشتا هەیچ هاوڕێیەک نیە",
   "your_product_manager": "بەڕێوبەری بەرهەمەکانت",
-  "description": "وەسف"
+  "description": "وەسف",
+  "update_page": "نوێکردنەوەی پەڕە",
+  "add_page": "زیادکردنی پەڕە",
+  "product_details_page": "پەڕەی وردەکاری بەرهەم"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};
 }

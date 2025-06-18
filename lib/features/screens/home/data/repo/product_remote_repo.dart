@@ -14,6 +14,7 @@ class ProductRemoteRepo {
   }
 
   Future<ProductModel> fetchProductById(String id) async {
+
     final response = await client.get(EndPoints.productById(id));
     return ProductModel.fromJson(response.data);
   }

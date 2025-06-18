@@ -1,29 +1,62 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crud_app/core/extension/extentions.dart';
 import 'package:crud_app/translations/local_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import '../provider/product_provider.dart';
+import '../../favorite/provider/favorite_provider.dart';
 
-import '../../provider/product_provider.dart';
-import '../../../favorite/provider/favorite_provider.dart';
-
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final String? productId;
 
   const ProductDetailsScreen({super.key,  this.productId});
 
   @override
-  Widget build(BuildContext context) {
-    // Fetch product if not already fetched
-    final productProvider = Provider.of<ProductProvider>(context, listen: false);
-    if (productProvider.selectedProduct?.id != productId) {
-      productProvider.fetchProductById(productId ?? '');
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+
+  void showFlushbar(String message) {
+    Flushbar(
+      message: message,
+      duration: const Duration(seconds: 3),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor: Colors.black87,
+      margin: const EdgeInsets.all(8),
+      borderRadius: BorderRadius.circular(8),
+    ).show(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadData(); // Safe to use context here
+    });
+  }
+    //Recommended to use WidgetsBinding to ensure context is ready
+    Future<void> loadData() async {
+      // Fetch product if not already fetched
+      final productProvider = Provider.of<ProductProvider>(context, listen: false);
+      if (productProvider.selectedProduct?.id != widget.productId) {
+        await productProvider.fetchProductById(widget.productId ?? '');
+      }
     }
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(LocaleKeys.product_details_page.tr()),
+        centerTitle: true,
+        backgroundColor: Colors.teal.shade300,
+        elevation: 0,
+      ),
       body: Consumer2<ProductProvider, FavoriteProvider>(
         builder: (context, productProvider, favoriteProvider, _) {
           final productDetailModel = productProvider.selectedProduct;
@@ -36,16 +69,7 @@ class ProductDetailsScreen extends StatelessWidget {
             );
           }
 
-          void showFlushbar(String message) {
-            Flushbar(
-              message: message,
-              duration: const Duration(seconds: 3),
-              flushbarPosition: FlushbarPosition.TOP,
-              backgroundColor: Colors.black87,
-              margin: const EdgeInsets.all(8),
-              borderRadius: BorderRadius.circular(8),
-            ).show(context);
-          }
+
 
           return Stack(
             children: [
@@ -148,7 +172,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Text(
-                          '${productDetailModel.price} USD',
+                          productDetailModel.price?.withCurrency(context) ?? '',
                           style: TextStyle(
                             fontSize: 18.sp,
                             color: Colors.white,

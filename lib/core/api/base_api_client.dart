@@ -1,8 +1,8 @@
+import 'package:crud_app/core/api/custom_logging_interceptor.dart';
 import 'package:dio/dio.dart';
 import '../end_points/end_points.dart';
 import '../static_texts/request_texts.dart';
 import '../error_handling/dio_exception_erros.dart';
-import 'logger_service.dart';
 
 
 class BaseApiClient {
@@ -13,9 +13,8 @@ class BaseApiClient {
     headers: {
       RequestTexts.contentType: RequestTexts.applicationJson,
     },
-  ));
+  ))..interceptors.add(CustomLoggingInterceptor());
 
-  // Centralized request handler with logging and error handling
   Future<Response> _handleRequest(
       Future<Response> Function() request, {
         required String title,
@@ -24,23 +23,7 @@ class BaseApiClient {
         dynamic body,
       }) async {
     try {
-      // Log the request details
-      LoggerService.logRequest(
-        title: title,
-        method: method,
-        endpoint: endpoint,
-        headers: _dio.options.headers,
-        body: body,
-      );
-
       final response = await request();
-
-      // Log the response details
-      LoggerService.logResponse(
-        title: title,
-        statusCode: response.statusCode,
-        data: response.data,
-      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response;
@@ -48,13 +31,12 @@ class BaseApiClient {
         throw Exception("Unexpected status code: ${response.statusCode}");
       }
     } on DioException catch (e) {
-      LoggerService.logError("DioException in $title", e);
       throw DioExceptionErrors.fromDioException(e);
     } catch (e) {
-      LoggerService.logError("Unknown error in $title", e);
       throw Exception("Unknown error: $e");
     }
   }
+
 
   // GET
   Future<Response> get(String path) async => await _handleRequest(

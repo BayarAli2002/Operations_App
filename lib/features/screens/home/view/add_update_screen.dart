@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // <-- import
 import 'package:provider/provider.dart';
 
-import '../../translations/local_keys.g.dart';
+import '../../../../translations/local_keys.g.dart';
 
 class AddUpdateProductScreen extends StatefulWidget {
   final ProductModel? product; // Nullable product for edit mode
@@ -161,6 +161,15 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
     final isEditMode = widget.product != null;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.teal.shade300,
+        title: Text(
+          isEditMode
+              ? LocaleKeys.update_page.tr()
+              : LocaleKeys.add_page.tr(),
+        ),
+        centerTitle: true,
+      ),
       backgroundColor: Colors.blueGrey[200],
       body: Builder(
         builder: (context) {

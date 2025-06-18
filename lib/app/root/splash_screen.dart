@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:crud_app/features/common_widgets/bottom_navigation_bar.dart';
+import 'package:crud_app/features/screens/root/bottom_navigation_bar.dart';
 import 'package:crud_app/translations/local_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,6 +21,11 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.dark,
+    ));
 
     _animationController = AnimationController(
       vsync: this,

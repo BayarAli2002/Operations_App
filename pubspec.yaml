@@ -80,7 +80,7 @@ flutter:
 flutter_launcher_icons:
   android: true
   #ios: true
-  image_path: "assets/images/crud.png"
+  image_path: "assets/icons/crud.jpg"
 
   #   - images/a_dot_ham.jpeg
 

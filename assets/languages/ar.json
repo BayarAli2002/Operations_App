@@ -37,6 +37,9 @@
   "favorite_added": "تمت الإضافة إلى المفضلة",
   "favoriteEmpty": "لا توجد مفضلات حتى الآن",
   "your_product_manager": "مدير المنتجات الخاص بك",
-  "description": "الوصف"
+  "description": "الوصف",
+  "update_page": "تحديث الصفحة",
+  "add_page": "إضافة صفحة",
+  "product_details_page": "صفحة تفاصيل المنتج"
 
 }

@@ -1,7 +1,7 @@
 import 'package:crud_app/app/di/dependency_injections.dart';
 import 'package:crud_app/features/screens/favorite/provider/favorite_provider.dart';
 import 'package:crud_app/features/screens/home/provider/product_provider.dart';
-import 'package:crud_app/features/screens/home/view/product_details/product_details_screen.dart';
+import 'package:crud_app/features/screens/home/view/product_details_screen.dart';
 import 'package:crud_app/app/root/splash_screen.dart';
 
 import 'package:crud_app/translations/codegen_loader.g.dart';
@@ -14,9 +14,15 @@ import 'package:provider/provider.dart';
 
 import 'app/routes/routs.dart';
 import 'core/static_texts/language.dart';
-import 'features/common_widgets/add_update_product.dart';
+import 'features/screens/home/view/add_update_screen.dart';
 
 void main() async {
+  // Set status bar appearance
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // or any color like Colors.blue
+    statusBarIconBrightness: Brightness.dark, // dark icons for light background
+    statusBarBrightness: Brightness.light, // required for iOS
+  ));
   DependencyInjection.init();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();

@@ -49,7 +49,7 @@ class DeleteButton extends StatelessWidget {
             ),
             child: Text(
               LocaleKeys.no.tr(),
-              style: TextStyle(fontSize: 16.sp, color: Colors.black87),
+              style: TextStyle(fontSize: 16.sp, color: Colors.black),
             ),
           ),
           TextButton(
@@ -95,7 +95,7 @@ class DeleteButton extends StatelessWidget {
           ],
         ),
         padding: EdgeInsets.all(8.w),
-        child: Icon(Icons.delete_outline, color: Colors.black26, size: 28.sp),
+        child: Icon(Icons.delete_outline, color: Colors.black87, size: 28.sp),
       ),
     );
   }

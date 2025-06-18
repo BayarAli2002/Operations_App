@@ -38,9 +38,13 @@ class ProductProvider extends ChangeNotifier {
 
   // Fetch single product
   Future<void> fetchProductById(String productId) async {
+
     _selectedProduct = null;
+    notifyListeners();
     try {
+
       _selectedProduct = await remoteDataSource.fetchProductById(productId);
+
       notifyListeners();
     } catch (e) {
       log('Error fetching product by ID: $e');

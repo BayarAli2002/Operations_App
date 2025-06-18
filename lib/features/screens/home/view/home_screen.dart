@@ -1,5 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:crud_app/features/common_widgets/product_details.dart';
+import 'package:crud_app/features/screens/home/view/widgets/product_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ProductProvider>(context, listen: false).fetchProducts();
-    Provider.of<FavoriteProvider>(context, listen: false).fetchFavorites();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ProductProvider>(context, listen: false).fetchProducts();
+      Provider.of<FavoriteProvider>(context, listen: false).fetchFavorites();
+    });
+
   }
 
   void showFlushbar(BuildContext context, String message) {
@@ -44,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.all(12.w),
           itemCount: provider.products.length,
           itemBuilder: (context, index) {
-            final product = provider.products[index];
+            final productModel = provider.products[index];
             return ProductDetails(
-              productModel: product,
+              productModel: productModel,
               showFlushbar: (message) => showFlushbar(context, message),
             );
           },

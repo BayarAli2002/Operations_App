@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:crud_app/core/config/app_config.dart';
 import 'package:logger/logger.dart';
 
 class LoggerService {
@@ -12,8 +13,10 @@ class LoggerService {
     required Map<String, dynamic> headers,
     dynamic body,
   }) {
+    if (!AppConfig.isLogger) return;
+
     final formattedJson = _encoder.convert({
-      "json_type": "request",
+      "type": "request",
       "title": title,
       "method": method,
       "endpoint": endpoint,
@@ -29,8 +32,10 @@ class LoggerService {
     required int? statusCode,
     required dynamic data,
   }) {
+    if (!AppConfig.isLogger) return;
+
     final formattedJson = _encoder.convert({
-      "json_type": "response",
+      "type": "response",
       "title": title,
       "status_code": statusCode,
       "data": data,
@@ -40,14 +45,8 @@ class LoggerService {
   }
 
   static void logError(String title, dynamic error) {
+    if (!AppConfig.isLogger) return;
+
     _logger.e('⛔ $title\n$error');
-  }
-
-  static void logInfo(String message) {
-    _logger.i(message);
-  }
-
-  static void logDebug(String message) {
-    _logger.d(message);
   }
 }

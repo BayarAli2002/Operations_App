@@ -1,12 +1,13 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crud_app/core/extension/extentions.dart';
 import 'package:crud_app/translations/local_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../../common_widgets/favorite_button.dart';
-import '../../home/view/product_details/product_details_screen.dart';
+import '../../home/view/product_details_screen.dart';
 import '../provider/favorite_provider.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -32,8 +33,8 @@ class FavoriteScreen extends StatelessWidget {
 
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
+                  Navigator.of(context,rootNavigator: true,).push(
+
                     MaterialPageRoute(
                       builder: (_) =>
                           ProductDetailsScreen(productId: product.id!),
@@ -105,7 +106,7 @@ class FavoriteScreen extends StatelessWidget {
                             ),
                             SizedBox(height: 6.h),
                             Text(
-                              '\$${product.price ?? 0}',
+                              product.price?.withCurrency(context) ?? '',
                               style: TextStyle(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w600,

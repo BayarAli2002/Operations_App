@@ -37,5 +37,8 @@
   "favorite_added": "هاوڕێ زیادکرا",
   "favoriteEmpty": "هێشتا هەیچ هاوڕێیەک نیە",
   "your_product_manager": "بەڕێوبەری بەرهەمەکانت",
-  "description": "وەسف"
+  "description": "وەسف",
+  "update_page": "نوێکردنەوەی پەڕە",
+  "add_page": "زیادکردنی پەڕە",
+  "product_details_page": "پەڕەی وردەکاری بەرهەم"
 }

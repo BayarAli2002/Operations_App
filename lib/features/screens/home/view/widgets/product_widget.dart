@@ -1,5 +1,6 @@
+import 'package:crud_app/core/extension/extentions.dart';
 import 'package:crud_app/features/screens/home/data/model/product_model.dart';
-import 'package:crud_app/features/screens/home/view/product_details/product_details_screen.dart';
+import 'package:crud_app/features/screens/home/view/product_details_screen.dart';
 import 'package:crud_app/features/screens/home/view/widgets/delete_button.dart';
 import 'package:crud_app/features/screens/home/view/widgets/update_button.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'favorite_button.dart';
+import '../../../../common_widgets/favorite_button.dart';
 
 class ProductDetails extends StatelessWidget {
   final ProductModel productModel;
@@ -23,8 +24,8 @@ class ProductDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
+        Navigator.of(context,rootNavigator: true).push(
+
           MaterialPageRoute(
             builder: (_) => ProductDetailsScreen(productId: productModel.id!),
           ),
@@ -94,7 +95,48 @@ class ProductDetails extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              child: UpdateButton(productModel: productModel),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                Text(
+                productModel.title ?? '',
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+                SizedBox(height: 6.h),
+                Text(
+                  "ID: ${productModel.id ?? ''}",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  productModel.description ?? '',
+                  style: TextStyle(fontSize: 14.sp, color: Colors.black54),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  productModel.price?.withCurrency(context) ?? '',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                  UpdateButton(productModel: productModel),
+                ],
+              ),
             ),
           ],
         ),
