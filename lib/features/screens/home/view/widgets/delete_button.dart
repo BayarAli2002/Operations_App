@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+
 import '../../provider/product_provider.dart';
 
 class DeleteButton extends StatelessWidget {
@@ -70,8 +71,9 @@ class DeleteButton extends StatelessWidget {
     );
     if (confirmed == true) {
       if (!context.mounted) return;
-      final provider = Provider.of<ProductProvider>(context, listen: false);
-      await provider.deleteProduct(productId);
+      final productProvider = Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.deleteProduct(productId);
+
       showFlushbar(LocaleKeys.productDeleted.tr());
     }
   }

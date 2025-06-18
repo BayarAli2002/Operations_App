@@ -19,4 +19,19 @@ class DependencyInjection {
     //Dio Client
     sl.registerLazySingleton(() => BaseApiClient());
   }
+/*
+Step 1: Create a private static instance
+ static final FavoriteRemoteRepo _instance = FavoriteRemoteRepo._internal();
+
+  Step 2: Provide a factory constructor that always returns the same instance
+
+ factory FavoriteRemoteRepo() {
+    return _instance;
+
+
+  Step 3: Create a private named constructor
+    FavoriteRemoteRepo._internal();
+
+    */
+
 }

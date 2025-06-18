@@ -1,5 +1,5 @@
 class ProductModel{
-   final String? favoriteId; // This is the original product ID from the API
+  final String? favoriteId; // This is the original product ID from the API
   final String? id;
   final String? title;
   final int? price;
@@ -13,14 +13,14 @@ class ProductModel{
     this.image,
     this.description,
 
-});
+  });
   //Special Constructor to convert json data from API to dart objects then we can simply deal with the data
   factory ProductModel.fromJson(Map<String,dynamic> json){
     return ProductModel(
       id: json['id'],
       favoriteId: json['favorite_id'], // Use 'productId' for the original product ID
       title: json['title'],
-      price: (json['price']).toInt(), // Ensure price is a double
+      price: (json['price'] as num).toInt(), // Ensure price is a double
       image: json['image'],
       description: json['description'],
     );

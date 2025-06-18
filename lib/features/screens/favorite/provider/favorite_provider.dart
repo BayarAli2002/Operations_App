@@ -13,9 +13,8 @@ class FavoriteProvider extends ChangeNotifier {
   Future<void> fetchFavorites() async {
     try {
       final data = await remoteRepo.fetchFavorites();
-      _favoriteProducts
-        ..clear()
-        ..addAll(data);
+      _favoriteProducts.
+        addAll(data);
       notifyListeners();
     } catch (e) {
       debugPrint('Failed to fetch favorites: $e');
@@ -27,7 +26,7 @@ class FavoriteProvider extends ChangeNotifier {
     if (!exists) {
       try {
         final added = await remoteRepo.addFavorite(product);
-        _favoriteProducts.add(added);
+        _favoriteProducts.insert(0,added);
         notifyListeners();
       } catch (e) {
         debugPrint('Failed to add favorite: $e');

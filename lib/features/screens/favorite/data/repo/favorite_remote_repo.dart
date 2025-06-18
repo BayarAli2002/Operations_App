@@ -1,3 +1,5 @@
+
+
 import 'package:crud_app/core/api/base_api_client.dart';
 import 'package:crud_app/core/end_points/end_points.dart';
 
@@ -10,9 +12,13 @@ class FavoriteRemoteRepo {
 
   Future<List<ProductModel>> fetchFavorites() async {
     final response = await client.get(EndPoints.favoriteProducts);
-    return (response as List)
-        .map((json) => ProductModel.fromJson(json))
-        .toList();
+    final data = response.data;
+  //this is to ensure that the data is a List
+    if (data is List) {
+      return data.map((json) => ProductModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Expected a List but got: ${data.runtimeType}');
+    }
   }
 
   Future<ProductModel> addFavorite(ProductModel product) async {

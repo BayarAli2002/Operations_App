@@ -1,3 +1,4 @@
+import 'package:crud_app/app/routes/routs.dart';
 import 'package:crud_app/features/screens/favorite/view/favorite_screen.dart';
 import 'package:crud_app/features/screens/home/view/home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -5,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import '../../translations/local_keys.g.dart';
-import 'add_update_product.dart';
-
 import 'drawer_widget.dart';
 
 class BottomNavigationBarScreens extends StatefulWidget {
@@ -65,10 +64,9 @@ class _BottomNavigationBarScreensState
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const AddUpdateProductScreen(),
-                ),
+              Navigator.pushNamed(
+                context,
+                Routes.addUpdateProduct,
               );
             },
           ),
