@@ -1,20 +1,20 @@
-import 'package:crud_app/Source/app/di/dependency_injections.dart';
-import 'package:crud_app/Source/features/screens/favorite/provider/favorite_provider.dart';
-import 'package:crud_app/Source/features/screens/home/provider/product_provider.dart';
-import 'package:crud_app/Source/features/screens/home/view/product_details_screen.dart';
-import 'package:crud_app/Source/app/root/splash_screen.dart';
 
+
+import 'package:crud_app/source/app/di/dependency_injections.dart';
+import 'package:crud_app/source/app/view/app.dart';
+import 'package:crud_app/source/features/screens/favorite/provider/favorite_provider.dart';
+import 'package:crud_app/source/features/screens/home/provider/product_provider.dart';
 import 'package:crud_app/translations/codegen_loader.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 import 'package:provider/provider.dart';
 
-import 'Source/app/routes/routs.dart';
+
 import 'Source/core/static_texts/language.dart';
-import 'Source/features/screens/home/view/add_update_screen.dart';
+
 
 void main() async {
   // Set status bar appearance
@@ -30,7 +30,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp, // Only portrait mode
+    DeviceOrientation.portraitUp,
+    // Only portrait mode
     //DeviceOrientation.portraitDown,  // optional if you want to allow upside-down portrait
   ]);
   runApp(
@@ -53,38 +54,8 @@ void main() async {
             create: (_) => DependencyInjection.sl<FavoriteProvider>(),
           ),
         ],
-        child: const MyApp(),
+        child: const App(),
       ),
     ),
   );
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(390, 844), // Base design size (e.g., iPhone 13)
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp(
-          initialRoute: Routes.initialRoute,
-          routes: {
-            Routes.addUpdateProduct: (context) =>
-                const AddUpdateProductScreen(),
-            Routes.productDetails: (context) => const ProductDetailsScreen(),
-          },
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(primarySwatch: Colors.blue),
-          home: child,
-        );
-      },
-      child: SplashScreen(),
-    );
-  }
 }
