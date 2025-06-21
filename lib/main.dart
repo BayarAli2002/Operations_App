@@ -1,13 +1,12 @@
 import 'package:crud_app/source/app/dependency_injections.dart';
 import 'package:crud_app/source/app/app.dart';
+import 'package:crud_app/source/core/transations/codegen_loader.g.dart';
 import 'package:crud_app/source/core/utils/language.dart';
 import 'package:crud_app/source/features/screens/favorite/provider/favorite_provider.dart';
 import 'package:crud_app/source/features/screens/home/provider/product_provider.dart';
-import 'package:crud_app/translations/codegen_loader.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:provider/provider.dart';
 
 void main() async {

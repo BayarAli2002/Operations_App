@@ -12,16 +12,28 @@ class FavoriteProvider extends ChangeNotifier {
   final List<ProductModel> _favoriteProducts = [];
   List<ProductModel> get favoriteProducts => _favoriteProducts;
 
+  bool _isLoading = false;
+  String? _errorMessage;
+
+  bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
+
   Future<void> fetchFavorites() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
     try {
       final data = await favoriteRemoteRepo.fetchFavorites();
-      _favoriteProducts.clear(); // clear old data to avoid duplication
-      _favoriteProducts.addAll(data);
-      notifyListeners();
+      _favoriteProducts
+        ..clear()
+        ..addAll(data);
     } catch (e) {
-      final error = ErrorHandling.handle(e);
-      log('Failed to fetch favorites: $error');
-      throw Exception(error);
+      _errorMessage = ErrorHandling.handle(e);
+      log('Failed to fetch favorites: $_errorMessage');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 

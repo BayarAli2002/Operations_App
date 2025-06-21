@@ -56,7 +56,8 @@ class CodegenLoader extends AssetLoader{
   "description": "الوصف",
   "update_page": "تحديث الصفحة",
   "add_page": "إضافة صفحة",
-  "product_details_page": "صفحة تفاصيل المنتج"
+  "product_details_page": "صفحة تفاصيل المنتج",
+  "noProductsFound": "لم يتم العثور على منتجات"
 };
 static const Map<String,dynamic> _en = {
   "appName": "CRUD App",
@@ -101,7 +102,8 @@ static const Map<String,dynamic> _en = {
   "description": "Description",
   "update_page": "Update Page",
   "add_page": "Add Page",
-  "product_details_page": "Product Details Page"
+  "product_details_page": "Product Details Page",
+  "noProductsFound": "No products found"
 };
 static const Map<String,dynamic> _fa = {
   "appName": "ئاپی CRUD",
@@ -145,7 +147,8 @@ static const Map<String,dynamic> _fa = {
   "description": "وەسف",
   "update_page": "نوێکردنەوەی پەڕە",
   "add_page": "زیادکردنی پەڕە",
-  "product_details_page": "پەڕەی وردەکاری بەرهەم"
+  "product_details_page": "پەڕەی وردەکاری بەرهەم",
+  "noProductsFound": "هیچ بەرهەمێک نەدۆزرایەوە"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};
 }

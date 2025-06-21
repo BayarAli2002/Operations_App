@@ -1,14 +1,12 @@
+import 'package:crud_app/source/core/extension/extentions.dart'; // import flushbar extension here
+import 'package:crud_app/source/core/transations/local_keys.g.dart';
 import 'package:crud_app/source/features/screens/home/provider/add_update_product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-import '../../../../../translations/local_keys.g.dart';
 import '../data/model/product_model.dart';
 import '../provider/product_provider.dart';
-
 
 class AddUpdateProductScreen extends StatefulWidget {
   final ProductModel? product;
@@ -16,8 +14,7 @@ class AddUpdateProductScreen extends StatefulWidget {
   const AddUpdateProductScreen({super.key, this.product});
 
   @override
-  State<AddUpdateProductScreen> createState() =>
-      _AddUpdateProductScreenState();
+  State<AddUpdateProductScreen> createState() => _AddUpdateProductScreenState();
 }
 
 class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
@@ -26,7 +23,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
   @override
   void initState() {
     super.initState();
-    final productProvider = Provider.of<ProductProvider>(context,listen: false);
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
     _controller = AddUpdateProductProvider(
       productProvider: productProvider,
       initialProduct: widget.product,
@@ -39,37 +36,22 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
     super.dispose();
   }
 
-  Future<void> _showFlushbar(String message, {bool isError = false}) async {
-    return Flushbar(
-      message: message,
-      backgroundColor: isError ? Colors.redAccent : Colors.teal,
-      margin: EdgeInsets.all(8.w),
-      borderRadius: BorderRadius.circular(12.r),
-      duration: const Duration(seconds: 1),
-      flushbarPosition: FlushbarPosition.TOP,
-      animationDuration: const Duration(milliseconds: 500),
-      icon: Icon(
-        isError ? Icons.error_outline : Icons.check_circle_outline,
-        color: Colors.white,
-      ),
-    ).show(context);
-  }
-
   Future<void> _handleSubmit() async {
-  try {
-    await _controller.submit();
-    if (!mounted) return;
-    Navigator.of(context).pop();
-    await _showFlushbar(
-      _controller.isEditMode
-          ? LocaleKeys.product_updated.tr()
-          : LocaleKeys.product_added.tr(),
-    );
-  } catch (e) {
-    await _showFlushbar(e.toString(), isError: true);
+    try {
+      await _controller.submit();
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      // Use extension method here:
+      context.showFlushbar(
+        _controller.isEditMode
+            ? LocaleKeys.product_updated.tr()
+            : LocaleKeys.product_added.tr(),
+      );
+    } catch (e) {
+      // Use extension method with isError flag:
+      context.showFlushbar(e.toString(), isError: true);
+    }
   }
-}
-
 
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
@@ -118,8 +100,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
               SizedBox(height: 25.h),
               TextFormField(
                 controller: _controller.titleController,
-                decoration:
-                    _inputDecoration(LocaleKeys.textFormFieldTitle.tr()),
+                decoration: _inputDecoration(LocaleKeys.textFormFieldTitle.tr()),
                 validator: (val) => val == null || val.isEmpty
                     ? LocaleKeys.enter_title.tr()
                     : null,
@@ -128,8 +109,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
               SizedBox(height: 25.h),
               TextFormField(
                 controller: _controller.priceController,
-                decoration:
-                    _inputDecoration(LocaleKeys.textFormFieldPrice.tr()),
+                decoration: _inputDecoration(LocaleKeys.textFormFieldPrice.tr()),
                 keyboardType: TextInputType.number,
                 validator: (val) => val == null || val.isEmpty
                     ? LocaleKeys.enter_price.tr()
@@ -139,8 +119,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
               SizedBox(height: 25.h),
               TextFormField(
                 controller: _controller.descriptionController,
-                decoration:
-                    _inputDecoration(LocaleKeys.textFormFieldDescription.tr()),
+                decoration: _inputDecoration(LocaleKeys.textFormFieldDescription.tr()),
                 maxLines: 1,
                 validator: (val) => val == null || val.isEmpty
                     ? LocaleKeys.enter_description.tr()
@@ -150,8 +129,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
               SizedBox(height: 25.h),
               TextFormField(
                 controller: _controller.imageUrlController,
-                decoration:
-                    _inputDecoration(LocaleKeys.textFormFieldImageUrl.tr()),
+                decoration: _inputDecoration(LocaleKeys.textFormFieldImageUrl.tr()),
                 validator: (val) => val == null || val.isEmpty
                     ? LocaleKeys.enter_image_url.tr()
                     : null,
@@ -161,8 +139,7 @@ class _AddUpdateProductScreenState extends State<AddUpdateProductScreen> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 14.h),
-                  backgroundColor:
-                      isEditMode ? Colors.blue : Colors.green.shade600,
+                  backgroundColor: isEditMode ? Colors.blue : Colors.green.shade600,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.r),
                   ),

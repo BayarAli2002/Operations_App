@@ -1,9 +1,9 @@
-import 'package:crud_app/Source/core/extension/extentions.dart';
+import 'package:crud_app/source/core/extension/extentions.dart';
 import 'package:crud_app/source/features/common_widgets/chached_network_image.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../common_widgets/favorite_button.dart';
+import '../../../../common_widgets/custom_favorite_button.dart';
 import '../../data/model/product_model.dart';
 import '../product_details_screen.dart';
 import 'delete_button.dart';
@@ -11,12 +11,10 @@ import 'update_button.dart';
 
 class ProductDetails extends StatelessWidget {
   final ProductModel productModel;
-  final Function(String message) showFlushbar;
 
   const ProductDetails({
     super.key,
     required this.productModel,
-    required this.showFlushbar,
   });
 
   @override
@@ -53,7 +51,6 @@ class ProductDetails extends StatelessWidget {
                   left: 12.w,
                   child: DeleteButton(
                     productId: productModel.id!,
-                    showFlushbar: showFlushbar,
                   ),
                 ),
                 Positioned(
@@ -61,7 +58,7 @@ class ProductDetails extends StatelessWidget {
                   right: 12.w,
                   child: FavoriteButton(
                     productModel: productModel,
-                    showFlushBar: showFlushbar,
+                    showFlushBar: (message) => context.showFlushbar(message), // you can keep or convert this similarly
                   ),
                 ),
               ],

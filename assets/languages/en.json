@@ -41,5 +41,7 @@
   "description": "Description",
   "update_page": "Update Page",
   "add_page": "Add Page",
-  "product_details_page": "Product Details Page"
+  "product_details_page": "Product Details Page",
+  "noProductsFound": "No products found"
+
 }

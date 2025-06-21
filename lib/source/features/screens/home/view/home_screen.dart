@@ -1,6 +1,7 @@
-import 'package:another_flushbar/flushbar.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart'; // import your flushbar extension here
+import 'package:crud_app/source/core/transations/local_keys.g.dart';
 import 'package:crud_app/source/features/screens/home/view/widgets/product_widget.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -25,34 +26,44 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void showFlushbar(BuildContext context, String message) {
-    Flushbar(
-      message: message,
-      duration: const Duration(seconds: 3),
-      flushbarPosition: FlushbarPosition.TOP,
-      backgroundColor: Colors.black87,
-      margin: const EdgeInsets.all(8),
-      borderRadius: BorderRadius.circular(8),
-    ).show(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<ProductProvider>(
       builder: (context, provider, _) {
-        if (provider.products.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        return ListView.builder(
-          padding: EdgeInsets.all(12.w),
-          itemCount: provider.products.length,
-          itemBuilder: (context, index) {
-            final productModel = provider.products[index];
-            return ProductDetails(
-              productModel: productModel,
-              showFlushbar: (message) => showFlushbar(context, message),
+        final isEmpty = provider.products.isEmpty;
+        return ConditionalBuilder(
+          condition: !provider.isLoading && provider.errorMessage == null && !isEmpty,
+          builder: (context) {
+            return ListView.builder(
+              padding: EdgeInsets.all(12.w),
+              itemCount: provider.products.length,
+              itemBuilder: (context, index) {
+                final productModel = provider.products[index];
+                return ProductDetails(
+                  productModel: productModel,
+                
+                );
+              },
             );
+          },
+          fallback: (context) {
+            if (provider.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (isEmpty) {
+              return Center(
+                child: Text(
+                  LocaleKeys.noProductsFound.tr(),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              );
+            } else {
+              return Center(
+                child: Text(
+                  provider.errorMessage ?? "Something went wrong.",
+                  style: const TextStyle(color: Colors.red),
+                ),
+              );
+            }
           },
         );
       },

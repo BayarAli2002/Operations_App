@@ -1,4 +1,4 @@
-import 'package:crud_app/source/core/utils/status_code.dart';
+import 'package:crud_app/source/core/api/status_code.dart';
 import 'package:dio/dio.dart';
 import 'end_points.dart';
 import '../utils/request_texts.dart';

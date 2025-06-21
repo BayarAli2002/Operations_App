@@ -40,5 +40,7 @@
   "description": "وەسف",
   "update_page": "نوێکردنەوەی پەڕە",
   "add_page": "زیادکردنی پەڕە",
-  "product_details_page": "پەڕەی وردەکاری بەرهەم"
+  "product_details_page": "پەڕەی وردەکاری بەرهەم",
+  "noProductsFound": "هیچ بەرهەمێک نەدۆزرایەوە"
+
 }

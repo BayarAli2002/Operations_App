@@ -1,7 +1,7 @@
 // error_handling.dart
 
 import 'package:dio/dio.dart';
-import '../utils/status_code.dart';
+import 'status_code.dart';
 
 class ErrorHandling {
   static const String connectionTimeout = 'Connection timeout';

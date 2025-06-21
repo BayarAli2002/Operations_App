@@ -17,6 +17,7 @@ class App extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+        
           initialRoute: Routes.initialRoute,
           routes: {
             Routes.addUpdateProduct: (context) =>
@@ -26,7 +27,7 @@ class App extends StatelessWidget {
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          debugShowCheckedModeBanner: true,
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(primarySwatch: Colors.blue),
           home: child,
         );

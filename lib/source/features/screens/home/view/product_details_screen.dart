@@ -1,14 +1,11 @@
-import 'package:another_flushbar/flushbar.dart';
-
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:crud_app/source/core/extension/extentions.dart';
+import 'package:crud_app/source/core/transations/local_keys.g.dart';
 import 'package:crud_app/source/features/common_widgets/chached_network_image.dart';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../translations/local_keys.g.dart';
 import '../../favorite/provider/favorite_provider.dart';
 import '../provider/product_provider.dart';
 
@@ -22,17 +19,6 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  void showFlushbar(String message) {
-    Flushbar(
-      message: message,
-      duration: const Duration(seconds: 3),
-      flushbarPosition: FlushbarPosition.TOP,
-      backgroundColor: Colors.black87,
-      margin: const EdgeInsets.all(8),
-      borderRadius: BorderRadius.circular(8),
-    ).show(context);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -43,13 +29,30 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   //Recommended to use WidgetsBinding to ensure context is ready
   Future<void> loadData() async {
-    // Fetch product if not already fetched
     final productProvider = Provider.of<ProductProvider>(
       context,
       listen: false,
     );
     if (productProvider.selectedProduct?.id != widget.productId) {
       await productProvider.fetchProductById(widget.productId ?? '');
+    }
+  }
+
+  Future<void> _toggleFavorite(
+    productDetailModel,
+    FavoriteProvider favoriteProvider,
+  ) async {
+    final isFav = favoriteProvider.isFavorite(productDetailModel.id ?? '');
+    if (isFav) {
+      await favoriteProvider.removeFavorite(productDetailModel.id ?? '');
+
+      if (!mounted) return;
+      context.showFlushbar(LocaleKeys.favorite_removed.tr());
+    } else {
+      await favoriteProvider.addFavorite(productDetailModel);
+
+      if (!mounted) return;
+      context.showFlushbar(LocaleKeys.favorite_added.tr());
     }
   }
 
@@ -64,15 +67,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
       body: Consumer2<ProductProvider, FavoriteProvider>(
         builder: (context, productProvider, favoriteProvider, _) {
-          final productDetailModel = productProvider.selectedProduct;
-
-          if (productDetailModel == null) {
-            return Center(child: CircularProgressIndicator(strokeWidth: 2));
-          }
-
-          return Stack(
-            children: [
-              ListView(
+          return ConditionalBuilder(
+            condition: !productProvider.isLoading &&
+                productProvider.errorMessage == null &&
+                productProvider.selectedProduct != null,
+            builder: (context) {
+              final productDetailModel = productProvider.selectedProduct!;
+              return ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
                 children: [
                   // Image with buttons container
@@ -80,7 +81,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     height: 280.h,
                     child: Stack(
                       children: [
-                        // Image Card
                         Card(
                           elevation: 6,
                           shape: RoundedRectangleBorder(
@@ -91,10 +91,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             imageUrl: productDetailModel.image ?? '',
                           ),
                         ),
-
-                        // Delete button top-left
-
-                        // Favorite button top-right
                         Positioned(
                           top: 12.h,
                           right: 12.w,
@@ -103,36 +99,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             shape: const CircleBorder(),
                             child: InkWell(
                               customBorder: const CircleBorder(),
-                              onTap: () async {
-                                final isFav = favoriteProvider.isFavorite(
-                                  productDetailModel.id ?? '',
-                                );
-                                if (isFav) {
-                                  await favoriteProvider.removeFavorite(
-                                    productDetailModel.id ?? '',
-                                  );
-                                  showFlushbar(
-                                    LocaleKeys.favorite_removed.tr(),
-                                  );
-                                } else {
-                                  await favoriteProvider.addFavorite(
-                                    productDetailModel,
-                                  );
-                                  showFlushbar(LocaleKeys.favorite_added.tr());
-                                }
-                              },
+                              onTap: () => _toggleFavorite(
+                                productDetailModel,
+                                favoriteProvider,
+                              ),
                               child: Padding(
                                 padding: EdgeInsets.all(8.w),
                                 child: Icon(
                                   favoriteProvider.isFavorite(
-                                        productDetailModel.id ?? '',
-                                      )
+                                          productDetailModel.id ?? '')
                                       ? Icons.favorite
                                       : Icons.favorite_border,
-                                  color:
-                                      favoriteProvider.isFavorite(
-                                        productDetailModel.id ?? '',
-                                      )
+                                  color: favoriteProvider.isFavorite(
+                                          productDetailModel.id ?? '')
                                       ? Colors.red
                                       : Colors.white,
                                   size: 28.sp,
@@ -147,7 +126,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                   SizedBox(height: 20.h),
 
-                  // Product title & price row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -163,10 +141,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
 
                       Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 14.w,
-                          vertical: 6.h,
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
                         decoration: BoxDecoration(
                           color: Colors.teal.shade600,
                           borderRadius: BorderRadius.circular(20.r),
@@ -220,12 +195,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
 
-                  SizedBox(
-                    height: 80.h,
-                  ), // Add some bottom padding for FAB space
+                  SizedBox(height: 80.h),
                 ],
-              ),
-            ],
+              );
+            },
+            fallback: (context) {
+              if (productProvider.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                );
+              } else {
+                return Center(
+                  child: Text(
+                    productProvider.errorMessage ?? 'Something went wrong',
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                );
+              }
+            },
           );
         },
       ),

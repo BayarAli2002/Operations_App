@@ -1,23 +1,25 @@
-import 'package:crud_app/translations/local_keys.g.dart';
+import 'package:crud_app/source/core/extension/extentions.dart';
+import 'package:crud_app/source/core/transations/local_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-
 import '../../provider/product_provider.dart';
 
-class DeleteButton extends StatelessWidget {
+class DeleteButton extends StatefulWidget {
   final String productId;
-  final Function(String message) showFlushbar;
 
   const DeleteButton({
     super.key,
     required this.productId,
-    required this.showFlushbar,
   });
 
-  Future<void> _confirmAndDelete(BuildContext context) async {
+  @override
+  State<DeleteButton> createState() => _DeleteButtonState();
+}
+
+class _DeleteButtonState extends State<DeleteButton> {
+  Future<void> _confirmAndDelete() async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -69,19 +71,22 @@ class DeleteButton extends StatelessWidget {
         ],
       ),
     );
-    if (confirmed == true) {
-      if (!context.mounted) return;
-      final productProvider = Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.deleteProduct(productId);
 
-      showFlushbar(LocaleKeys.productDeleted.tr());
+    if (confirmed == true) {
+      if (!mounted) return;
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.deleteProduct(widget.productId);
+
+      if (!mounted) return;
+      context.showFlushbar(LocaleKeys.productDeleted.tr());
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _confirmAndDelete(context),
+      onTap: _confirmAndDelete,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white.withAlpha((0.7 * 255).round()),

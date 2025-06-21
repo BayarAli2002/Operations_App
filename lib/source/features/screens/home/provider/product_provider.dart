@@ -11,35 +11,52 @@ class ProductProvider extends ChangeNotifier {
 
   List<ProductModel> _products = [];
   ProductModel? _selectedProduct;
+  bool _isLoading = false;
+  String? _errorMessage;
 
   List<ProductModel> get products => _products;
   ProductModel? get selectedProduct => _selectedProduct;
+  bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
 
   // Fetch all products
   Future<void> fetchProducts() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
     try {
       _products = await productRemoteRepo.fetchProducts();
-      notifyListeners();
     } catch (e) {
-      final error = ErrorHandling.handle(e);
-      log('Error fetching products: $error');
-      throw Exception(error);
+      _errorMessage = ErrorHandling.handle(e);
+      log('Error fetching products: $_errorMessage');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
   // Fetch single product
   Future<void> fetchProductById(String productId) async {
-    _selectedProduct = null;
+  _isLoading = true;
+  _errorMessage = null;
+  _selectedProduct = null;
+  notifyListeners();
+
+  try {
+    log('🔍 Fetching product by ID: $productId');
+    _selectedProduct = await productRemoteRepo.fetchProductById(productId);
+    log('✅ Product fetched: ${_selectedProduct?.title}');
+  } catch (e) {
+    final error = ErrorHandling.handle(e);
+    _errorMessage = error;
+    log('❌ Error fetching product by ID: $error');
+  } finally {
+    _isLoading = false;
     notifyListeners();
-    try {
-      _selectedProduct = await productRemoteRepo.fetchProductById(productId);
-      notifyListeners();
-    } catch (e) {
-      final error = ErrorHandling.handle(e);
-      log('Error fetching product by ID: $error');
-      throw Exception(error);
-    }
   }
+}
+
 
   // Add product
   Future<void> addProduct(ProductModel product) async {
