@@ -2,7 +2,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const appName = 'appName';
   static const addProductButtonText = 'addProductButtonText';
   static const textFormFieldTitle = 'textFormFieldTitle';
@@ -18,8 +18,8 @@ abstract class  LocaleKeys {
   static const productUpdated = 'productUpdated';
   static const updateFailed = 'updateFailed';
   static const addUpdateScreenAppBarText = 'addUpdateScreenAppBarText';
-  static const confirm_delete_title = 'confirm_delete_title';
-  static const confirm_delete_message = 'confirm_delete_message';
+  static const confirm_delete_title = 'confirm delete title';
+  static const confirm_delete_message = 'confirm delete message';
   static const no = 'no';
   static const yes = 'yes';
   static const product_failed = 'product_failed';
@@ -45,5 +45,4 @@ abstract class  LocaleKeys {
   static const update_page = 'update_page';
   static const add_page = 'add_page';
   static const product_details_page = 'product_details_page';
-
 }
