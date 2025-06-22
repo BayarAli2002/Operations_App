@@ -1,4 +1,4 @@
-import 'package:crud_app/source/core/transations/local_keys.g.dart';
+import 'package:crud_app/source/core/translations/local_keys.g.dart';
 import 'package:crud_app/source/core/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

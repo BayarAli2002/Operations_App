@@ -1,8 +1,8 @@
 import 'package:crud_app/source/app/dependency_injections.dart';
 import 'package:crud_app/source/app/app.dart';
 import 'package:crud_app/source/core/theme/theme_provider.dart';
-import 'package:crud_app/source/core/transations/codegen_loader.g.dart';
-import 'package:crud_app/source/core/transations/language.dart';
+import 'package:crud_app/source/core/translations/codegen_loader.g.dart';
+import 'package:crud_app/source/core/translations/language.dart';
 import 'package:crud_app/source/features/screens/favorite/provider/favorite_provider.dart';
 import 'package:crud_app/source/features/screens/home/provider/product_provider.dart';
 import 'package:easy_localization/easy_localization.dart';

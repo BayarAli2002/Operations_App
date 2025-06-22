@@ -1,6 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:crud_app/source/core/extension/extentions.dart';
-import 'package:crud_app/source/core/transations/local_keys.g.dart';
+import 'package:crud_app/source/core/translations/local_keys.g.dart';
 import 'package:crud_app/source/core/utils/utils.dart';
 import 'package:crud_app/source/features/common_widgets/chached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';

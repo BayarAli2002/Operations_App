@@ -1,5 +1,5 @@
 import 'package:crud_app/source/core/extension/extentions.dart';
-import 'package:crud_app/source/core/transations/local_keys.g.dart';
+import 'package:crud_app/source/core/translations/local_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
