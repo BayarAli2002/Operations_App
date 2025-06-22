@@ -12,6 +12,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var test = 0;
     return ScreenUtilInit(
       designSize: const Size(390, 844),
       minTextAdapt: true,
