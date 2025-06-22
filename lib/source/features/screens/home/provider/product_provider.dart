@@ -1,8 +1,8 @@
-import 'dart:developer';
+import 'package:crud_app/source/core/utils/utils.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/api/error_handling.dart';
 import '../data/model/product_model.dart';
 import '../data/repo/product_remote_repo.dart';
+
 
 class ProductProvider extends ChangeNotifier {
   final ProductRemoteRepo productRemoteRepo;
@@ -10,96 +10,107 @@ class ProductProvider extends ChangeNotifier {
   ProductProvider({required this.productRemoteRepo});
 
   List<ProductModel> _products = [];
-  ProductModel? _selectedProduct;
-  bool _isLoading = false;
-  String? _errorMessage;
-
   List<ProductModel> get products => _products;
+
+  ProductModel? _selectedProduct;
   ProductModel? get selectedProduct => _selectedProduct;
+
+  bool _isLoading = false;
   bool get isLoading => _isLoading;
-  String? get errorMessage => _errorMessage;
 
-  // Fetch all products
+  
+
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+ 
+
   Future<void> fetchProducts() async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
+    _setLoading(true);
+   
 
-    try {
-      _products = await productRemoteRepo.fetchProducts();
-    } catch (e) {
-      _errorMessage = ErrorHandling.handle(e);
-      log('Error fetching products: $_errorMessage');
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
+    final result = await productRemoteRepo.fetchProducts();
+
+    result.fold(
+      (failure) {
+    
+        Utils.showToast(failure.message,ToastType.error);
+      },
+      (products) {
+        _products = products;
+      },
+    );
+
+    _setLoading(false);
   }
 
-  // Fetch single product
-  Future<void> fetchProductById(String productId) async {
-  _isLoading = true;
-  _errorMessage = null;
-  _selectedProduct = null;
-  notifyListeners();
+  Future<void> fetchProductById(String id) async {
+    _setLoading(true);
+    _selectedProduct = null;
+    notifyListeners();
 
-  try {
-    log('🔍 Fetching product by ID: $productId');
-    _selectedProduct = await productRemoteRepo.fetchProductById(productId);
-    log('✅ Product fetched: ${_selectedProduct?.title}');
-  } catch (e) {
-    final error = ErrorHandling.handle(e);
-    _errorMessage = error;
-    log('❌ Error fetching product by ID: $error');
-  } finally {
-    _isLoading = false;
+    final result = await productRemoteRepo.fetchProductById(id);
+
+    result.fold(
+      (failure) {
+       Utils.showToast(failure.message,ToastType.error);
+      },
+      (product) {
+        _selectedProduct = product;
+      },
+    );
+
+    _setLoading(false);
     notifyListeners();
   }
-}
 
-
-  // Add product
   Future<void> addProduct(ProductModel product) async {
-    try {
-      final newProduct = await productRemoteRepo.addProduct(product);
-      _products.add(newProduct);
-      notifyListeners();
-    } catch (e) {
-      final error = ErrorHandling.handle(e);
-      log('Error adding product: $error');
-      throw Exception(error);
-    }
-  }
+    final result = await productRemoteRepo.addProduct(product);
 
-  // Update product
-  Future<void> updateProduct(String productId, ProductModel product) async {
-    try {
-      final updatedProduct = await productRemoteRepo.updateProduct(
-        productId,
-        product,
-      );
-      int index = _products.indexWhere((p) => p.id == productId);
-      if (index != -1) {
-        _products[index] = updatedProduct;
+    result.fold(
+      (failure) {
+        Utils.showToast(failure.message, ToastType.error);
         notifyListeners();
-      }
-    } catch (e) {
-      final error = ErrorHandling.handle(e);
-      log('Error updating product: $error');
-      throw Exception(error);
-    }
+      },
+      (addedProduct) {
+        _products.add(addedProduct);
+        notifyListeners();
+      },
+    );
   }
 
-  // Delete product
-  Future<void> deleteProduct(String productId) async {
-    try {
-      await productRemoteRepo.deleteProduct(productId);
-      _products.removeWhere((p) => p.id == productId);
-      notifyListeners();
-    } catch (e) {
-      final error = ErrorHandling.handle(e);
-      log('Error deleting product: $error');
-      throw Exception(error);
-    }
+  Future<void> updateProduct(String id, ProductModel product) async {
+    final result = await productRemoteRepo.updateProduct(id, product);
+
+    result.fold(
+      (failure) {
+       Utils.showToast(failure.message, ToastType.error);
+        notifyListeners();
+      },
+      (updatedProduct) {
+        int index = _products.indexWhere((p) => p.id == id);
+        if (index != -1) {
+          _products[index] = updatedProduct;
+          notifyListeners();
+        }
+      },
+    );
+  }
+
+  Future<void> deleteProduct(String id) async {
+    final result = await productRemoteRepo.deleteProduct(id);
+
+    result.fold(
+      (failure) {
+       Utils.showToast(failure.message, ToastType.error);
+        notifyListeners();
+      },
+      (_) {
+        _products.removeWhere((p) => p.id == id);
+        notifyListeners();
+      },
+    );
   }
 }

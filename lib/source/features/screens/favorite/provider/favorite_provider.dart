@@ -1,6 +1,6 @@
 import 'dart:developer';
+import 'package:crud_app/source/core/utils/utils.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/api/error_handling.dart';
 import '../../home/data/model/product_model.dart';
 import '../data/repo/favorite_remote_repo.dart';
 
@@ -13,58 +13,72 @@ class FavoriteProvider extends ChangeNotifier {
   List<ProductModel> get favoriteProducts => _favoriteProducts;
 
   bool _isLoading = false;
-  String? _errorMessage;
-
   bool get isLoading => _isLoading;
-  String? get errorMessage => _errorMessage;
+
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
 
   Future<void> fetchFavorites() async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
+    _setLoading(true);
 
-    try {
-      final data = await favoriteRemoteRepo.fetchFavorites();
-      _favoriteProducts
-        ..clear()
-        ..addAll(data);
-    } catch (e) {
-      _errorMessage = ErrorHandling.handle(e);
-      log('Failed to fetch favorites: $_errorMessage');
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
+    final result = await favoriteRemoteRepo.fetchFavorites();
+
+    result.fold(
+      (failure) {
+        Utils.showToast(failure.message,ToastType.error);
+        log('Fetch favorites failed: ${failure.message}');
+      },
+      (data) {
+        _favoriteProducts
+          ..clear()
+          ..addAll(data);
+        notifyListeners();
+      },
+    );
+
+    _setLoading(false);
   }
 
   Future<void> addFavorite(ProductModel product) async {
     final exists = _favoriteProducts.any((p) => p.id == product.id);
-    if (!exists) {
-      try {
-        final added = await favoriteRemoteRepo.addFavorite(product);
-        _favoriteProducts.insert(0, added);
+    if (exists) return;
+
+    final result = await favoriteRemoteRepo.addFavorite(product);
+
+    result.fold(
+      (failure) {
+        Utils.showToast(failure.message, ToastType.error);
+        log('Add favorite failed: ${failure.message}');
+      },
+      (addedProduct) {
+        _favoriteProducts.insert(0, addedProduct);
         notifyListeners();
-      } catch (e) {
-        final error = ErrorHandling.handle(e);
-        log('Failed to add favorite: $error');
-        throw Exception(error);
-      }
-    }
+      },
+    );
   }
 
   Future<void> removeFavorite(String productId) async {
-    try {
-      final favorite = _favoriteProducts.firstWhere((p) => p.id == productId);
-      if (favorite.favoriteId != null) {
-        await favoriteRemoteRepo.removeFavorite(favorite.favoriteId!);
+    final product = _favoriteProducts.firstWhere(
+      (p) => p.id == productId,
+      orElse: () => ProductModel(),
+    );
+
+    if (product.favoriteId == null) return;
+
+    final result = await favoriteRemoteRepo.removeFavorite(product.favoriteId!);
+
+    result.fold(
+      (failure) {
+        Utils.showToast(failure.message, ToastType.error);
+        log('Remove favorite failed: ${failure.message}');
+      },
+      (_) {
         _favoriteProducts.removeWhere((p) => p.id == productId);
         notifyListeners();
-      }
-    } catch (e) {
-      final error = ErrorHandling.handle(e);
-      log('Failed to remove favorite: $error');
-      throw Exception(error);
-    }
+      },
+    );
   }
 
   bool isFavorite(String productId) {

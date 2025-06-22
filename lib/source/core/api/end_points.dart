@@ -11,5 +11,5 @@ class EndPoints {
   //Favorite products endpoint
   static const String favoriteProducts = '$baseUrl/favorites';
   static const String addFavoriteProduct = '$baseUrl/favorites';
-  static const String deleteFavoriteProduct = '$baseUrl/favorites/';
+  static  String deleteFavoriteProduct(String id) => '$baseUrl/favorites/$id';
 }

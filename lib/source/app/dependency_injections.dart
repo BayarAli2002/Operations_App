@@ -3,6 +3,7 @@ import 'package:crud_app/source/features/screens/favorite/data/repo/favorite_rem
 import 'package:crud_app/source/features/screens/favorite/provider/favorite_provider.dart';
 import 'package:crud_app/source/features/screens/home/data/repo/product_remote_repo.dart';
 import 'package:crud_app/source/features/screens/home/provider/product_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 class DependencyInjection {
@@ -12,12 +13,18 @@ class DependencyInjection {
     //Providers
     sl.registerFactory(() => ProductProvider(productRemoteRepo: sl()));
     sl.registerFactory(() => FavoriteProvider(favoriteRemoteRepo: sl()));
+
     //Product Remote Data Source
     sl.registerLazySingleton(() => ProductRemoteRepo(client: sl()));
+
     //Favorite Remote Data Source
     sl.registerLazySingleton(() => FavoriteRemoteRepo(client: sl()));
+
     //Dio Client
-    sl.registerLazySingleton(() => BaseApiClient());
+    sl.registerLazySingleton(() => BaseApiClient(dio: sl()));
+
+    //Dio
+    sl.registerLazySingleton(() => Dio());
   }
 
   /*

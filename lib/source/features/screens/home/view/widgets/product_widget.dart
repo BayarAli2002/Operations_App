@@ -3,7 +3,7 @@ import 'package:crud_app/source/features/common_widgets/chached_network_image.da
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../common_widgets/custom_favorite_button.dart';
+import '../../../favorite/view/widgets/favorite_button_widget.dart';
 import '../../data/model/product_model.dart';
 import '../product_details_screen.dart';
 import 'delete_button.dart';
@@ -19,6 +19,8 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context, rootNavigator: true).push(
@@ -30,7 +32,7 @@ class ProductDetails extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 12.h, horizontal: 12.w),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
@@ -58,7 +60,7 @@ class ProductDetails extends StatelessWidget {
                   right: 12.w,
                   child: FavoriteButton(
                     productModel: productModel,
-                    showFlushBar: (message) => context.showFlushbar(message), // you can keep or convert this similarly
+                    // keep or convert similarly
                   ),
                 ),
               ],
@@ -70,10 +72,10 @@ class ProductDetails extends StatelessWidget {
                 children: [
                   Text(
                     productModel.title ?? '',
-                    style: TextStyle(
+                    style: theme.textTheme.bodyLarge?.copyWith(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: theme.colorScheme.onSurface,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -81,26 +83,29 @@ class ProductDetails extends StatelessWidget {
                   SizedBox(height: 6.h),
                   Text(
                     "ID: ${productModel.id ?? ''}",
-                    style: TextStyle(
+                    style: theme.textTheme.bodyMedium?.copyWith(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade600,
+                      color: theme.colorScheme.onSurface.withAlpha((0.6 * 255).round()),
                     ),
                   ),
                   SizedBox(height: 8.h),
                   Text(
                     productModel.description ?? '',
-                    style: TextStyle(fontSize: 14.sp, color: Colors.black54),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontSize: 14.sp,
+                      color: theme.colorScheme.onSurface.withAlpha((0.7*255).round()),
+                    ),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 8.h),
                   Text(
                     productModel.price?.withCurrency(context) ?? '',
-                    style: TextStyle(
+                    style: theme.textTheme.bodyMedium?.copyWith(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
-                      color: Colors.teal,
+                      color: theme.colorScheme.primary,
                     ),
                   ),
                   SizedBox(height: 12.h),

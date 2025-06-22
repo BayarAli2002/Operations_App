@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/model/product_model.dart';
-import '../add_update_screen.dart';
+import '../../../root/view/widgets/add_update_screen.dart';
 
 class UpdateButton extends StatelessWidget {
   final ProductModel productModel;
@@ -11,6 +11,8 @@ class UpdateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Align(
       alignment: Alignment.bottomRight,
       child: IconButton(
@@ -21,9 +23,13 @@ class UpdateButton extends StatelessWidget {
             ),
           );
         },
-        icon: Icon(Icons.edit, color: Colors.white, size: 20.sp),
+        icon: Icon(
+          Icons.edit,
+          color: theme.colorScheme.onPrimary, // icon color from theme
+          size: 20.sp,
+        ),
         style: IconButton.styleFrom(
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: theme.colorScheme.primary, // button bg from theme
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),

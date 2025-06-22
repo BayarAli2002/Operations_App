@@ -1,4 +1,4 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart'; // import your flushbar extension here
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:crud_app/source/core/transations/local_keys.g.dart';
 import 'package:crud_app/source/features/screens/home/view/widgets/product_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -28,42 +28,39 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Consumer<ProductProvider>(
       builder: (context, provider, _) {
         final isEmpty = provider.products.isEmpty;
+
         return ConditionalBuilder(
-          condition: !provider.isLoading && provider.errorMessage == null && !isEmpty,
-          builder: (context) {
-            return ListView.builder(
-              padding: EdgeInsets.all(12.w),
-              itemCount: provider.products.length,
-              itemBuilder: (context, index) {
-                final productModel = provider.products[index];
-                return ProductDetails(
-                  productModel: productModel,
-                
-                );
-              },
-            );
-          },
+          condition: provider.isLoading,
+          builder: (context) => Center(
+            child: CircularProgressIndicator(
+              color: theme.colorScheme.primary,
+            ),
+          ),
           fallback: (context) {
-            if (provider.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (isEmpty) {
-              return Center(
+            return ConditionalBuilder(
+              condition: !isEmpty,
+              builder: (context) => ListView.builder(
+                padding: EdgeInsets.all(12.w),
+                itemCount: provider.products.length,
+                itemBuilder: (context, index) {
+                  final productModel = provider.products[index];
+                  return ProductDetails(productModel: productModel);
+                },
+              ),
+              fallback: (context) => Center(
                 child: Text(
                   LocaleKeys.noProductsFound.tr(),
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              );
-            } else {
-              return Center(
-                child: Text(
-                  provider.errorMessage ?? "Something went wrong.",
-                  style: const TextStyle(color: Colors.red),
-                ),
-              );
-            }
+              ),
+            );
           },
         );
       },

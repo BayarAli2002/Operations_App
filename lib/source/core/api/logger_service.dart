@@ -1,5 +1,5 @@
 import 'package:logger/logger.dart';
-import '../release/app_config.dart';
+import '../../app/app_release.dart';
 
 class LoggerService {
   static final Logger _logger = Logger();
