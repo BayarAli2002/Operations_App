@@ -1,6 +1,5 @@
-import 'package:crud_app/source/core/extension/extentions.dart';
+import 'package:crud_app/source/core/extensions/price_extension.dart';
 import 'package:crud_app/source/features/common_widgets/chached_network_image.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../favorite/view/widgets/favorite_button_widget.dart';
@@ -9,10 +8,10 @@ import '../product_details_screen.dart';
 import 'delete_button.dart';
 import 'update_button.dart';
 
-class ProductDetails extends StatelessWidget {
+class ProductWidgetetails extends StatelessWidget {
   final ProductModel productModel;
 
-  const ProductDetails({
+  const ProductWidgetetails({
     super.key,
     required this.productModel,
   });
@@ -47,7 +46,11 @@ class ProductDetails extends StatelessWidget {
           children: [
             Stack(
               children: [
-                ChachedNetworkImage(imageUrl: productModel.image ?? ''),
+                SizedBox(
+                  height: 220.h,
+                  width: double.infinity,
+                  child: CustomCachedNetworkImage(imageUrl: productModel.image ?? '')
+                  ),
                 Positioned(
                   top: 12.h,
                   left: 12.w,

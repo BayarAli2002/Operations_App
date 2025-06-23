@@ -1,10 +1,11 @@
+import 'package:crud_app/source/core/manager/routes_manager.dart';
 import 'package:crud_app/source/core/translations/local_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import '../../../../app/routs.dart';
+
 import 'widgets/drawer_widget.dart';
 import '../../favorite/view/favorite_screen.dart';
 import '../../home/view/home_screen.dart';
@@ -32,33 +33,36 @@ class _BottomNavigationBarScreensState
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
+    final theme = Theme.of(context);
+ 
     return [
       PersistentBottomNavBarItem(
-        inactiveIcon: Icon(Icons.home_outlined),
-        icon: const Icon(Icons.home),
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.black54,
+        inactiveIcon: Icon(Icons.home_outlined, color: theme.appBarTheme.foregroundColor),
+        icon: Icon(Icons.home, color: theme.appBarTheme.foregroundColor),
+     
       ),
       PersistentBottomNavBarItem(
-        inactiveIcon: const Icon(Icons.favorite_border),
-        icon: const Icon(Icons.favorite),
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.black54,
-        textStyle: const TextStyle(fontWeight: FontWeight.bold),
+        inactiveIcon: Icon(Icons.favorite_border, color: theme.appBarTheme.foregroundColor),
+        icon: Icon(Icons.favorite, color: theme.appBarTheme.foregroundColor),
+     
       ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final _ = context.locale;
 
     return Scaffold(
       appBar: AppBar(
-      backgroundColor: Colors.teal,
+        backgroundColor: theme.appBarTheme.backgroundColor!,
+        foregroundColor: theme.appBarTheme.foregroundColor,
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.teal,
-          statusBarIconBrightness: Brightness.light,
+          statusBarColor: theme.appBarTheme.backgroundColor,
+          statusBarIconBrightness: theme.brightness == Brightness.dark
+              ? Brightness.light
+              : Brightness.dark,
         ),
         centerTitle: true,
         title: Text(
@@ -67,7 +71,7 @@ class _BottomNavigationBarScreensState
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: Icon(Icons.add, color: theme.appBarTheme.foregroundColor),
             onPressed: () {
               Navigator.pushNamed(context, Routes.addUpdateProduct);
             },
@@ -80,9 +84,8 @@ class _BottomNavigationBarScreensState
         controller: _controller,
         screens: _buildScreens(),
         items: _navBarsItems(),
-        navBarStyle: NavBarStyle.style6, // choose the animation style you like
-
-        backgroundColor: Colors.teal,
+        navBarStyle: NavBarStyle.style6,
+        backgroundColor: theme.appBarTheme.backgroundColor!,
       ),
     );
   }

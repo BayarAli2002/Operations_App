@@ -1,17 +1,18 @@
+import 'package:crud_app/source/core/manager/release_manager.dart';
 import 'package:logger/logger.dart';
-import '../../app/app_release.dart';
 
 class LoggerService {
-  static final Logger _logger = Logger();
+  final Logger logger;
+  LoggerService({required this.logger});
 
-  static void logRequest({
+  void logRequest({
     required String title,
     required String method,
     required String endpoint,
     required Map<String, dynamic> headers,
     dynamic body,
   }) {
-    if (!AppConfig.isLogger) return;
+    if (!AppRelease.isLogger) return;
 
     final formattedJson = {
       "type": "request",
@@ -22,15 +23,15 @@ class LoggerService {
       "body": body ?? {},
     };
 
-    _logger.i(formattedJson);
+    logger.i(formattedJson);
   }
 
-  static void logResponse({
+  void logResponse({
     required String title,
     required int? statusCode,
     required dynamic data,
   }) {
-    if (!AppConfig.isLogger) return;
+    if (!AppRelease.isLogger) return;
 
     final formattedJson = {
       "type": "response",
@@ -39,12 +40,12 @@ class LoggerService {
       "data": data,
     };
 
-    _logger.d(formattedJson);
+    logger.d(formattedJson);
   }
 
-  static void logError(String title, dynamic error) {
-    if (!AppConfig.isLogger) return;
+  void logError(String title, dynamic error) {
+    if (!AppRelease.isLogger) return;
 
-    _logger.e('⛔ $title\n$error');
+    logger.e('⛔ $title\n$error');
   }
 }

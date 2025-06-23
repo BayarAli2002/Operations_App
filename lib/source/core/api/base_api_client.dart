@@ -10,8 +10,11 @@ class BaseApiClient {
   final Dio dio;
   final CustomLoggingInterceptor loggingInterceptor;
 
-  BaseApiClient({required this.dio,required this.loggingInterceptor}){
-    dio.interceptors.add(CustomLoggingInterceptor());
+  BaseApiClient({
+    required this.dio,
+    required this.loggingInterceptor,
+  }) {
+    dio.interceptors.add(loggingInterceptor); // ✅ Add it here
   }
 
   Future<Response> _handleRequest(RequestCallback request) async {
@@ -26,23 +29,30 @@ class BaseApiClient {
     } on DioException catch (e) {
       throw Exception(ErrorHandling.fromDioException(e));
     } catch (e) {
-      throw Exception("Unknown error: $e");
+     throw Exception("Unhandled exception occurred: ${e.toString()}");
+
     }
   }
+
 
   Future<Response> get(String path) {
     return _handleRequest(() => dio.get(path));
   }
 
+
   Future<Response> post(String path, {dynamic data}) {
     return _handleRequest(() => dio.post(path, data: data));
   }
+
 
   Future<Response> put(String path, {dynamic data}) {
     return _handleRequest(() => dio.put(path, data: data));
   }
 
+
   Future<Response> delete(String path) {
     return _handleRequest(() => dio.delete(path));
   }
+
+  
 }

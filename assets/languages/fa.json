@@ -50,6 +50,10 @@
   "notFound": "دۆزرایەوە نییە",
   "requestCancelled": "داواکاری هەڵوەشایەوە",
   "noConnection": "پەیوەندی ئینتەرنێت نییە",
-  "unknown": "هەڵەی نەناسراو"
+  "unknown": "هەڵەی نەناسراو",
+  "favorites_fetched": "دڵخوازەکان هاتنە وەرگرتن",
+  "unexpected_data_format": "شێوازی داتای نەناسراو",
+  "product_details_fetched": "وردەکارییەکانی بەرهەم هاتنە وەرگرتن",
+  "products_fetched": "بەرهەمەکان هاتنە وەرگرتن"
 
 }

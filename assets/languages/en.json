@@ -34,8 +34,8 @@
   "home": "Home",
   "favorite": "Favorite",
   "add_update": "Add / Update",
-  "favorite_removed": "Favorite removed",
-  "favorite_added": "Favorite added",
+  "favorite_removed": "Product removed from favorites",
+  "favorite_added": "Product added to favorite",
   "favoriteEmpty": "No favorites yet",
   "your_product_manager": "Your Product Manager",
   "description": "Description",
@@ -51,6 +51,12 @@
   "notFound": "Not found",
   "requestCancelled": "Request cancelled",
   "noConnection": "No internet connection",
-  "unknown": "Unknown error"
+  "unknown": "Unknown error",
+  "favorites_fetched": "Favorites fetched",
+  "unexpected_data_format": "Unexpected data format",
+   "product_details_fetched": "Product details fetched",
+  "products_fetched": "Products fetched"
+
+  
 
 }

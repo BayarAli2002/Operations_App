@@ -1,10 +1,9 @@
-import 'package:crud_app/source/app/routs.dart';
+import 'package:crud_app/source/core/manager/routes_manager.dart';
 import 'package:crud_app/source/features/screens/root/provider/theme_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 
 
 class App extends StatelessWidget {

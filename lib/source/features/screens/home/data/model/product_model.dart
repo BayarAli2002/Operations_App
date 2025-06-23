@@ -5,7 +5,7 @@ class ProductModel{
   final int? price;
   final String? image;
   final String? description;
-  ProductModel({
+  const ProductModel({
     this.favoriteId,
     this.id,
     this.title,

@@ -1,4 +1,4 @@
-import 'package:crud_app/source/features/screens/root/view/widgets/add_update_screen.dart';
+import 'package:crud_app/source/features/screens/root/view/add_update_screen.dart';
 import 'package:crud_app/source/features/screens/home/view/product_details_screen.dart';
 import 'package:crud_app/source/features/screens/root/view/splash_screen.dart';
 

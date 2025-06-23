@@ -1,5 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:crud_app/source/core/translations/local_keys.g.dart';
+import 'package:crud_app/source/features/common_widgets/loading_widget.dart';
 import 'package:crud_app/source/features/screens/home/view/widgets/product_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return ConditionalBuilder(
           condition: provider.isLoading,
           builder: (context) => Center(
-            child: CircularProgressIndicator(
-              color: theme.colorScheme.primary,
-            ),
+            child: const LoadingWidget(),
           ),
           fallback: (context) {
             return ConditionalBuilder(
@@ -49,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: provider.products.length,
                 itemBuilder: (context, index) {
                   final productModel = provider.products[index];
-                  return ProductDetails(productModel: productModel);
+                  return ProductWidgetetails(productModel: productModel);
                 },
               ),
               fallback: (context) => Center(

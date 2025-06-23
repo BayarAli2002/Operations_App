@@ -1,4 +1,4 @@
-import 'package:crud_app/source/app/dependency_injections.dart';
+import 'package:crud_app/source/app/dependency_injection.dart';
 import 'package:crud_app/source/app/app.dart';
 import 'package:crud_app/source/features/screens/root/provider/theme_provider.dart';
 import 'package:crud_app/source/core/translations/codegen_loader.g.dart';
@@ -11,6 +11,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
   // Set status bar appearance
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
@@ -20,14 +23,17 @@ void main() async {
       statusBarBrightness: Brightness.light, // required for iOS
     ),
   );
+
   DependencyInjection.init();
-  WidgetsFlutterBinding.ensureInitialized();
+
   await EasyLocalization.ensureInitialized();
+
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     // Only portrait mode
     //DeviceOrientation.portraitDown,  // optional if you want to allow upside-down portrait
   ]);
+
   runApp(
     EasyLocalization(
       supportedLocales: [
@@ -35,6 +41,7 @@ void main() async {
         Locale(Language.arabicLocale),
         Locale(Language.kurdishLocale),
       ],
+
       path: Language.languagePath,
       //Default locale(Language)
       fallbackLocale: Locale(Language.defaultLanguage),
@@ -42,10 +49,10 @@ void main() async {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (_) => DependencyInjection.sl<ProductProvider>(),
+            create: (_) => sl<ProductProvider>(),
           ),
           ChangeNotifierProvider(
-            create: (_) => DependencyInjection.sl<FavoriteProvider>(),
+            create: (_) => sl<FavoriteProvider>(),
           ),
           ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ],

@@ -1,12 +1,8 @@
-import 'package:crud_app/source/core/translations/local_keys.g.dart';
-import 'package:crud_app/source/core/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
 import '../../provider/favorite_provider.dart';
 import '../../../home/data/model/product_model.dart';
-
 class FavoriteButton extends StatefulWidget {
   final ProductModel productModel;
 
@@ -31,10 +27,10 @@ class _FavoriteButtonState extends State<FavoriteButton> {
           onTap: () async {
             if (isFav) {
               await favoriteProvider.removeFavorite(widget.productModel.id ?? '');
-              Utils.showToast(LocaleKeys.favorite_removed.tr(), ToastType.success);
+             
             } else {
               await favoriteProvider.addFavorite(widget.productModel);
-              Utils.showToast(LocaleKeys.favorite_added.tr(), ToastType.success);
+              
             }
           },
           child: Container(

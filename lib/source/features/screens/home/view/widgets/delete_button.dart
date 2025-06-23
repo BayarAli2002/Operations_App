@@ -1,4 +1,3 @@
-import 'package:crud_app/source/core/extension/extentions.dart';
 import 'package:crud_app/source/core/translations/local_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -88,8 +87,7 @@ class _DeleteButtonState extends State<DeleteButton> {
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.deleteProduct(widget.productId);
 
-      if (!mounted) return;
-      context.showFlushbar(LocaleKeys.productDeleted.tr());
+      
     }
   }
 

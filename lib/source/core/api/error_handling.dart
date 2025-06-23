@@ -37,7 +37,7 @@ class ErrorHandling {
     }
   }
 
-  static String handle(dynamic e) {
+  static String handleError(dynamic e) {
     if (e is DioException) {
       return fromDioException(e);
     } else if (e.toString().toLowerCase().contains('timeout')) {

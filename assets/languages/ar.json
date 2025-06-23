@@ -50,6 +50,10 @@
   "notFound": "غير موجود",
   "requestCancelled": "تم إلغاء الطلب",
   "noConnection": "لا يوجد اتصال بالإنترنت",
-  "unknown": "خطأ غير معروف"
+  "unknown": "خطأ غير معروف",
+  "favorites_fetched": "تم جلب المفضلات",
+  "unexpected_data_format": "تنسيق بيانات غير متوقع",
+  "product_details_fetched": "تم جلب تفاصيل المنتج",
+  "products_fetched": "تم جلب المنتجات"
 
 }

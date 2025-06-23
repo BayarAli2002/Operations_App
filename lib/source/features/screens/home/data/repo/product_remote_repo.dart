@@ -1,85 +1,63 @@
 import 'dart:developer';
-
 import 'package:crud_app/source/core/api/error_handling.dart';
 import 'package:crud_app/source/core/api/failure.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import '../../../../../core/api/base_api_client.dart';
 import '../../../../../core/api/end_points.dart';
-
-import '../model/product_model.dart';
 
 class ProductRemoteRepo {
   final BaseApiClient client;
 
   ProductRemoteRepo({required this.client});
 
-  Future<Either<Failure, List<ProductModel>>> fetchProducts() async {
+  Future<Either<Failure, Response>> fetchProducts() async {
     try {
       final response = await client.get(EndPoints.getProducts);
-      final products = (response.data as List)
-          .map((json) => ProductModel.fromJson(json))
-          .toList();
-      return Right(products);
+      return Right(response);
     } catch (e) {
-      //for debugging
-      log("Error in fetchProductById(): $e");
-      final message = ErrorHandling.handle(e);
-      return Left(Failure(message));
+      log("fetchProducts() error: $e");
+      return Left(Failure(ErrorHandling.handleError(e)));
     }
   }
 
-  Future<Either<Failure, ProductModel>> fetchProductById(String id) async {
+  Future<Either<Failure, Response>> fetchProductById(String id) async {
     try {
       final response = await client.get(EndPoints.productById(id));
-      return Right(ProductModel.fromJson(response.data));
+      return Right(response);
     } catch (e) {
-      //for debugging
-      log("Error in fetchProductById(): $e");
-      final message = ErrorHandling.handle(e);
-      return Left(Failure(message));
+      log("fetchProductById() error: $e");
+      return Left(Failure(ErrorHandling.handleError(e)));
     }
   }
 
-  Future<Either<Failure, ProductModel>> addProduct(ProductModel product) async {
+  Future<Either<Failure, Response>> addProduct(Map<String, dynamic> data) async {
     try {
-      final response = await client.post(
-        EndPoints.addProduct,
-        data: product.toJson(),
-      );
-      return Right(ProductModel.fromJson(response.data));
+      final response = await client.post(EndPoints.addProduct, data: data);
+      return Right(response);
     } catch (e) {
-      //for debugging
-      log("Error in fetchProductById(): $e");
-      final message = ErrorHandling.handle(e);
-      return Left(Failure(message));
+      log("addProduct() error: $e");
+      return Left(Failure(ErrorHandling.handleError(e)));
     }
   }
 
-  Future<Either<Failure, ProductModel>> updateProduct(
-    String id,
-    ProductModel product,
-  ) async {
+  Future<Either<Failure, Response>> updateProduct(String id, Map<String, dynamic> data) async {
     try {
-      final response = await client.put(
-        EndPoints.updateProduct(id),
-        data: product.toJson(),
-      );
-      return Right(ProductModel.fromJson(response.data));
+      final response = await client.put(EndPoints.updateProduct(id), data: data);
+      return Right(response);
     } catch (e) {
-      final message = ErrorHandling.handle(e);
-      return Left(Failure(message));
+      log("updateProduct() error: $e");
+      return Left(Failure(ErrorHandling.handleError(e)));
     }
   }
 
-  Future<Either<Failure, Unit>> deleteProduct(String id) async {
+  Future<Either<Failure, Response>> deleteProduct(String id) async {
     try {
-      await client.delete(EndPoints.deleteProduct(id));
-      return Right(unit); // `unit` represents a void success response in dartz
+      final response = await client.delete(EndPoints.deleteProduct(id));
+      return Right(response);
     } catch (e) {
-      //for debugging
-      log("Error in fetchProductById(): $e");
-      final message = ErrorHandling.handle(e);
-      return Left(Failure(message));
+      log("deleteProduct() error: $e");
+      return Left(Failure(ErrorHandling.handleError(e)));
     }
   }
 }

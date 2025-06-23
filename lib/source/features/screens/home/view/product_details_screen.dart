@@ -1,8 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:crud_app/source/core/extension/extentions.dart';
+import 'package:crud_app/source/core/extensions/price_extension.dart';
 import 'package:crud_app/source/core/translations/local_keys.g.dart';
-import 'package:crud_app/source/core/utils/utils.dart';
 import 'package:crud_app/source/features/common_widgets/chached_network_image.dart';
+import 'package:crud_app/source/features/common_widgets/loading_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,12 +45,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     final isFav = favoriteProvider.isFavorite(productDetailModel.id ?? '');
     if (isFav) {
       await favoriteProvider.removeFavorite(productDetailModel.id ?? '');
-
-      Utils.showToast(LocaleKeys.favorite_removed.tr(), ToastType.success);
+      
     } else {
       await favoriteProvider.addFavorite(productDetailModel);
-
-      Utils.showToast(LocaleKeys.favorite_added.tr(), ToastType.success);
+     
     }
   }
 
@@ -70,7 +68,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           return ConditionalBuilder(
             condition: productProvider.isLoading,
             builder: (context) =>
-                const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                const Center(child: LoadingWidget()),
             fallback: (context) {
               return ConditionalBuilder(
                 condition: productProvider.selectedProduct != null,
@@ -86,13 +84,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         height: 280.h,
                         child: Stack(
                           children: [
-                            Card(
-                              elevation: 6,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16.r),
-                              ),
-                              clipBehavior: Clip.antiAlias,
-                              child: ChachedNetworkImage(
+                            SizedBox(
+                              width: double.infinity,
+                              child: CustomCachedNetworkImage(
+
                                 imageUrl: productDetailModel.image ?? '',
                               ),
                             ),
@@ -120,7 +115,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           favoriteProvider.isFavorite(
                                             productDetailModel.id ?? '',
                                           )
-                                          ? Colors.red
+                                          ?theme.colorScheme.primary
                                           : Colors.white,
                                       size: 28.sp,
                                     ),

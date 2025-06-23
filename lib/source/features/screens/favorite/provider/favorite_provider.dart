@@ -1,6 +1,8 @@
 import 'dart:developer';
-import 'package:crud_app/source/core/utils/utils.dart';
+import 'package:crud_app/source/core/translations/local_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:crud_app/source/core/utils/utils.dart';
 import '../../home/data/model/product_model.dart';
 import '../data/repo/favorite_remote_repo.dart';
 
@@ -27,13 +29,21 @@ class FavoriteProvider extends ChangeNotifier {
 
     result.fold(
       (failure) {
-        Utils.showToast(failure.message,ToastType.error);
+        Utils.showToast(failure.message, ToastType.error);
         log('Fetch favorites failed: ${failure.message}');
       },
-      (data) {
-        _favoriteProducts
-          ..clear()
-          ..addAll(data);
+      (response) {
+        final data = response.data;
+        if (data is List) {
+          final mapped = data.map((e) => ProductModel.fromJson(e)).toList();
+          _favoriteProducts
+            ..clear()
+            ..addAll(mapped);
+          Utils.showToast(LocaleKeys.favorites_fetched.tr(), ToastType.success);
+        } else {
+          Utils.showToast('Unexpected data format', ToastType.error);
+          log('${LocaleKeys.unexpected_data_format.tr()}: ${data.runtimeType}');
+        }
         notifyListeners();
       },
     );
@@ -45,15 +55,20 @@ class FavoriteProvider extends ChangeNotifier {
     final exists = _favoriteProducts.any((p) => p.id == product.id);
     if (exists) return;
 
-    final result = await favoriteRemoteRepo.addFavorite(product);
+    final result = await favoriteRemoteRepo.addFavorite({
+      ...product.toJson(),
+      'productId': product.id,
+    });
 
     result.fold(
       (failure) {
         Utils.showToast(failure.message, ToastType.error);
         log('Add favorite failed: ${failure.message}');
       },
-      (addedProduct) {
+      (response) {
+        final addedProduct = ProductModel.fromJson(response.data);
         _favoriteProducts.insert(0, addedProduct);
+        Utils.showToast(LocaleKeys.favorite_added, ToastType.success);
         notifyListeners();
       },
     );
@@ -74,8 +89,9 @@ class FavoriteProvider extends ChangeNotifier {
         Utils.showToast(failure.message, ToastType.error);
         log('Remove favorite failed: ${failure.message}');
       },
-      (_) {
+      (response) {
         _favoriteProducts.removeWhere((p) => p.id == productId);
+        Utils.showToast(LocaleKeys.favorite_removed, ToastType.success);
         notifyListeners();
       },
     );

@@ -66,7 +66,11 @@ class CodegenLoader extends AssetLoader{
   "notFound": "غير موجود",
   "requestCancelled": "تم إلغاء الطلب",
   "noConnection": "لا يوجد اتصال بالإنترنت",
-  "unknown": "خطأ غير معروف"
+  "unknown": "خطأ غير معروف",
+  "favorites_fetched": "تم جلب المفضلات",
+  "unexpected_data_format": "تنسيق بيانات غير متوقع",
+  "product_details_fetched": "تم جلب تفاصيل المنتج",
+  "products_fetched": "تم جلب المنتجات"
 };
 static const Map<String,dynamic> _en = {
   "appName": "CRUD App",
@@ -104,8 +108,8 @@ static const Map<String,dynamic> _en = {
   "home": "Home",
   "favorite": "Favorite",
   "add_update": "Add / Update",
-  "favorite_removed": "Favorite removed",
-  "favorite_added": "Favorite added",
+  "favorite_removed": "Product removed from favorites",
+  "favorite_added": "Product added to favorite",
   "favoriteEmpty": "No favorites yet",
   "your_product_manager": "Your Product Manager",
   "description": "Description",
@@ -121,7 +125,11 @@ static const Map<String,dynamic> _en = {
   "notFound": "Not found",
   "requestCancelled": "Request cancelled",
   "noConnection": "No internet connection",
-  "unknown": "Unknown error"
+  "unknown": "Unknown error",
+  "favorites_fetched": "Favorites fetched",
+  "unexpected_data_format": "Unexpected data format",
+  "product_details_fetched": "Product details fetched",
+  "products_fetched": "Products fetched"
 };
 static const Map<String,dynamic> _fa = {
   "appName": "ئاپی CRUD",
@@ -175,7 +183,11 @@ static const Map<String,dynamic> _fa = {
   "notFound": "دۆزرایەوە نییە",
   "requestCancelled": "داواکاری هەڵوەشایەوە",
   "noConnection": "پەیوەندی ئینتەرنێت نییە",
-  "unknown": "هەڵەی نەناسراو"
+  "unknown": "هەڵەی نەناسراو",
+  "favorites_fetched": "دڵخوازەکان هاتنە وەرگرتن",
+  "unexpected_data_format": "شێوازی داتای نەناسراو",
+  "product_details_fetched": "وردەکارییەکانی بەرهەم هاتنە وەرگرتن",
+  "products_fetched": "بەرهەمەکان هاتنە وەرگرتن"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};
 }

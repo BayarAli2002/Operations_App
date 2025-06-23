@@ -1,6 +1,7 @@
-import 'package:crud_app/source/core/extension/extentions.dart';
+import 'package:crud_app/source/core/extensions/price_extension.dart';
 import 'package:crud_app/source/core/translations/local_keys.g.dart';
 import 'package:crud_app/source/features/common_widgets/chached_network_image.dart';
+import 'package:crud_app/source/features/common_widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,7 @@ class FavoriteScreen extends StatelessWidget {
 
     return ConditionalBuilder(
       condition: favoriteProvider.isLoading,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
+      builder: (context) => const Center(child: LoadingWidget()),
       fallback: (context) {
         return ConditionalBuilder(
           condition: !isEmpty,
@@ -61,10 +62,11 @@ class FavoriteScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         SizedBox(
-                          width: 100.w,
-                          height: 100.h,
+                          width: 130.w,
+                          height: 110.h,
                           child:
-                              ChachedNetworkImage(imageUrl: favoriteModel.image ?? ''),
+                              CustomCachedNetworkImage(
+                                imageUrl: favoriteModel.image ?? ''),
                         ),
                         SizedBox(width: 12.w),
                         Expanded(
