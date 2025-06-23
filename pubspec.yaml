@@ -48,6 +48,9 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   dartz: ^0.10.1
   fluttertoast: ^8.2.12
+  shared_preferences: ^2.5.3
+  connectivity_plus: ^6.1.4
+  lottie: ^3.3.1
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +78,7 @@ flutter:
     - assets/languages/
     - assets/images/
     - assets/icons/
+    - assets/lotties/
 
 flutter_launcher_icons:
   android: true
