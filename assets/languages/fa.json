@@ -41,6 +41,15 @@
   "update_page": "نوێکردنەوەی پەڕە",
   "add_page": "زیادکردنی پەڕە",
   "product_details_page": "پەڕەی وردەکاری بەرهەم",
-  "noProductsFound": "هیچ بەرهەمێک نەدۆزرایەوە"
+  "noProductsFound": "هیچ بەرهەمێک نەدۆزرایەوە",
+    "connectionTimeout": "کاتی پەیوەندی تەواو بوو",
+  "sendTimeout": "کاتی ناردن تەواو بوو",
+  "responseTimeout": "کاتی وەڵامدانەوە تەواو بوو",
+  "badRequest": "داواکاری نەگونجاو",
+  "unauthorized": "دەسەڵات نەدراوە",
+  "notFound": "دۆزرایەوە نییە",
+  "requestCancelled": "داواکاری هەڵوەشایەوە",
+  "noConnection": "پەیوەندی ئینتەرنێت نییە",
+  "unknown": "هەڵەی نەناسراو"
 
 }

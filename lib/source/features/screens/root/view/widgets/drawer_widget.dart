@@ -1,5 +1,5 @@
 import 'package:crud_app/source/core/theme/app_theme_mode.dart';
-import 'package:crud_app/source/core/theme/theme_provider.dart';
+import 'package:crud_app/source/features/screens/root/provider/theme_provider.dart';
 import 'package:crud_app/source/core/translations/language.dart';
 import 'package:crud_app/source/core/translations/local_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';

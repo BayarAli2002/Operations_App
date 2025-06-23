@@ -41,7 +41,15 @@
   "update_page": "تحديث الصفحة",
   "add_page": "إضافة صفحة",
   "product_details_page": "صفحة تفاصيل المنتج",
-  "noProductsFound": "لم يتم العثور على منتجات"
-
+  "noProductsFound": "لم يتم العثور على منتجات",
+  "connectionTimeout": "انتهت مهلة الاتصال",
+  "sendTimeout": "انتهت مهلة الإرسال",
+  "responseTimeout": "انتهت مهلة الاستجابة",
+  "badRequest": "طلب غير صالح",
+  "unauthorized": "غير مصرح",
+  "notFound": "غير موجود",
+  "requestCancelled": "تم إلغاء الطلب",
+  "noConnection": "لا يوجد اتصال بالإنترنت",
+  "unknown": "خطأ غير معروف"
 
 }

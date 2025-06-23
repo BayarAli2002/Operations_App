@@ -46,5 +46,14 @@ abstract class  LocaleKeys {
   static const add_page = 'add_page';
   static const product_details_page = 'product_details_page';
   static const noProductsFound = 'noProductsFound';
+  static const connectionTimeout = 'connectionTimeout';
+  static const sendTimeout = 'sendTimeout';
+  static const responseTimeout = 'responseTimeout';
+  static const badRequest = 'badRequest';
+  static const unauthorized = 'unauthorized';
+  static const notFound = 'notFound';
+  static const requestCancelled = 'requestCancelled';
+  static const noConnection = 'noConnection';
+  static const unknown = 'unknown';
 
 }

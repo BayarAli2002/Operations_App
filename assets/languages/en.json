@@ -42,6 +42,15 @@
   "update_page": "Update Page",
   "add_page": "Add Page",
   "product_details_page": "Product Details Page",
-  "noProductsFound": "No products found"
+  "noProductsFound": "No products found",
+   "connectionTimeout": "Connection timeout",
+  "sendTimeout": "Send timeout",
+  "responseTimeout": "Response timeout",
+  "badRequest": "Bad request",
+  "unauthorized": "Unauthorized",
+  "notFound": "Not found",
+  "requestCancelled": "Request cancelled",
+  "noConnection": "No internet connection",
+  "unknown": "Unknown error"
 
 }

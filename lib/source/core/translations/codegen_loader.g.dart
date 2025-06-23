@@ -57,7 +57,16 @@ class CodegenLoader extends AssetLoader{
   "update_page": "تحديث الصفحة",
   "add_page": "إضافة صفحة",
   "product_details_page": "صفحة تفاصيل المنتج",
-  "noProductsFound": "لم يتم العثور على منتجات"
+  "noProductsFound": "لم يتم العثور على منتجات",
+  "connectionTimeout": "انتهت مهلة الاتصال",
+  "sendTimeout": "انتهت مهلة الإرسال",
+  "responseTimeout": "انتهت مهلة الاستجابة",
+  "badRequest": "طلب غير صالح",
+  "unauthorized": "غير مصرح",
+  "notFound": "غير موجود",
+  "requestCancelled": "تم إلغاء الطلب",
+  "noConnection": "لا يوجد اتصال بالإنترنت",
+  "unknown": "خطأ غير معروف"
 };
 static const Map<String,dynamic> _en = {
   "appName": "CRUD App",
@@ -103,7 +112,16 @@ static const Map<String,dynamic> _en = {
   "update_page": "Update Page",
   "add_page": "Add Page",
   "product_details_page": "Product Details Page",
-  "noProductsFound": "No products found"
+  "noProductsFound": "No products found",
+  "connectionTimeout": "Connection timeout",
+  "sendTimeout": "Send timeout",
+  "responseTimeout": "Response timeout",
+  "badRequest": "Bad request",
+  "unauthorized": "Unauthorized",
+  "notFound": "Not found",
+  "requestCancelled": "Request cancelled",
+  "noConnection": "No internet connection",
+  "unknown": "Unknown error"
 };
 static const Map<String,dynamic> _fa = {
   "appName": "ئاپی CRUD",
@@ -148,7 +166,16 @@ static const Map<String,dynamic> _fa = {
   "update_page": "نوێکردنەوەی پەڕە",
   "add_page": "زیادکردنی پەڕە",
   "product_details_page": "پەڕەی وردەکاری بەرهەم",
-  "noProductsFound": "هیچ بەرهەمێک نەدۆزرایەوە"
+  "noProductsFound": "هیچ بەرهەمێک نەدۆزرایەوە",
+  "connectionTimeout": "کاتی پەیوەندی تەواو بوو",
+  "sendTimeout": "کاتی ناردن تەواو بوو",
+  "responseTimeout": "کاتی وەڵامدانەوە تەواو بوو",
+  "badRequest": "داواکاری نەگونجاو",
+  "unauthorized": "دەسەڵات نەدراوە",
+  "notFound": "دۆزرایەوە نییە",
+  "requestCancelled": "داواکاری هەڵوەشایەوە",
+  "noConnection": "پەیوەندی ئینتەرنێت نییە",
+  "unknown": "هەڵەی نەناسراو"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};
 }

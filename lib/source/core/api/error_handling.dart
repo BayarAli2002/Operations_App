@@ -1,45 +1,39 @@
 // error_handling.dart
 
+import 'package:crud_app/source/core/translations/local_keys.g.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'status_code.dart';
 
 class ErrorHandling {
-  static const String connectionTimeout = 'Connection timeout';
-  static const String sendTimeout = 'Send timeout';
-  static const String responseTimeout = 'Response timeout';
-  static const String badRequest = 'Bad request';
-  static const String unauthorized = 'Unauthorized';
-  static const String notFound = 'Not found';
-  static const String requestCancelled = 'Request cancelled';
-  static const String noConnection = 'No internet connection';
-  static const String unknown = 'Unknown error';
+  
 
   static String fromDioException(DioException e) {
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
-        return connectionTimeout;
+        return LocaleKeys.connectionTimeout.tr();
       case DioExceptionType.sendTimeout:
-        return sendTimeout;
+        return LocaleKeys.sendTimeout.tr();
       case DioExceptionType.receiveTimeout:
-        return responseTimeout;
+        return LocaleKeys.responseTimeout.tr();
       case DioExceptionType.connectionError:
-        return noConnection;
+        return LocaleKeys.noConnection.tr();
       case DioExceptionType.cancel:
-        return requestCancelled;
+        return LocaleKeys.requestCancelled.tr();
       case DioExceptionType.badResponse:
         switch (e.response?.statusCode) {
           case StatusCode.badRequest:
-            return badRequest;
+            return LocaleKeys.badRequest.tr();
           case StatusCode.unauthorized:
-            return unauthorized;
+            return LocaleKeys.unauthorized.tr();
           case StatusCode.notFound:
-            return notFound;
+            return LocaleKeys.notFound.tr();
           default:
             return 'Server error: ${e.response?.statusCode}';
         }
       case DioExceptionType.unknown:
       default:
-        return unknown;
+        return LocaleKeys.unknown.tr();
     }
   }
 
@@ -47,9 +41,9 @@ class ErrorHandling {
     if (e is DioException) {
       return fromDioException(e);
     } else if (e.toString().toLowerCase().contains('timeout')) {
-      return connectionTimeout;
+      return LocaleKeys.connectionTimeout.tr();
     } else {
-      return '$unknown: ${e.toString()}';
+      return '${LocaleKeys.unknown.tr()}: ${e.toString()}';
     }
   }
 }

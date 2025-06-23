@@ -1,5 +1,5 @@
 import 'package:crud_app/source/app/routs.dart';
-import 'package:crud_app/source/core/theme/theme_provider.dart';
+import 'package:crud_app/source/features/screens/root/provider/theme_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +12,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var test = 0;
     return ScreenUtilInit(
       designSize: const Size(390, 844),
       minTextAdapt: true,

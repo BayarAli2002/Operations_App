@@ -1,18 +1,23 @@
+import 'package:crud_app/source/core/api/custom_logging_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'status_code.dart';
 import 'error_handling.dart';
+
 //this is a typedef for a function that returns a Future<Response>
 typedef RequestCallback = Future<Response> Function();
 
 class BaseApiClient {
   final Dio dio;
+  final CustomLoggingInterceptor loggingInterceptor;
 
-  BaseApiClient({required this.dio});
+  BaseApiClient({required this.dio,required this.loggingInterceptor}){
+    dio.interceptors.add(CustomLoggingInterceptor());
+  }
 
   Future<Response> _handleRequest(RequestCallback request) async {
     try {
       final response = await request();
-      if (response.statusCode == StatusCode.success || 
+      if (response.statusCode == StatusCode.success ||
           response.statusCode == StatusCode.created) {
         return response;
       } else {
