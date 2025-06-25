@@ -1,10 +1,30 @@
 import 'dart:ui';
+import 'package:crud_app/source/core/manager/assets_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-class NoInternetScreen extends StatelessWidget {
+class NoInternetScreen extends StatefulWidget {
   const NoInternetScreen({super.key});
+
+  @override
+  State<NoInternetScreen> createState() => _NoInternetScreenState();
+}
+
+class _NoInternetScreenState extends State<NoInternetScreen> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, // or any color like Colors.blue
+        statusBarIconBrightness:
+            Brightness.dark, // dark icons for light background
+        statusBarBrightness: Brightness.light, // required for iOS
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +33,11 @@ class NoInternetScreen extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white,                   // Bright white for a crisp highlight
-              Color(0xFFD1C4E9),              // Light purple for a soft transition
-              Color(0xFF8E2DE2),              // Deep, vivid purple for character
-              Color(0xFF4A148C),              // Dark purple edging towards black
-              Colors.black,                   // Bold black for a striking end
+              Colors.white, // Bright white for a crisp highlight
+              Color(0xFFD1C4E9), // Light purple for a soft transition
+              Color(0xFF8E2DE2), // Deep, vivid purple for character
+              Color(0xFF4A148C), // Dark purple edging towards black
+              Colors.black, // Bold black for a striking end
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -34,7 +54,7 @@ class NoInternetScreen extends StatelessWidget {
                   height: 260.h,
                   width: 260.w,
                   child: Lottie.asset(
-                    "assets/lotties/wifi.json",
+                    LottiesManager.wifi,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -54,15 +74,13 @@ class NoInternetScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30.r),
                         boxShadow: [
                           BoxShadow(
-                            color:
-                                Colors.black.withAlpha((0.25 * 255).round()),
+                            color: Colors.black.withAlpha((0.25 * 255).round()),
                             blurRadius: 20,
                             offset: const Offset(0, 10),
                           ),
                         ],
                         border: Border.all(
-                          color:
-                              Colors.white.withAlpha((0.25 * 255).round()),
+                          color: Colors.white.withAlpha((0.25 * 255).round()),
                           width: 3.w,
                         ),
                       ),

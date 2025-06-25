@@ -53,6 +53,15 @@ class BaseApiClient {
   Future<Response> delete(String path) {
     return _handleRequest(() => dio.delete(path));
   }
+  
+  //Authentication methods
+  Future<Response> login(String path){
+   return _handleRequest(() => dio.post(path));
+  }
 
+  Future<Response> signUp(String path, {dynamic data}) {
+    return _handleRequest(() => dio.post(path, data: data));
+  }
+  
   
 }

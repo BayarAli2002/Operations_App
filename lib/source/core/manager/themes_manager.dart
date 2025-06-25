@@ -4,44 +4,44 @@ import 'package:flutter/material.dart';
 
 enum AppThemeMode { light, dark }
 
-class AppTheme {
+class ThemesManager {
   static ThemeData getTheme(AppThemeMode mode) {
     switch (mode) {
       case AppThemeMode.light:
         return ThemeData(
           brightness: Brightness.light,
           useMaterial3: true,
-          scaffoldBackgroundColor: AppColors.lightBackground,
+          scaffoldBackgroundColor: ColorsManager.lightBackground,
           colorScheme: const ColorScheme.light(
-            primary: AppColors.lightPrimary,
-            onPrimary: AppColors.lightOnPrimary,
-            secondary: AppColors.lightSecondary,
-            onSecondary: AppColors.lightOnSecondary,
-            surface: AppColors.lightSurface,
-            onSurface: AppColors.lightOnSurface,
+            primary: ColorsManager.lightPrimary,
+            onPrimary: ColorsManager.lightOnPrimary,
+            secondary: ColorsManager.lightSecondary,
+            onSecondary: ColorsManager.lightOnSecondary,
+            surface: ColorsManager.lightSurface,
+            onSurface: ColorsManager.lightOnSurface,
           ),
           appBarTheme: const AppBarTheme(
-            backgroundColor: AppColors.lightAppBarBackground,
-            foregroundColor: AppColors.lightAppBarForeground,
+            backgroundColor: ColorsManager.lightAppBarBackground,
+            foregroundColor: ColorsManager.lightAppBarForeground,
             elevation: 0,
           ),
           textTheme: const TextTheme(
             bodyLarge: TextStyle(
               fontSize: 20,
-              color: AppColors.lightTextPrimary,
+              color: ColorsManager.lightTextPrimary,
               fontWeight: FontWeight.w600,
             ),
             bodyMedium: TextStyle(
               fontSize: 16,
-              color: AppColors.lightTextSecondary,
+              color: ColorsManager.lightTextSecondary,
               fontWeight: FontWeight.w500,
             ),
             bodySmall: TextStyle(
               fontSize: 14,
-              color: AppColors.lightTextSecondary,
+              color: ColorsManager.lightTextSecondary,
             ),
           ),
-          cardColor: AppColors.lightSurface,
+          cardColor: ColorsManager.lightSurface,
           dividerColor: Colors.black12,
           iconTheme: const IconThemeData(color: Colors.black87),
         );
@@ -50,37 +50,37 @@ class AppTheme {
         return ThemeData(
           brightness: Brightness.dark,
           useMaterial3: true,
-          scaffoldBackgroundColor: AppColors.darkBackground,
+          scaffoldBackgroundColor: ColorsManager.darkBackground,
           colorScheme: ColorScheme.dark(
-            primary: AppColors.darkPrimary,
-            onPrimary: AppColors.darkOnPrimary,
-            secondary: AppColors.darkSecondary,
-            onSecondary: AppColors.darkOnSecondary,
-            surface: AppColors.darkSurface,
-            onSurface: AppColors.darkOnSurface,
+            primary: ColorsManager.darkPrimary,
+            onPrimary: ColorsManager.darkOnPrimary,
+            secondary: ColorsManager.darkSecondary,
+            onSecondary: ColorsManager.darkOnSecondary,
+            surface: ColorsManager.darkSurface,
+            onSurface: ColorsManager.darkOnSurface,
           ),
           appBarTheme: const AppBarTheme(
-            backgroundColor: AppColors.darkAppBarBackground,
-            foregroundColor: AppColors.darkAppBarForeground,
+            backgroundColor: ColorsManager.darkAppBarBackground,
+            foregroundColor: ColorsManager.darkAppBarForeground,
             elevation: 0,
           ),
           textTheme: const TextTheme(
             bodyLarge: TextStyle(
               fontSize: 20,
-              color: AppColors.darkTextPrimary,
+              color: ColorsManager.darkTextPrimary,
               fontWeight: FontWeight.w600,
             ),
             bodyMedium: TextStyle(
               fontSize: 16,
-              color: AppColors.darkTextSecondary,
+              color: ColorsManager.darkTextSecondary,
               fontWeight: FontWeight.w500,
             ),
             bodySmall: TextStyle(
               fontSize: 14,
-              color: AppColors.darkTextSecondary,
+              color: ColorsManager.darkTextSecondary,
             ),
           ),
-          cardColor: AppColors.darkSurface,
+          cardColor: ColorsManager.darkSurface,
           dividerColor: Colors.white24,
           iconTheme: const IconThemeData(color: Colors.white),
         );

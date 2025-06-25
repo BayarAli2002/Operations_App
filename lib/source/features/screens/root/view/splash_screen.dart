@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:crud_app/source/core/translations/local_keys.g.dart';
+import 'package:crud_app/source/features/screens/root/view/bottom_navigation_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'bottom_navigation_bar.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -45,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
      timer = Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const BottomNavigationBarScreens()),
+        MaterialPageRoute(builder: (_) =>  BottomNavigationBarScreens()),
       );
     });
   }

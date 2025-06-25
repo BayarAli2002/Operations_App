@@ -1,38 +1,73 @@
 import 'dart:developer';
-import 'package:crud_app/source/core/translations/local_keys.g.dart';
+import 'package:crud_app/source/features/screens/home/data/model/product_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:crud_app/source/core/utils/utils.dart';
-import '../../home/data/model/product_model.dart';
+import 'package:crud_app/source/core/translations/local_keys.g.dart';
+import '../data/repo/favorite_local_repo.dart';
 import '../data/repo/favorite_remote_repo.dart';
 
 class FavoriteProvider extends ChangeNotifier {
-  final FavoriteRemoteRepo favoriteRemoteRepo;
 
-  FavoriteProvider({required this.favoriteRemoteRepo});
+  final FavoriteRemoteRepo favoriteRemoteRepo;
+  final FavoriteLocalRepo favoriteLocalRepo;
+
+  FavoriteProvider({
+    required this.favoriteRemoteRepo,
+    required this.favoriteLocalRepo,
+  });
+
 
   final List<ProductModel> _favoriteProducts = [];
   List<ProductModel> get favoriteProducts => _favoriteProducts;
 
+  Map<String, dynamic>? _favoriteCache;
+  Map<String, dynamic>? get favoriteCache => _favoriteCache;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+
+  String? _token;
+  bool get isUserLoggedIn => _token != null && _token!.isNotEmpty;
+
+  
+
+  void setToken(String? token) {
+    _token = token;
+    notifyListeners();
+  }
 
   void _setLoading(bool value) {
     _isLoading = value;
     notifyListeners();
   }
 
-  Future<void> fetchFavorites() async {
+  /// ===========================================================================
+  /// Load Favorites - Decides between Remote or Local
+  /// ===========================================================================
+  Future<void> loadFavorites() async {
+    if (isUserLoggedIn) {
+      await _fetchRemoteFavorites();
+    } else {
+      _fetchLocalFavorites();
+    }
+  }
+
+  /// ===========================================================================
+  /// Remote Methods
+  /// ===========================================================================
+
+  /// Fetch from API and sync to local cache
+  Future<void> _fetchRemoteFavorites() async {
     _setLoading(true);
 
     final result = await favoriteRemoteRepo.fetchFavorites();
-
-    result.fold(
+     result.fold(
       (failure) {
         Utils.showToast(failure.message, ToastType.error);
         log('Fetch favorites failed: ${failure.message}');
       },
-      (response) {
+       (response) {
         final data = response.data;
         if (data is List) {
           final mapped = data.map((e) => ProductModel.fromJson(e)).toList();
@@ -51,7 +86,8 @@ class FavoriteProvider extends ChangeNotifier {
     _setLoading(false);
   }
 
-  Future<void> addFavorite(ProductModel product) async {
+  /// Add favorite to remote server
+ Future<void> addFavorite(ProductModel product) async {
     final exists = _favoriteProducts.any((p) => p.id == product.id);
     if (exists) return;
 
@@ -74,9 +110,13 @@ class FavoriteProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> removeFavorite(String productId) async {
+
+  /// Remove favorite from remote server
+   Future<void> removeFavorite(String productId) async {
     final product = _favoriteProducts.firstWhere(
       (p) => p.id == productId,
+      //orElse for null safety check
+      //if product is not found, return an empty product model instaed of crashing the
       orElse: () => ProductModel(),
     );
 
@@ -97,7 +137,80 @@ class FavoriteProvider extends ChangeNotifier {
     );
   }
 
-  bool isFavorite(String productId) {
-    return _favoriteProducts.any((p) => p.id == productId);
+  /// ===========================================================================
+  /// Local/Cache Methods
+  /// ===========================================================================
+
+  /// Load favorites from local storage
+  void _fetchLocalFavorites() {
+    final result = favoriteLocalRepo.getFavorite();
+    result.fold(
+      (fail) {
+        Utils.showToast(fail.message, ToastType.error);
+        _favoriteProducts.clear();
+      },
+      (map) {
+        _favoriteCache = map;
+        if (map != null && map['favorites'] is List) {
+          _favoriteProducts
+            ..clear()
+            ..addAll((map['favorites'] as List)
+              .map((e) => ProductModel.fromJson(e)));
+        }
+        Utils.showToast("Loaded saved favorites", ToastType.success);
+      },
+    );
+    notifyListeners();
   }
+
+  /// Add favorite for guest/local users
+  Future<void> addFavoriteLocally(ProductModel product) async {
+    _favoriteProducts.insert(0, product);
+    await saveFavoriteCache({
+      'favorites': _favoriteProducts.map((p) => p.toJson()).toList(),
+    });
+    Utils.showToast(LocaleKeys.favorite_added.tr(), ToastType.success);
+    notifyListeners();
+  }
+
+  /// Remove favorite for guest/local users
+  Future<void> removeFavoriteLocally(int index) async {
+    _favoriteProducts.removeAt(index);
+    await saveFavoriteCache({
+      'favorites': _favoriteProducts.map((p) => p.toJson()).toList(),
+    });
+    Utils.showToast(LocaleKeys.favorite_removed.tr(), ToastType.success);
+    notifyListeners();
+  }
+
+  /// Save favorites to local storage
+  Future<void> saveFavoriteCache(Map<String, dynamic> data) async {
+    _setLoading(true);
+    final result = await favoriteLocalRepo.saveFavorite(data);
+    result.fold(
+      (fail) => Utils.showToast(fail.message, ToastType.error),
+      (_) => _favoriteCache = data,
+    );
+    _setLoading(false);
+  }
+
+  /// Clear local cache completely
+  Future<void> clearFavoriteCache() async {
+    _setLoading(true);
+    final result = await favoriteLocalRepo.clearFavorite();
+    result.fold(
+      (fail) => Utils.showToast(fail.message, ToastType.error),
+      (_) => _favoriteCache = null,
+    );
+    _setLoading(false);
+    notifyListeners();
+  }
+
+  /// ===========================================================================
+  /// Utilities
+  /// ===========================================================================
+
+  /// Check if product is already a favorite
+  bool isFavorite(String productId) =>
+      _favoriteProducts.any((p) => p.id == productId);
 }

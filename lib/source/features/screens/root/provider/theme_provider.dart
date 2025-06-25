@@ -9,7 +9,7 @@ class ThemeProvider extends ChangeNotifier {
 
   AppThemeMode _currentThemeMode = AppThemeMode.light;
   AppThemeMode get currentThemeMode => _currentThemeMode;
-  ThemeData get currentTheme => AppTheme.getTheme(_currentThemeMode);
+  ThemeData get currentTheme => ThemesManager.getTheme(_currentThemeMode);
 
   ThemeProvider() {
     _loadThemeFromPrefs();
@@ -44,4 +44,5 @@ class ThemeProvider extends ChangeNotifier {
       log('Error saving theme to prefs: $e');
     }
   }
+
 }

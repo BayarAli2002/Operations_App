@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+class ColorsManager {
   // 🌞 Light Theme
   static const Color lightBackground = Color(0xFFF9FAFB); // Soft white-grey
   static const Color lightSurface = Color(0xFFFFFFFF);

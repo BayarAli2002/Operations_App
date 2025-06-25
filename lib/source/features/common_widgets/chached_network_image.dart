@@ -27,7 +27,7 @@ class CustomCachedNetworkImage extends StatelessWidget {
         ),
       ),
       errorWidget: (context, url, error) => Image.asset(
-        AppImages.palceHolder,
+        ImagesManager.palceHolder,
         fit: fit,
       ),
     );

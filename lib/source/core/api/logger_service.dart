@@ -12,7 +12,7 @@ class LoggerService {
     required Map<String, dynamic> headers,
     dynamic body,
   }) {
-    if (!AppRelease.isLogger) return;
+    if (!ReleaseManager.isLogger) return;
 
     final formattedJson = {
       "type": "request",
@@ -31,7 +31,7 @@ class LoggerService {
     required int? statusCode,
     required dynamic data,
   }) {
-    if (!AppRelease.isLogger) return;
+    if (!ReleaseManager.isLogger) return;
 
     final formattedJson = {
       "type": "response",
@@ -44,7 +44,7 @@ class LoggerService {
   }
 
   void logError(String title, dynamic error) {
-    if (!AppRelease.isLogger) return;
+    if (!ReleaseManager.isLogger) return;
 
     logger.e('⛔ $title\n$error');
   }

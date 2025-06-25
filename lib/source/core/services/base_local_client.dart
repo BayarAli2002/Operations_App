@@ -1,34 +1,39 @@
-/*
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BaseLocalClient {
-  Future<void> saveJsonList(String key, List<Map<String, dynamic>> jsonList) async {
-    final prefs = await SharedPreferences.getInstance();
-    final encodedList = jsonList.map((json) => jsonEncode(json)).toList();
-    await prefs.setStringList(key, encodedList);
+//Dependency Injection
+final SharedPreferences prefs;
+
+  BaseLocalClient({required this.prefs});
+
+
+  Future<void> saveCache(String key, Map<String, dynamic> data) async {
+    final jsonString = jsonEncode(data);
+    await prefs.setString(key, jsonString);
   }
 
-  Future<List<Map<String, dynamic>>> getJsonList(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    final encodedList = prefs.getStringList(key);
 
-    if (encodedList == null) return [];
-
-    return encodedList
-        .map((jsonString) => jsonDecode(jsonString) as Map<String, dynamic>)
-        .toList();
+  /// Retrieve and decode JSON string into Map from SharedPreferences
+  Map<String, dynamic>? getCache(String key) {
+    final jsonString = prefs.getString(key);
+    if (jsonString != null) {
+      return jsonDecode(jsonString) as Map<String, dynamic>;
+    }
+    return null;
   }
 
-  Future<void> clear(String key) async {
-    final prefs = await SharedPreferences.getInstance();
+
+  /// Optional: Clear cache
+  Future<void> clearCache(String key) async {
     await prefs.remove(key);
   }
 
-  Future<bool> contains(String key) async {
-    final prefs = await SharedPreferences.getInstance();
+
+  /// Optional: Check if cache exists
+  bool hasCache(String key) {
     return prefs.containsKey(key);
   }
-}
 
-*/
+  
+}

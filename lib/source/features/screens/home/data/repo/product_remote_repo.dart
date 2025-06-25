@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:crud_app/source/core/api/error_handling.dart';
 import 'package:crud_app/source/core/api/failure.dart';
+import 'package:crud_app/source/features/screens/home/data/model/product_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import '../../../../../core/api/base_api_client.dart';
@@ -31,9 +32,9 @@ class ProductRemoteRepo {
     }
   }
 
-  Future<Either<Failure, Response>> addProduct(Map<String, dynamic> data) async {
+  Future<Either<Failure, Response>> addProduct(ProductModel data) async {
     try {
-      final response = await client.post(EndPoints.addProduct, data: data);
+      final response = await client.post(EndPoints.addProduct, data: data.toJson());
       return Right(response);
     } catch (e) {
       log("addProduct() error: $e");
@@ -41,9 +42,9 @@ class ProductRemoteRepo {
     }
   }
 
-  Future<Either<Failure, Response>> updateProduct(String id, Map<String, dynamic> data) async {
+  Future<Either<Failure, Response>> updateProduct(String id, ProductModel data) async {
     try {
-      final response = await client.put(EndPoints.updateProduct(id), data: data);
+      final response = await client.put(EndPoints.updateProduct(id), data: data.toJson());
       return Right(response);
     } catch (e) {
       log("updateProduct() error: $e");
