@@ -54,6 +54,7 @@
   "favorites_fetched": "تم جلب المفضلات",
   "unexpected_data_format": "تنسيق بيانات غير متوقع",
   "product_details_fetched": "تم جلب تفاصيل المنتج",
-  "products_fetched": "تم جلب المنتجات"
+  "products_fetched": "تم جلب المنتجات",
+  "serverError": "حدث خطأ في الخادم. الرجاء المحاولة لاحقاً."
 
 }

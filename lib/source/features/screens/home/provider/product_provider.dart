@@ -1,6 +1,3 @@
-
-
-
 import 'package:crud_app/source/core/translations/local_keys.g.dart';
 import 'package:crud_app/source/core/utils/netwotk_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -38,52 +35,51 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  
-
   Future<void> fetchProducts() async {
-  _setLoading(true);
-  _setError(null); // clear any previous error
+    _setLoading(true);
+    _setError(null); // clear any previous error
 
     try {
-    final hasInternet = await ConnectivityHelper.ensureHasInternet();
-    if (!hasInternet) {
-      _setError("No internet access");
-      return;
-    }
+      final hasInternet = await ConnectivityHelper.ensureHasInternet();
+      if (!hasInternet) {
+        _setError("No internet access");
+        return;
+      }
 
-    final result = await productRemoteRepo.fetchProducts();
-    result.fold(
-      (failure) {
-        _setError(failure.message);
-        Utils.showToast(failure.message, ToastType.error);
-      },
-      (response) {
-        final data = response.data as List;
-        _products = data.map((e) => ProductModel.fromJson(e)).toList();
-        Utils.showToast(LocaleKeys.products_fetched.tr(), ToastType.success);
-      },
-    );
-  } catch (e) {
-    const msg = "Unexpected error occurred.";
-    _setError(msg);
-    Utils.showToast(msg, ToastType.error);
-  } finally {
-    _setLoading(false); // ensures UI stops loading
+      final result = await productRemoteRepo.fetchProducts();
+      result.fold(
+        (failure) {
+          _setError(failure.message);
+          Utils.showToast(failure.message, ToastType.error);
+        },
+        (response) {
+          final data = response.data as List;
+          _products = data.map((e) => ProductModel.fromJson(e)).toList();
+          Utils.showToast(LocaleKeys.products_fetched.tr(), ToastType.success);
+        },
+      );
+    } catch (e) {
+      final msg = "Unexpected error occurred.$e";
+      _setError(msg);
+      Utils.showToast(msg, ToastType.error);
+    } finally {
+      _setLoading(false); // ensures UI stops loading
+    }
   }
-}
 
   // Other methods unchanged
   Future<void> fetchProductById(String id) async {
     _setLoading(true);
-    _selectedProduct = null;
-    notifyListeners();
-
+    clearSelectedProduct();
     final result = await productRemoteRepo.fetchProductById(id);
     result.fold(
       (failure) => Utils.showToast(failure.message, ToastType.error),
       (response) {
         _selectedProduct = ProductModel.fromJson(response.data);
-        Utils.showToast(LocaleKeys.product_details_fetched.tr(), ToastType.success);
+        Utils.showToast(
+          LocaleKeys.product_details_fetched.tr(),
+          ToastType.success,
+        );
       },
     );
     _setLoading(false);

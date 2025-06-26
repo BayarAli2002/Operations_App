@@ -8,7 +8,6 @@ import '../data/repo/favorite_local_repo.dart';
 import '../data/repo/favorite_remote_repo.dart';
 
 class FavoriteProvider extends ChangeNotifier {
-
   final FavoriteRemoteRepo favoriteRemoteRepo;
   final FavoriteLocalRepo favoriteLocalRepo;
 
@@ -16,7 +15,6 @@ class FavoriteProvider extends ChangeNotifier {
     required this.favoriteRemoteRepo,
     required this.favoriteLocalRepo,
   });
-
 
   final List<ProductModel> _favoriteProducts = [];
   List<ProductModel> get favoriteProducts => _favoriteProducts;
@@ -30,12 +28,13 @@ class FavoriteProvider extends ChangeNotifier {
   String? _token;
   bool get isUserLoggedIn => _token != null && _token!.isNotEmpty;
 
-  
+
 
   void setToken(String? token) {
     _token = token;
     notifyListeners();
   }
+
 
   void _setLoading(bool value) {
     _isLoading = value;
@@ -53,6 +52,23 @@ class FavoriteProvider extends ChangeNotifier {
     }
   }
 
+
+  //this function dedcides to take action based on the user's login status
+  Future<void> toggleFavorite(ProductModel product) async {
+    final isFav = isFavorite(product.id ?? '');
+
+    if (isUserLoggedIn) {
+      isFav
+          ? await removeFavorite(product.id ?? '')
+          : await addFavorite(product);
+    } else {
+      final index = _favoriteProducts.indexWhere((p) => p.id == product.id);
+      isFav
+          ? await removeFavoriteLocally(index)
+          : await addFavoriteLocally(product);
+    }
+  }
+
   /// ===========================================================================
   /// Remote Methods
   /// ===========================================================================
@@ -62,12 +78,12 @@ class FavoriteProvider extends ChangeNotifier {
     _setLoading(true);
 
     final result = await favoriteRemoteRepo.fetchFavorites();
-     result.fold(
+    result.fold(
       (failure) {
         Utils.showToast(failure.message, ToastType.error);
         log('Fetch favorites failed: ${failure.message}');
       },
-       (response) {
+      (response) {
         final data = response.data;
         if (data is List) {
           final mapped = data.map((e) => ProductModel.fromJson(e)).toList();
@@ -87,7 +103,7 @@ class FavoriteProvider extends ChangeNotifier {
   }
 
   /// Add favorite to remote server
- Future<void> addFavorite(ProductModel product) async {
+  Future<void> addFavorite(ProductModel product) async {
     final exists = _favoriteProducts.any((p) => p.id == product.id);
     if (exists) return;
 
@@ -110,9 +126,8 @@ class FavoriteProvider extends ChangeNotifier {
     );
   }
 
-
   /// Remove favorite from remote server
-   Future<void> removeFavorite(String productId) async {
+  Future<void> removeFavorite(String productId) async {
     final product = _favoriteProducts.firstWhere(
       (p) => p.id == productId,
       //orElse for null safety check
@@ -154,8 +169,9 @@ class FavoriteProvider extends ChangeNotifier {
         if (map != null && map['favorites'] is List) {
           _favoriteProducts
             ..clear()
-            ..addAll((map['favorites'] as List)
-              .map((e) => ProductModel.fromJson(e)));
+            ..addAll(
+              (map['favorites'] as List).map((e) => ProductModel.fromJson(e)),
+            );
         }
         Utils.showToast("Loaded saved favorites", ToastType.success);
       },
@@ -189,7 +205,7 @@ class FavoriteProvider extends ChangeNotifier {
     final result = await favoriteLocalRepo.saveFavorite(data);
     result.fold(
       (fail) => Utils.showToast(fail.message, ToastType.error),
-      (_) => _favoriteCache = data,
+      (success) => _favoriteCache = data,
     );
     _setLoading(false);
   }
@@ -200,7 +216,7 @@ class FavoriteProvider extends ChangeNotifier {
     final result = await favoriteLocalRepo.clearFavorite();
     result.fold(
       (fail) => Utils.showToast(fail.message, ToastType.error),
-      (_) => _favoriteCache = null,
+      (success) => _favoriteCache = null,
     );
     _setLoading(false);
     notifyListeners();
@@ -213,4 +229,6 @@ class FavoriteProvider extends ChangeNotifier {
   /// Check if product is already a favorite
   bool isFavorite(String productId) =>
       _favoriteProducts.any((p) => p.id == productId);
+
+  
 }

@@ -63,7 +63,7 @@ class _BottomNavigationBarScreensState
     final _ = context.locale; // for localization
 
     return ConditionalBuilder(
-      condition: context.watch<RootProvider>().isOnline,
+      condition: Provider.of<RootProvider>(context).isOnline,
       builder: (context) => Scaffold(
         appBar: AppBar(
           backgroundColor: theme.appBarTheme.backgroundColor!,

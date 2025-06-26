@@ -19,19 +19,13 @@ class _FavoriteButtonState extends State<FavoriteButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+    
     return Consumer<FavoriteProvider>(
       builder: (context, favoriteProvider, _) {
         final isFav = favoriteProvider.isFavorite(widget.productModel.id ?? '');
         return GestureDetector(
           onTap: () async {
-            if (isFav) {
-              await favoriteProvider.removeFavorite(widget.productModel.id ?? '');
-             
-            } else {
-              await favoriteProvider.addFavorite(widget.productModel);
-              
-            }
+             await favoriteProvider.toggleFavorite(widget.productModel);
           },
           child: Container(
             decoration: BoxDecoration(

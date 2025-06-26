@@ -70,7 +70,8 @@ class CodegenLoader extends AssetLoader{
   "favorites_fetched": "تم جلب المفضلات",
   "unexpected_data_format": "تنسيق بيانات غير متوقع",
   "product_details_fetched": "تم جلب تفاصيل المنتج",
-  "products_fetched": "تم جلب المنتجات"
+  "products_fetched": "تم جلب المنتجات",
+  "serverError": "حدث خطأ في الخادم. الرجاء المحاولة لاحقاً."
 };
 static const Map<String,dynamic> _en = {
   "appName": "CRUD App",
@@ -129,7 +130,8 @@ static const Map<String,dynamic> _en = {
   "favorites_fetched": "Favorites fetched",
   "unexpected_data_format": "Unexpected data format",
   "product_details_fetched": "Product details fetched",
-  "products_fetched": "Products fetched"
+  "products_fetched": "Products fetched",
+  "serverError": "A server error occurred. Please try again later."
 };
 static const Map<String,dynamic> _fa = {
   "appName": "ئاپی CRUD",
@@ -187,7 +189,8 @@ static const Map<String,dynamic> _fa = {
   "favorites_fetched": "دڵخوازەکان هاتنە وەرگرتن",
   "unexpected_data_format": "شێوازی داتای نەناسراو",
   "product_details_fetched": "وردەکارییەکانی بەرهەم هاتنە وەرگرتن",
-  "products_fetched": "بەرهەمەکان هاتنە وەرگرتن"
+  "products_fetched": "بەرهەمەکان هاتنە وەرگرتن",
+  "serverError": "هەڵەیەک لە لایەن ڕاژەکارەوە ڕویدا. تکایە دووبارە هەوڵبدە."
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": _ar, "en": _en, "fa": _fa};
 }

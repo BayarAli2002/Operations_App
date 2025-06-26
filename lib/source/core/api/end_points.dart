@@ -9,7 +9,7 @@ class EndPoints {
   static String deleteProduct(String id) => '$baseUrl/products/$id';
 
   //Favorite products endpoint
-  static const String favoriteProducts = '$baseUrl/favorites';
+  static const String fetchFavoriteProducts = '$baseUrl/favorites';
   static const String addFavoriteProduct = '$baseUrl/favorites';
   static  String deleteFavoriteProduct(String id) => '$baseUrl/favorites/$id';
 }

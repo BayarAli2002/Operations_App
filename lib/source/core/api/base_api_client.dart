@@ -7,16 +7,15 @@ import 'error_handling.dart';
 typedef RequestCallback = Future<Response> Function();
 
 class BaseApiClient {
+
   final Dio dio;
   final CustomLoggingInterceptor loggingInterceptor;
 
-  BaseApiClient({
-    required this.dio,
-    required this.loggingInterceptor,
-  }) {
-    dio.interceptors.add(loggingInterceptor); // ✅ Add it here
-  }
 
+  BaseApiClient({required this.dio, required this.loggingInterceptor});
+
+
+  //this function is used to handle the request and response
   Future<Response> _handleRequest(RequestCallback request) async {
     try {
       final response = await request();
@@ -29,39 +28,29 @@ class BaseApiClient {
     } on DioException catch (e) {
       throw Exception(ErrorHandling.fromDioException(e));
     } catch (e) {
-     throw Exception("Unhandled exception occurred: ${e.toString()}");
-
+      throw Exception("Unhandled exception occurred: ${e.toString()}");
     }
   }
 
-
+  //GET request
   Future<Response> get(String path) {
     return _handleRequest(() => dio.get(path));
   }
 
-
+  //POST request
   Future<Response> post(String path, {dynamic data}) {
     return _handleRequest(() => dio.post(path, data: data));
   }
 
-
+  //PUT request
   Future<Response> put(String path, {dynamic data}) {
     return _handleRequest(() => dio.put(path, data: data));
   }
 
-
+  //DELETE request
   Future<Response> delete(String path) {
     return _handleRequest(() => dio.delete(path));
   }
-  
-  //Authentication methods
-  Future<Response> login(String path){
-   return _handleRequest(() => dio.post(path));
-  }
 
-  Future<Response> signUp(String path, {dynamic data}) {
-    return _handleRequest(() => dio.post(path, data: data));
-  }
-  
   
 }

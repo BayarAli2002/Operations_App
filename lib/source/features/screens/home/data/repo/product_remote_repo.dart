@@ -8,13 +8,13 @@ import '../../../../../core/api/base_api_client.dart';
 import '../../../../../core/api/end_points.dart';
 
 class ProductRemoteRepo {
-  final BaseApiClient client;
+  final BaseApiClient baseApiClient;
 
-  ProductRemoteRepo({required this.client});
+  ProductRemoteRepo({required this.baseApiClient});
 
   Future<Either<Failure, Response>> fetchProducts() async {
     try {
-      final response = await client.get(EndPoints.getProducts);
+      final response = await baseApiClient.get(EndPoints.getProducts);
       return Right(response);
     } catch (e) {
       log("fetchProducts() error: $e");
@@ -24,7 +24,7 @@ class ProductRemoteRepo {
 
   Future<Either<Failure, Response>> fetchProductById(String id) async {
     try {
-      final response = await client.get(EndPoints.productById(id));
+      final response = await baseApiClient.get(EndPoints.productById(id));
       return Right(response);
     } catch (e) {
       log("fetchProductById() error: $e");
@@ -34,7 +34,7 @@ class ProductRemoteRepo {
 
   Future<Either<Failure, Response>> addProduct(ProductModel data) async {
     try {
-      final response = await client.post(EndPoints.addProduct, data: data.toJson());
+      final response = await baseApiClient.post(EndPoints.addProduct, data: data.toJson());
       return Right(response);
     } catch (e) {
       log("addProduct() error: $e");
@@ -44,7 +44,7 @@ class ProductRemoteRepo {
 
   Future<Either<Failure, Response>> updateProduct(String id, ProductModel data) async {
     try {
-      final response = await client.put(EndPoints.updateProduct(id), data: data.toJson());
+      final response = await baseApiClient.put(EndPoints.updateProduct(id), data: data.toJson());
       return Right(response);
     } catch (e) {
       log("updateProduct() error: $e");
@@ -54,7 +54,7 @@ class ProductRemoteRepo {
 
   Future<Either<Failure, Response>> deleteProduct(String id) async {
     try {
-      final response = await client.delete(EndPoints.deleteProduct(id));
+      final response = await baseApiClient.delete(EndPoints.deleteProduct(id));
       return Right(response);
     } catch (e) {
       log("deleteProduct() error: $e");

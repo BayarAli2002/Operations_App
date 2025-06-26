@@ -59,5 +59,6 @@ abstract class  LocaleKeys {
   static const unexpected_data_format = 'unexpected_data_format';
   static const product_details_fetched = 'product_details_fetched';
   static const products_fetched = 'products_fetched';
+  static const serverError = 'serverError';
 
 }

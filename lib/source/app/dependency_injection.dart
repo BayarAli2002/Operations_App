@@ -12,7 +12,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+//Service Locator
 final GetIt sl = GetIt.instance;
 
 class DependencyInjection {
@@ -27,14 +27,15 @@ class DependencyInjection {
 
 
     //Services
-    sl.registerLazySingleton(() => Dio(
-       BaseOptions(
-    baseUrl: EndPoints.baseUrl,
-    connectTimeout: const Duration(seconds: 3),
-    receiveTimeout: const Duration(seconds: 10),
-    sendTimeout: const Duration(seconds: 2),
-  ),
-    ));
+  sl.registerLazySingleton<Dio>(() {
+      final dio = Dio();
+      dio.options.baseUrl = EndPoints.baseUrl;
+      dio.options.connectTimeout = const Duration(seconds: 3);
+      dio.options.receiveTimeout = const Duration(seconds: 10);
+      dio.options.sendTimeout = const Duration(seconds: 3);
+      dio.interceptors.add(sl<CustomLoggingInterceptor>());
+      return dio;
+    });
     sl.registerLazySingleton(
       () => CustomLoggingInterceptor(loggerService: sl()),
     );
@@ -44,9 +45,9 @@ class DependencyInjection {
     
 
     //Repos
-    sl.registerLazySingleton(() => FavoriteLocalRepo(localClient: sl()));
-    sl.registerLazySingleton(() => FavoriteRemoteRepo(client: sl()));
-    sl.registerLazySingleton(() => ProductRemoteRepo(client: sl()));
+    sl.registerLazySingleton(() => FavoriteLocalRepo(baseLocalClient: sl()));
+    sl.registerLazySingleton(() => FavoriteRemoteRepo(baseApiClient: sl()));
+    sl.registerLazySingleton(() => ProductRemoteRepo(baseApiClient: sl()));
 
 
     //Providers

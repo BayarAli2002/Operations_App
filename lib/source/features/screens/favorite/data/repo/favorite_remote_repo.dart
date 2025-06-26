@@ -7,13 +7,13 @@ import '../../../../../core/api/failure.dart';
 import 'package:dio/dio.dart';
 
 class FavoriteRemoteRepo {
-  final BaseApiClient client;
+  final BaseApiClient baseApiClient;
 
-  FavoriteRemoteRepo({required this.client});
+  FavoriteRemoteRepo({required this.baseApiClient});
 
   Future<Either<Failure, Response>> fetchFavorites() async {
     try {
-      final response = await client.get(EndPoints.favoriteProducts);
+      final response = await baseApiClient.get(EndPoints.fetchFavoriteProducts);
       return Right(response);
     } catch (e) {
       log("fetchFavorites() error: $e");
@@ -23,7 +23,7 @@ class FavoriteRemoteRepo {
 
   Future<Either<Failure, Response>> addFavorite(Map<String, dynamic> data) async {
     try {
-      final response = await client.post(
+      final response = await baseApiClient.post(
         EndPoints.addFavoriteProduct,
         data: data,
       );
@@ -36,7 +36,7 @@ class FavoriteRemoteRepo {
 
   Future<Either<Failure, Response>> removeFavorite(String favoriteId) async {
     try {
-      final response = await client.delete(EndPoints.deleteFavoriteProduct(favoriteId));
+      final response = await baseApiClient.delete(EndPoints.deleteFavoriteProduct(favoriteId));
       return Right(response);
     } catch (e) {
       log("removeFavorite() error: $e");

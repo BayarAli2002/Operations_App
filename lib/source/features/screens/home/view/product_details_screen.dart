@@ -38,24 +38,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 
-  Future<void> _toggleFavorite(
-    productDetailModel,
-    FavoriteProvider favoriteProvider,
-  ) async {
-    final isFav = favoriteProvider.isFavorite(productDetailModel.id ?? '');
-    if (isFav) {
-      await favoriteProvider.removeFavorite(productDetailModel.id ?? '');
-      
-    } else {
-      await favoriteProvider.addFavorite(productDetailModel);
-     
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(LocaleKeys.product_details_page.tr()),
@@ -99,10 +84,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 shape: const CircleBorder(),
                                 child: InkWell(
                                   customBorder: const CircleBorder(),
-                                  onTap: () => _toggleFavorite(
-                                    productDetailModel,
-                                    favoriteProvider,
-                                  ),
+                                  onTap: () => favoriteProvider.toggleFavorite(productDetailModel),
                                   child: Padding(
                                     padding: EdgeInsets.all(8.w),
                                     child: Icon(
@@ -173,7 +155,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                       SizedBox(height: 16.h),
                       Text(
-                        'description'.tr(),
+                        LocaleKeys.description.tr(),
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
@@ -195,7 +177,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 },
                 fallback: (context) => Center(
                   child: Text(
-                    LocaleKeys.no.tr(),
+                    LocaleKeys.noProductsFound.tr(),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontSize: 18.sp,
                       color: theme.colorScheme.onSurface.withAlpha((0.5 * 255).round()),

@@ -54,6 +54,7 @@
   "favorites_fetched": "دڵخوازەکان هاتنە وەرگرتن",
   "unexpected_data_format": "شێوازی داتای نەناسراو",
   "product_details_fetched": "وردەکارییەکانی بەرهەم هاتنە وەرگرتن",
-  "products_fetched": "بەرهەمەکان هاتنە وەرگرتن"
+  "products_fetched": "بەرهەمەکان هاتنە وەرگرتن",
+    "serverError": "هەڵەیەک لە لایەن ڕاژەکارەوە ڕویدا. تکایە دووبارە هەوڵبدە."
 
 }

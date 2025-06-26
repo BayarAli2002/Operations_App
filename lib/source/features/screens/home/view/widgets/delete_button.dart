@@ -1,4 +1,5 @@
 import 'package:crud_app/source/core/translations/local_keys.g.dart';
+import 'package:crud_app/source/features/screens/favorite/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -8,10 +9,7 @@ import '../../provider/product_provider.dart';
 class DeleteButton extends StatefulWidget {
   final String productId;
 
-  const DeleteButton({
-    super.key,
-    required this.productId,
-  });
+  const DeleteButton({super.key, required this.productId});
 
   @override
   State<DeleteButton> createState() => _DeleteButtonState();
@@ -46,7 +44,9 @@ class _DeleteButtonState extends State<DeleteButton> {
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
             style: TextButton.styleFrom(
-              backgroundColor: theme.colorScheme.surface.withAlpha((0.7 * 255).round()),
+              backgroundColor: theme.colorScheme.surface.withAlpha(
+                (0.7 * 255).round(),
+              ),
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.r),
@@ -63,7 +63,8 @@ class _DeleteButtonState extends State<DeleteButton> {
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: TextButton.styleFrom(
-              backgroundColor: Colors.redAccent, // destructive action (no error color in theme)
+              backgroundColor: Colors
+                  .redAccent, // destructive action (no error color in theme)
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.r),
@@ -83,11 +84,13 @@ class _DeleteButtonState extends State<DeleteButton> {
 
     if (confirmed == true) {
       if (!mounted) return;
-      final productProvider =
-          Provider.of<ProductProvider>(context, listen: false);
+      final productProvider = Provider.of<ProductProvider>(
+        context,
+        listen: false,
+      );
+      final favoriteProvider = Provider.of<FavoriteProvider>(context, listen: false,);
       await productProvider.deleteProduct(widget.productId);
-
-      
+      await favoriteProvider.removeFavorite(widget.productId);
     }
   }
 

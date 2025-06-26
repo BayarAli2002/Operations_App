@@ -55,7 +55,8 @@
   "favorites_fetched": "Favorites fetched",
   "unexpected_data_format": "Unexpected data format",
    "product_details_fetched": "Product details fetched",
-  "products_fetched": "Products fetched"
+  "products_fetched": "Products fetched",
+  "serverError": "A server error occurred. Please try again later."
 
   
 

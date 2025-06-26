@@ -8,10 +8,10 @@ import '../product_details_screen.dart';
 import 'delete_button.dart';
 import 'update_button.dart';
 
-class ProductWidgetetails extends StatelessWidget {
+class ProductWidgetDetails extends StatelessWidget {
   final ProductModel productModel;
 
-  const ProductWidgetetails({
+  const ProductWidgetDetails({
     super.key,
     required this.productModel,
   });

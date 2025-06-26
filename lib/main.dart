@@ -12,16 +12,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
 
-  // Configure status bar appearance
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
-    ),
-  );
+  //this should be called first
+  WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize dependencies (Dio, Repos, Providers, etc.)
   await DependencyInjection.init();
@@ -32,7 +25,11 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   // Lock device orientation to portrait
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      
+    ]);
 
   runApp(
     EasyLocalization(

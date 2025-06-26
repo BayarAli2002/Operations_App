@@ -6,9 +6,9 @@ import 'package:crud_app/source/core/services/base_local_client.dart';
 
 class FavoriteLocalRepo {
 
-  final BaseLocalClient localClient;
+  final BaseLocalClient baseLocalClient;
 
-  FavoriteLocalRepo({required this.localClient});
+  FavoriteLocalRepo({required this.baseLocalClient});
 
   static const String _favoriteKey = 'favorite_key';
 
@@ -16,7 +16,7 @@ class FavoriteLocalRepo {
   /// Save favorite data to local cache
   Future<Either<Failure, Unit>> saveFavorite(Map<String, dynamic> favoriteData) async {
     try {
-      await localClient.saveCache(_favoriteKey, favoriteData);
+      await baseLocalClient.saveCache(_favoriteKey, favoriteData);
       return right(unit);
     } catch (e) {
       log("saveFavorite() error: $e");
@@ -28,7 +28,7 @@ class FavoriteLocalRepo {
   /// Get favorite data from local cache
   Either<Failure, Map<String, dynamic>?> getFavorite() {
     try {
-      final data = localClient.getCache(_favoriteKey);
+      final data = baseLocalClient.getCache(_favoriteKey);
       return right(data);
     } catch (e) {
       log("getFavorite() error: $e");
@@ -39,7 +39,7 @@ class FavoriteLocalRepo {
   /// Clear favorite data from local cache  
   Future<Either<Failure, Unit>> clearFavorite() async {
     try {
-      await localClient.clearCache(_favoriteKey);
+      await baseLocalClient.clearCache(_favoriteKey);
       return right(unit);
     } catch (e) {
       log("clearFavorite() error: $e");
@@ -51,7 +51,7 @@ class FavoriteLocalRepo {
   /// Check if favorite data exists in cache
   Either<Failure, bool> hasFavorite() {
     try {
-      final hasData = localClient.hasCache(_favoriteKey);
+      final hasData = baseLocalClient.hasCache(_favoriteKey);
       return right(hasData);
     } catch (e) {
       log("hasFavorite() error: $e");
