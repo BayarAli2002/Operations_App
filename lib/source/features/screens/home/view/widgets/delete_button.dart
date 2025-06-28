@@ -18,6 +18,7 @@ class DeleteButton extends StatefulWidget {
 class _DeleteButtonState extends State<DeleteButton> {
   Future<void> _confirmAndDelete() async {
     final theme = Theme.of(context);
+
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -29,14 +30,13 @@ class _DeleteButtonState extends State<DeleteButton> {
           style: theme.textTheme.bodyLarge?.copyWith(
             fontSize: 20.sp,
             fontWeight: FontWeight.bold,
-            color: theme.colorScheme.primary, // from your theme
+            color: theme.colorScheme.primary,
           ),
         ),
         content: Text(
           LocaleKeys.confirm_delete_message.tr(),
           style: theme.textTheme.bodyMedium?.copyWith(
             fontSize: 16.sp,
-            color: theme.colorScheme.onSurface, // from your theme
           ),
         ),
         actionsPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
@@ -44,9 +44,7 @@ class _DeleteButtonState extends State<DeleteButton> {
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
             style: TextButton.styleFrom(
-              backgroundColor: theme.colorScheme.surface.withAlpha(
-                (0.7 * 255).round(),
-              ),
+              backgroundColor: theme.colorScheme.surface.withAlpha((0.7 * 255).round()),
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.r),
@@ -63,8 +61,7 @@ class _DeleteButtonState extends State<DeleteButton> {
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: TextButton.styleFrom(
-              backgroundColor: Colors
-                  .redAccent, // destructive action (no error color in theme)
+              backgroundColor: Colors.redAccent, // destructive action color
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.r),
@@ -82,13 +79,9 @@ class _DeleteButtonState extends State<DeleteButton> {
       ),
     );
 
-    if (confirmed == true) {
-      if (!mounted) return;
-      final productProvider = Provider.of<ProductProvider>(
-        context,
-        listen: false,
-      );
-      final favoriteProvider = Provider.of<FavoriteProvider>(context, listen: false,);
+    if (confirmed == true && mounted) {
+      final productProvider = Provider.of<ProductProvider>(context, listen: false);
+      final favoriteProvider = Provider.of<FavoriteProvider>(context, listen: false);
       await productProvider.deleteProduct(widget.productId);
       await favoriteProvider.removeFavorite(widget.productId);
     }

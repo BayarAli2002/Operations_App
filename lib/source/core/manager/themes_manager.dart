@@ -1,6 +1,6 @@
 import 'package:crud_app/source/core/manager/colors_manager.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 
 enum AppThemeMode { light, dark }
 
@@ -9,80 +9,64 @@ class ThemesManager {
     switch (mode) {
       case AppThemeMode.light:
         return ThemeData(
-          brightness: Brightness.light,
           useMaterial3: true,
-          scaffoldBackgroundColor: ColorsManager.lightBackground,
-          colorScheme: const ColorScheme.light(
-            primary: ColorsManager.lightPrimary,
-            onPrimary: ColorsManager.lightOnPrimary,
-            secondary: ColorsManager.lightSecondary,
-            onSecondary: ColorsManager.lightOnSecondary,
-            surface: ColorsManager.lightSurface,
-            onSurface: ColorsManager.lightOnSurface,
-          ),
+          brightness: Brightness.light,
+          scaffoldBackgroundColor: ColorsManager.lightScaffoldBackground,
           appBarTheme: const AppBarTheme(
+            surfaceTintColor: Colors.transparent,
+            elevation: 0.0,
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: ColorsManager.lightAppBarBackground,
+              statusBarIconBrightness: Brightness.light,
+              systemNavigationBarColor: ColorsManager.lightAppBarBackground,
+              systemNavigationBarIconBrightness: Brightness.light,
+            ),
             backgroundColor: ColorsManager.lightAppBarBackground,
-            foregroundColor: ColorsManager.lightAppBarForeground,
-            elevation: 0,
-          ),
-          textTheme: const TextTheme(
-            bodyLarge: TextStyle(
+            iconTheme: IconThemeData(color: ColorsManager.lightIconColor),
+            titleTextStyle: TextStyle(
+              color: ColorsManager.lightTextColor,
               fontSize: 20,
-              color: ColorsManager.lightTextPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-            bodyMedium: TextStyle(
-              fontSize: 16,
-              color: ColorsManager.lightTextSecondary,
-              fontWeight: FontWeight.w500,
-            ),
-            bodySmall: TextStyle(
-              fontSize: 14,
-              color: ColorsManager.lightTextSecondary,
             ),
           ),
-          cardColor: ColorsManager.lightSurface,
-          dividerColor: Colors.black12,
-          iconTheme: const IconThemeData(color: Colors.black87),
+          iconTheme: const IconThemeData(color: ColorsManager.lightIconColor),
+          textTheme: const TextTheme(
+            bodyLarge: TextStyle(color: ColorsManager.lightTextColor),
+            bodyMedium: TextStyle(color: ColorsManager.lightTextColor),
+          ),
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: ColorsManager.lightPrimary,
+          ),
         );
 
       case AppThemeMode.dark:
         return ThemeData(
-          brightness: Brightness.dark,
           useMaterial3: true,
-          scaffoldBackgroundColor: ColorsManager.darkBackground,
-          colorScheme: ColorScheme.dark(
-            primary: ColorsManager.darkPrimary,
-            onPrimary: ColorsManager.darkOnPrimary,
-            secondary: ColorsManager.darkSecondary,
-            onSecondary: ColorsManager.darkOnSecondary,
-            surface: ColorsManager.darkSurface,
-            onSurface: ColorsManager.darkOnSurface,
-          ),
+          brightness: Brightness.dark,
+          scaffoldBackgroundColor: ColorsManager.darkScaffoldBackground,
           appBarTheme: const AppBarTheme(
+            surfaceTintColor: Colors.transparent,
+            elevation: 0.0,
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: ColorsManager.darkAppBarBackground,
+              statusBarIconBrightness: Brightness.light,
+              systemNavigationBarColor: ColorsManager.darkAppBarBackground,
+              systemNavigationBarIconBrightness: Brightness.light,
+            ),
             backgroundColor: ColorsManager.darkAppBarBackground,
-            foregroundColor: ColorsManager.darkAppBarForeground,
-            elevation: 0,
-          ),
-          textTheme: const TextTheme(
-            bodyLarge: TextStyle(
+            iconTheme: IconThemeData(color: ColorsManager.darkIconColor),
+            titleTextStyle: TextStyle(
+              color: ColorsManager.darkTextColor,
               fontSize: 20,
-              color: ColorsManager.darkTextPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-            bodyMedium: TextStyle(
-              fontSize: 16,
-              color: ColorsManager.darkTextSecondary,
-              fontWeight: FontWeight.w500,
-            ),
-            bodySmall: TextStyle(
-              fontSize: 14,
-              color: ColorsManager.darkTextSecondary,
             ),
           ),
-          cardColor: ColorsManager.darkSurface,
-          dividerColor: Colors.white24,
-          iconTheme: const IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: ColorsManager.darkIconColor),
+          textTheme: const TextTheme(
+            bodyLarge: TextStyle(color: ColorsManager.darkTextColor),
+            bodyMedium: TextStyle(color: ColorsManager.darkTextColor),
+          ),
+          colorScheme: ColorScheme.fromSwatch(
+            brightness: Brightness.dark,
+          ).copyWith(primary: ColorsManager.darkPrimary),
         );
     }
   }

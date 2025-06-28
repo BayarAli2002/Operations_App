@@ -1,6 +1,5 @@
 import 'package:crud_app/source/core/api/base_api_client.dart';
 import 'package:crud_app/source/core/api/custom_logging_interceptor.dart';
-import 'package:crud_app/source/core/api/end_points.dart';
 import 'package:crud_app/source/core/api/logger_service.dart';
 import 'package:crud_app/source/core/services/base_local_client.dart';
 import 'package:crud_app/source/features/screens/favorite/data/repo/favorite_local_repo.dart';
@@ -27,15 +26,7 @@ class DependencyInjection {
 
 
     //Services
-  sl.registerLazySingleton<Dio>(() {
-      final dio = Dio();
-      dio.options.baseUrl = EndPoints.baseUrl;
-      dio.options.connectTimeout = const Duration(seconds: 3);
-      dio.options.receiveTimeout = const Duration(seconds: 10);
-      dio.options.sendTimeout = const Duration(seconds: 3);
-      dio.interceptors.add(sl<CustomLoggingInterceptor>());
-      return dio;
-    });
+  sl.registerLazySingleton<Dio>(() => Dio());
     sl.registerLazySingleton(
       () => CustomLoggingInterceptor(loggerService: sl()),
     );

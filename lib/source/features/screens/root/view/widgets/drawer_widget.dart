@@ -1,3 +1,4 @@
+
 import 'package:crud_app/source/core/manager/themes_manager.dart';
 import 'package:crud_app/source/features/screens/root/provider/theme_provider.dart';
 import 'package:crud_app/source/core/translations/language.dart';
@@ -12,7 +13,11 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    // Get current theme mode from provider
+    final themeMode = context.watch<ThemeProvider>().currentThemeMode;
+
+    // Get ThemeData from your ThemesManager using current theme mode
+    final theme = ThemesManager.getTheme(themeMode);
 
     return Drawer(
       backgroundColor: theme.colorScheme.surface,
@@ -41,18 +46,21 @@ class DrawerWidget extends StatelessWidget {
                   context,
                   label: LocaleKeys.english.tr(),
                   locale: const Locale(Language.englishLocale),
+                  theme: theme,
                 ),
                 SizedBox(height: 12.h),
                 _buildLanguageButton(
                   context,
                   label: LocaleKeys.arabic.tr(),
                   locale: const Locale(Language.arabicLocale),
+                  theme: theme,
                 ),
                 SizedBox(height: 12.h),
                 _buildLanguageButton(
                   context,
                   label: LocaleKeys.kurdish.tr(),
                   locale: const Locale(Language.kurdishLocale),
+                  theme: theme,
                 ),
                 SizedBox(height: 24.h),
                 Consumer<ThemeProvider>(
@@ -99,9 +107,8 @@ class DrawerWidget extends StatelessWidget {
     BuildContext context, {
     required String label,
     required Locale locale,
+    required ThemeData theme,  // Add theme param here
   }) {
-    final theme = Theme.of(context);
-
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(

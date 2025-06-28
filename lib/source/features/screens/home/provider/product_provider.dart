@@ -55,7 +55,7 @@ class ProductProvider extends ChangeNotifier {
         (response) {
           final data = response.data as List;
           _products = data.map((e) => ProductModel.fromJson(e)).toList();
-          Utils.showToast(LocaleKeys.products_fetched.tr(), ToastType.success);
+         
         },
       );
     } catch (e) {
@@ -76,16 +76,13 @@ class ProductProvider extends ChangeNotifier {
       (failure) => Utils.showToast(failure.message, ToastType.error),
       (response) {
         _selectedProduct = ProductModel.fromJson(response.data);
-        Utils.showToast(
-          LocaleKeys.product_details_fetched.tr(),
-          ToastType.success,
-        );
       },
     );
     _setLoading(false);
   }
 
   Future<void> addProduct(ProductModel product) async {
+     _setLoading(true);
     final result = await productRemoteRepo.addProduct(product);
 
     result.fold(
@@ -97,9 +94,11 @@ class ProductProvider extends ChangeNotifier {
         Utils.showToast(LocaleKeys.product_added.tr(), ToastType.success);
       },
     );
+     _setLoading(false);
   }
 
   Future<void> updateProduct(String id, ProductModel product) async {
+     _setLoading(true);
     final result = await productRemoteRepo.updateProduct(id, product);
 
     result.fold(
@@ -114,6 +113,7 @@ class ProductProvider extends ChangeNotifier {
         }
       },
     );
+     _setLoading(false);
   }
 
   Future<void> deleteProduct(String id) async {

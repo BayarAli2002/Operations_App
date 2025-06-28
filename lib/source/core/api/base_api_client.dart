@@ -1,4 +1,5 @@
 import 'package:crud_app/source/core/api/custom_logging_interceptor.dart';
+import 'package:crud_app/source/core/api/end_points.dart';
 import 'package:dio/dio.dart';
 import 'status_code.dart';
 import 'error_handling.dart';
@@ -12,7 +13,13 @@ class BaseApiClient {
   final CustomLoggingInterceptor loggingInterceptor;
 
 
-  BaseApiClient({required this.dio, required this.loggingInterceptor});
+  BaseApiClient({required this.dio, required this.loggingInterceptor}){
+    dio.options.baseUrl = EndPoints.baseUrl;
+    dio.options.connectTimeout = const Duration(seconds: 5);
+    dio.options.receiveTimeout = const Duration(seconds: 10);
+    dio.options.sendTimeout = const Duration(seconds: 5);
+    dio.interceptors.add(loggingInterceptor); // Use the passed-in interceptor
+  }
 
 
   //this function is used to handle the request and response

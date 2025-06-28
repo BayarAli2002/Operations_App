@@ -90,9 +90,9 @@ class FavoriteProvider extends ChangeNotifier {
           _favoriteProducts
             ..clear()
             ..addAll(mapped);
-          Utils.showToast(LocaleKeys.favorites_fetched.tr(), ToastType.success);
+
         } else {
-          Utils.showToast('Unexpected data format', ToastType.error);
+        
           log('${LocaleKeys.unexpected_data_format.tr()}: ${data.runtimeType}');
         }
         notifyListeners();
@@ -173,7 +173,7 @@ class FavoriteProvider extends ChangeNotifier {
               (map['favorites'] as List).map((e) => ProductModel.fromJson(e)),
             );
         }
-        Utils.showToast("Loaded saved favorites", ToastType.success);
+  
       },
     );
     notifyListeners();

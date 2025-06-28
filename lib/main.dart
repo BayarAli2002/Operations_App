@@ -18,9 +18,8 @@ void main() async {
 
   // Initialize dependencies (Dio, Repos, Providers, etc.)
   await DependencyInjection.init();
-
   
-  String? token="Bayar"; // or null if not logged in
+  String? token; // or null if not logged in
 
   await EasyLocalization.ensureInitialized();
 

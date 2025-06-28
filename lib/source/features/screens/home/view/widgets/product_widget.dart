@@ -49,36 +49,30 @@ class ProductWidgetDetails extends StatelessWidget {
                 SizedBox(
                   height: 220.h,
                   width: double.infinity,
-                  child: CustomCachedNetworkImage(imageUrl: productModel.image ?? '')
-                  ),
+                  child: CustomCachedNetworkImage(imageUrl: productModel.image ?? ''),
+                ),
                 Positioned(
                   top: 12.h,
                   left: 12.w,
-                  child: DeleteButton(
-                    productId: productModel.id!,
-                  ),
+                  child: DeleteButton(productId: productModel.id!),
                 ),
                 Positioned(
                   top: 12.h,
                   right: 12.w,
-                  child: FavoriteButton(
-                    productModel: productModel,
-                    // keep or convert similarly
-                  ),
+                  child: FavoriteButton(productModel: productModel),
                 ),
               ],
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     productModel.title ?? '',
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onSurface,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -89,7 +83,7 @@ class ProductWidgetDetails extends StatelessWidget {
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      color: theme.colorScheme.onSurface.withAlpha((0.6 * 255).round()),
+                      color: theme.textTheme.bodyMedium?.color?.withAlpha((0.6*255).round()),
                     ),
                   ),
                   SizedBox(height: 8.h),
@@ -97,7 +91,7 @@ class ProductWidgetDetails extends StatelessWidget {
                     productModel.description ?? '',
                     style: theme.textTheme.bodySmall?.copyWith(
                       fontSize: 14.sp,
-                      color: theme.colorScheme.onSurface.withAlpha((0.7*255).round()),
+                      color: theme.textTheme.bodySmall?.color?.withAlpha((0.7*255).round()),
                     ),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,

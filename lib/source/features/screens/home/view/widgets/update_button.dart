@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../data/model/product_model.dart';
 import '../../../root/view/add_update_screen.dart';
 
@@ -15,7 +14,7 @@ class UpdateButton extends StatelessWidget {
 
     return Align(
       alignment: Alignment.bottomRight,
-      child: IconButton(
+      child: TextButton.icon(
         onPressed: () {
           Navigator.of(context, rootNavigator: true).push(
             MaterialPageRoute(
@@ -25,11 +24,18 @@ class UpdateButton extends StatelessWidget {
         },
         icon: Icon(
           Icons.edit,
-          color: theme.colorScheme.onPrimary, // icon color from theme
+          color: theme.colorScheme.onPrimary,
           size: 20.sp,
         ),
-        style: IconButton.styleFrom(
-          backgroundColor: theme.colorScheme.primary, // button bg from theme
+        label: Text(
+          'Edit',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontSize: 14.sp,
+            color: theme.colorScheme.onPrimary,
+          ),
+        ),
+        style: TextButton.styleFrom(
+          backgroundColor: theme.colorScheme.primary,
           padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
